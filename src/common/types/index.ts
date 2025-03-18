@@ -42,11 +42,10 @@ export type APIFieldError = {
   message: string;
 };
 
-export type AppType =
-  | "dashboard";
+export type AppType = "home" | "penugasan" | "jadwal" | "logout" | "setting";
 
 export type AppList = {
   displayName: string;
-  icon: JSX.Element;
+  // icon: JSX.Element;
   appName: AppType;
 };

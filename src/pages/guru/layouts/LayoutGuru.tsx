@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
+import { DashboardpageProvider } from "@pages/guru/dashboard/context";
 
 const LayoutGuru = () => {
   return (
-    <div className="background">
+    <DashboardpageProvider>
       <Outlet />
-    </div>
+    </DashboardpageProvider>
   );
 };
 

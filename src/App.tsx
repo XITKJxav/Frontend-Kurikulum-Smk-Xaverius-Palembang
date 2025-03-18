@@ -1,29 +1,29 @@
-import { BrowserRouter,  Routes, Route } from "react-router-dom"
-import ViewGuru from "./layouts/viewGuru"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
+import LayoutGuru from "@pages/guru/layouts/LayoutGuru";
+import DashboardGuru from "@pages/guru/dashboard";
 
 function App() {
-
-
   return (
-   <BrowserRouter>
-    <SnackbarProvider
+    <BrowserRouter>
+      <SnackbarProvider
         anchorOrigin={{
           vertical: "top",
           horizontal: "right",
         }}
       >
-      <Routes>
-        <Route path="/" element={<ViewGuru />}>
-          <Route index element="hellow"/>
-        </Route>
-        <Route path="/guru" element={<ViewGuru />}>
-          <Route index element="hellow"/>
-        </Route>
-      </Routes>
+        <Routes>
+          <Route path="/guru" element={<LayoutGuru />}>
+            <Route index element={<DashboardGuru />} />
+          </Route>
+
+          <Route path="/siswa" element={<LayoutGuru />}>
+            <Route index element="hellow" />
+          </Route>
+        </Routes>
       </SnackbarProvider>
-   </BrowserRouter>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
