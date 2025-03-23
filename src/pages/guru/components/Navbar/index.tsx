@@ -6,10 +6,11 @@ interface Props {
 
 const Navbar = (props: Props) => {
   const { toggleSidebar } = props;
+
   return (
-    <nav className="bg-[#261FB3] text-white p-4 shadow-md drop-shadow-lg">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center space-x-3">
+    <nav className="bg-[#261FB3] text-white py-4 px-6 shadow-md drop-shadow-lg">
+      <div className=" mx-auto flex justify-between items-center">
+        <div className="flex items-center">
           <h2 className="text-2xl font-semibold">SMK XAVERIUS</h2>
         </div>
 
