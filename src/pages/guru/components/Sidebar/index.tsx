@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { clsx } from "clsx";
-import { listMenu } from "@pages/guru/common/utils/menu";
+import { listMenuGuru } from "@utils/menu";
 import { AppType } from "@types";
 import { Logout } from "@mui/icons-material";
 
@@ -31,7 +31,7 @@ const Sidebar = (props: Props) => {
         )}
       >
         <ul className="space-y-4">
-          {listMenu.map((data, index) => (
+          {listMenuGuru.map((data, index) => (
             <li className="" key={index}>
               <div
                 onClick={() => onChangeApp(data?.title as AppType)}

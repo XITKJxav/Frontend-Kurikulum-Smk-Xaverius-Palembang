@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
-import LayoutGuru from "@pages/guru/layouts/LayoutGuru";
+import LayoutGuru from "@pages/guru/LayoutGuru";
 import DashboardGuru from "@pages/guru/dashboard";
+import Homepage from "@pages/siswa/Homepage";
 
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
             <Route index element={<DashboardGuru />} />
           </Route>
 
-          <Route path="/siswa" element={<LayoutGuru />}>
-            <Route index element="hellow" />
+          <Route path="/">
+            <Route index element={<Homepage />} />
           </Route>
         </Routes>
       </SnackbarProvider>

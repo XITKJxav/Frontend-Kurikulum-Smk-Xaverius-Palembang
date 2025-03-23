@@ -1,12 +1,18 @@
-import { listPart } from "@pages/guru/common/utils/menu";
+import { listMenuGuru } from "@utils/menu";
 import { useDashboardpageContext } from "../context";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const DashboardBody = () => {
   const { state } = useDashboardpageContext();
-  const matchedPart = listPart.find((data) => data.name === state?.app);
+  const matchedPart = listMenuGuru.find((data) => data.title === state?.app);
 
   return (
-    <div className="h-[100vh] border">{matchedPart && matchedPart?.part}</div>
+    <HelmetProvider>
+      <Helmet>
+        <title>Dashboard {matchedPart?.title}</title>
+      </Helmet>
+      <div className="h-[100vh] border">{matchedPart && matchedPart?.part}</div>
+    </HelmetProvider>
   );
 };
 

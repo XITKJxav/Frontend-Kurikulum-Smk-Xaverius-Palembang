@@ -19,12 +19,15 @@
     "axios": "^1.8.2",
     "clsx": "^2.1.1",
     "clx": "^1.0.0",
+    "framer-motion": "^12.5.0",
     "notistack": "^3.0.2",
     "npx": "^10.2.2",
     "path-browserify": "^1.0.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.3.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
+    "react-jsx": "^1.0.0",
+    "react-router-dom": "^7.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

@@ -6,36 +6,21 @@ export const listMenu = [
   {
     title: "home",
     icon: <Home />,
+    part: <HomePage />,
   },
   {
     title: "jadwal",
     icon: <CalendarMonth />,
+    part: <JadwalPage />,
   },
   {
     title: "penugasan",
     icon: <HomeWork />,
+    part: <HomePage />,
   },
   {
     title: "settings",
     icon: <Settings />,
-  },
-];
-
-export const listPart = [
-  {
-    name: "home",
-    part: <HomePage />,
-  },
-  {
-    name: "jadwal",
-    part: <JadwalPage />,
-  },
-  {
-    name: "penugasan",
-    part: <HomePage />,
-  },
-  {
-    name: "settings",
     part: <HomePage />,
   },
 ];

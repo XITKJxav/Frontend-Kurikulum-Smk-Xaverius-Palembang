@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Navbar from "../common/components/Navbar";
-import Sidebar from "../common/components/Sidebar";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 import { useDashboardpageContext } from "@pages/guru/dashboard/context";
 import DashboardBody from "./partials/DashboardBody";
 import { AppType } from "@types";
@@ -21,6 +21,7 @@ const DashboardGuru = () => {
       ...prev,
       app: appName,
     }));
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   return (
