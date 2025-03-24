@@ -6,7 +6,7 @@ type StateType = {
 };
 
 export const initialState: StateType = {
-  app: "dashboard",
+  app: "home",
 };
 
 type ContextType = {
@@ -14,23 +14,22 @@ type ContextType = {
   setState: React.Dispatch<React.SetStateAction<StateType>>;
 };
 
-const DashboardpageContext = createContext<ContextType | null>(null);
+const DashboardpageContext = createContext<ContextType | undefined>(undefined);
 
-const useHomepageContext = (): ContextType => {
+const useDashboardpageContext = (): ContextType => {
   const context = useContext(DashboardpageContext);
   if (!context) {
     throw new Error(
-      "useHomepageContext must be used within a HomepageProvider",
+      "useDashboardpageContext must be used within a DashboardpageProvider"
     );
   }
   return context;
 };
 
-const HomepageProvider: React.FC<{ children: React.ReactNode }> = ({
+const DashboardpageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, setState] = useState<StateType>(initialState);
-
   return (
     <DashboardpageContext.Provider value={{ state, setState }}>
       {children}
@@ -38,5 +37,5 @@ const HomepageProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export { HomepageProvider, useHomepageContext };
+export { DashboardpageProvider, useDashboardpageContext };
 export type { StateType };

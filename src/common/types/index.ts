@@ -1,3 +1,5 @@
+import { JSX } from "@emotion/react/jsx-runtime";
+
 export type FilterParams = {
   params: {
     [key: string]: string | number;
@@ -42,11 +44,11 @@ export type APIFieldError = {
   message: string;
 };
 
-export type AppType =
-  | "dashboard";
+export type AppType = "home" | "penugasan" | "jadwal" | "logout" | "setting";
+export type AppTypeUser = "home" | "schedule";
 
 export type AppList = {
   displayName: string;
   icon: JSX.Element;
-  appName: AppType;
+  appName: AppTypeUser;
 };

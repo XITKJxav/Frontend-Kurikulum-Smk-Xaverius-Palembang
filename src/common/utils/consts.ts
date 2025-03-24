@@ -1,7 +1,4 @@
 export const appDisplayName = {
-  "payed kas": "Payed Kas",
-  balance: "Balance",
-  "balance history": "Balance History",
+  schedule: "Schedule",
   home: "Home",
-  "kas submission": "Kas Submission",
 };

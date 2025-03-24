@@ -19,7 +19,7 @@ const AppCard = (props: AppCardProps) => {
       className={`w-20 flex hover:scale-105 transition-all hover:drop-shadow-sm duration-200 ${className}`}
     >
       <button onClick={onClick} className="cursor-pointer mx-auto h-fit">
-        <div className="w-fit mx-auto px-3 bg-zinc-800/80 p-2.5 rounded-xl shadow-sm flex flex-col items-center">
+        <div className="w-fit mx-auto px-3 bg-stone-800/80 p-2.5 rounded-xl shadow-sm flex flex-col items-center">
           <div>{icon}</div>
         </div>
         <span className="font-sans drop-shadow-md text-center block w-full">
