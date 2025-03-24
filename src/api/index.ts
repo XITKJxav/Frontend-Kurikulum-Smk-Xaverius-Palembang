@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { APIResponse } from "@types";
 import axios, {
   AxiosError,
@@ -21,7 +19,7 @@ export default class API {
       "Content-type": "application/json",
     };
     this.api = axios.create({
-      baseURL: `${import.meta.env.VITE_BACKEND_URL}/v1`,
+      baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/v1`,
       httpsAgent: false,
     } as AxiosRequestConfig);
   }

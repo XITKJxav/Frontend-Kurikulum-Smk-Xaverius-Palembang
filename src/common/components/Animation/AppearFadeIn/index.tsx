@@ -14,7 +14,7 @@ const AppearFadeIn = (props: AppearFadeInProps) => {
   const {
     children,
     trigger = true,
-    duration = 0.4,
+    duration = 0.3,
     delay = 0,
     direction,
     offset = 10,

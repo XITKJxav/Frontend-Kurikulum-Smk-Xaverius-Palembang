@@ -43,7 +43,7 @@ const CardAutosize = (props: CardAutosizeProps) => {
       transition={{ duration: duration }}
       layout
     >
-      <div className="h-auto w-full rounded-md border border-zinc-800/20 bg-zinc-800/60 text-white shadow-lg">
+      <div className="h-auto w-full rounded-md border border-zinc-800/20 text-white shadow-lg">
         {children}
       </div>
     </motion.div>
