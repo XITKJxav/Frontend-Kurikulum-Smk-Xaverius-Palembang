@@ -25,7 +25,7 @@ const DashboardGuru = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-x-hidden border-red-100">
+    <div className="flex flex-col h-screen overflow-x-hidden border-red-100 ">
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex flex-1">
         <Sidebar
@@ -34,7 +34,7 @@ const DashboardGuru = () => {
           onChangeApp={handleChangeApp}
           isActive={state.app}
         />
-        <div className="bg-gray-100 flex-1 p-5">
+        <div className="bg-gray-100 flex-1 p-lg-5 p-2 w-full">
           <DashboardBody />
         </div>
       </div>

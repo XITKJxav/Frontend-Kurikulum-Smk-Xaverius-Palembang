@@ -1,9 +1,11 @@
+import { JSX } from "@emotion/react/jsx-runtime";
 import { CircularProgress, Dialog } from "@mui/material";
 
 interface Props {
   open: boolean;
   onClose: () => void;
 }
+
 function LoadingDialog(props: Props): JSX.Element {
   const { open, onClose } = props;
   return (
@@ -17,8 +19,8 @@ function LoadingDialog(props: Props): JSX.Element {
           borderRadius: 10,
           backgroundColor: "#373737",
           color: "white",
-          userSelect: "text"
-        }
+          userSelect: "text",
+        },
       }}
       disableRestoreFocus={true}
     >

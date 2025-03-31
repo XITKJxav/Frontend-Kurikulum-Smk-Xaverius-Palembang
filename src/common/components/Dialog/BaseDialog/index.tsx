@@ -1,3 +1,4 @@
+import { JSX } from "@emotion/react/jsx-runtime";
 import { Dialog, DialogTitle } from "@mui/material";
 
 interface Props {
@@ -19,8 +20,8 @@ function BaseDialog(props: Props): JSX.Element {
         style: {
           width: width,
           borderRadius: 10,
-          backgroundColor: "#373737",
-          color: "white",
+          backgroundColor: "#ffff",
+          color: "black",
           userSelect: "text",
         },
       }}
@@ -31,7 +32,8 @@ function BaseDialog(props: Props): JSX.Element {
           fontSize="0.9rem"
           sx={{
             padding: "0.8rem 1.2rem",
-            backgroundColor: "#323232",
+            backgroundColor: "#261FB3",
+            color: "white",
             borderBottom: "1px solid #55555590",
           }}
         >
