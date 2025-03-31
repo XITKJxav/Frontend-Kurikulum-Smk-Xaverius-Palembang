@@ -23,6 +23,7 @@
       "@components/*": ["./src/common/components/*"],
       "@hooks/*": ["./src/common/hooks/*"],
       "@utils/*": ["./src/common/utils/*"],
+      "@config/*": ["./src/config/*"],
       "@types": ["./src/common/types/index.ts"],
       "@pages/*": ["./src/pages/*"],
       "@layouts/*": ["./src/layouts/*"],

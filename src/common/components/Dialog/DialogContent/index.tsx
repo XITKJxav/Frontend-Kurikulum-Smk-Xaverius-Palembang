@@ -1,3 +1,4 @@
+import { JSX } from "@emotion/react/jsx-runtime";
 import { DialogContent as MUIDialogContent } from "@mui/material";
 import clsx from "clsx";
 
@@ -11,7 +12,7 @@ function DialogContent(props: Props): JSX.Element {
   return (
     <MUIDialogContent
       sx={{
-        padding: "0.8rem 1.2rem"
+        padding: "0.8rem 1.2rem",
       }}
     >
       <div className={clsx("pt-[0.8rem]", className)}>{children}</div>
