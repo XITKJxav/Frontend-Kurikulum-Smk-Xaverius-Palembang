@@ -1,6 +1,6 @@
 import { ActionButton } from "@components/Button";
 import { BaseDialog, LoadingDialog } from "@components/Dialog";
-import { DialogContent, CircularProgress } from "@mui/material";
+import { DialogContent } from "@mui/material";
 import useUpdateProgramJurusan from "../Update/hook/useUpdateProgramJurusan";
 import { useEffect, useRef } from "react";
 import { usejurusanpageContext } from "../context";

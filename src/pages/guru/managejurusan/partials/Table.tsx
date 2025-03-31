@@ -24,6 +24,7 @@ const TableJurusan = () => {
   const { state, setState } = usejurusanpageContext();
   const { jurusanRequest, manageJurusanLoading } = state;
   const columns = Jurusancolumns();
+
   const onSearch = useCallback((trem: string) => {
     setFilters({ ...filters, search: trem });
   }, []);

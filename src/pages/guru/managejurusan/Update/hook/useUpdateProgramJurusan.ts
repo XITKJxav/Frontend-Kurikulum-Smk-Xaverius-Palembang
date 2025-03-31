@@ -3,8 +3,6 @@ import { snackbar } from "@utils/snackbar";
 import { usejurusanpageContext } from "../../context";
 import { useFormContext } from "react-hook-form";
 import { JurusanUpdateModel } from "@api/jurusan/model";
-import { useDashboardpageContext } from "@pages/guru/dashboard/context";
-import { Redirect } from "@utils/redirect";
 import useManageJurusan from "../../hook/useManageJurusan";
 
 interface HookReturn {
@@ -15,8 +13,7 @@ interface HookReturn {
 const useUpdateProgramJurusan = (): HookReturn => {
   const { setState } = usejurusanpageContext();
   const jurusanService = new JurusanService();
-  const { trigger, handleSubmit } = useFormContext();
-  const { handleRedirect } = Redirect();
+  const { handleSubmit } = useFormContext();
   const { fetchJurusan } = useManageJurusan();
   const fetchJurusanById = (kdJurusan: string) => {
     jurusanService.fetchProgramJurusanById(kdJurusan, {
