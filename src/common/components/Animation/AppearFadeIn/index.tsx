@@ -10,6 +10,7 @@ interface AppearFadeInProps {
   direction?: "top" | "bottom" | "left" | "right";
   offset?: number;
 }
+
 const AppearFadeIn = (props: AppearFadeInProps) => {
   const {
     children,

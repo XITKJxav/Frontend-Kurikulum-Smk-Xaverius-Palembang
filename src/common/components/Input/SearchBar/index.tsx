@@ -36,7 +36,7 @@ const SearchBar = (props: Props) => {
         },
         "& .MuiOutlinedInput-root": {
           "& input": {
-            color: "white",
+            color: "black",
             padding: "0.5rem 0.6rem",
             fontSize: "0.75rem",
           },
