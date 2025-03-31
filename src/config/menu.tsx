@@ -1,24 +1,13 @@
-import { Home, CalendarMonth, HomeWork, Settings } from "@mui/icons-material";
+import {
+  Home,
+  CalendarMonth,
+  HomeWork,
+  Settings,
+  School,
+} from "@mui/icons-material";
 import HomePage from "@pages/guru/homepage";
 import JadwalPage from "@pages/guru/jadwal";
-
-export const listMenuSiswa = [
-  {
-    title: "jadwal",
-    icon: <CalendarMonth />,
-    part: <JadwalPage />,
-  },
-  {
-    title: "penugasan",
-    icon: <HomeWork />,
-    part: <HomePage />,
-  },
-  {
-    title: "settings",
-    icon: <Settings />,
-    part: <HomePage />,
-  },
-];
+import JurusanPage from "@pages/guru/managejurusan";
 
 export const listMenuGuru = [
   {
@@ -30,6 +19,11 @@ export const listMenuGuru = [
     title: "jadwal",
     icon: <CalendarMonth />,
     part: <JadwalPage />,
+  },
+  {
+    title: "manage jurusan",
+    icon: <School />,
+    part: <JurusanPage />,
   },
   {
     title: "penugasan",

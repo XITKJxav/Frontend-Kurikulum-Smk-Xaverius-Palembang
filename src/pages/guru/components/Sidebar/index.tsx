@@ -1,21 +1,40 @@
 import { Link } from "react-router-dom";
 import { clsx } from "clsx";
-import { listMenuGuru } from "@utils/menu";
+import { listMenuGuru } from "@config/menu";
 import { AppType } from "@types";
 import { Logout } from "@mui/icons-material";
+import { useDashboardpageContext } from "@pages/guru/dashboard/context";
+import { useEffect } from "react";
 
 interface Props {
   isOpen: boolean;
-  isClose: () => void;
   isActive: string;
+  isClose: () => void;
   onChangeApp: (app: AppType) => void;
 }
 
 const Sidebar = (props: Props) => {
   const { isOpen, isActive, isClose, onChangeApp } = props;
+  const { state, setState } = useDashboardpageContext();
+
+  useEffect(() => {}, [state.app]);
+
+  const handleMenuClick = (appTitle: string) => {
+    // Log both the current app and the title that was clicked
+    console.log("Clicked:", appTitle, "Current app:", state.app);
+
+    // Immediately update the state, if you want the app to change to "manage jurusan"
+    setState((prevState) => ({
+      ...prevState,
+      app: appTitle as AppType, // Set the app state to the selected menu's title
+    }));
+
+    // Call onChangeApp to perform any additional logic based on appTitle
+    onChangeApp(appTitle as AppType);
+  };
 
   return (
-    <>
+    <div className="z-10">
       <div
         onClick={isClose}
         className={clsx(
@@ -34,15 +53,15 @@ const Sidebar = (props: Props) => {
           {listMenuGuru.map((data, index) => (
             <li className="" key={index}>
               <div
-                onClick={() => onChangeApp(data?.title as AppType)}
+                onClick={() => handleMenuClick(data.title)} // Handle the click and update the app
                 className={clsx(
                   "items-center flex gap-3 hover:bg-blue-600 p-2 rounded capitalize",
-                  isActive.toLowerCase() == data?.title.toLowerCase() &&
+                  isActive.toLowerCase() === data.title.toLowerCase() &&
                     "bg-blue-600"
                 )}
               >
-                {data?.icon}
-                {data?.title}
+                {data.icon}
+                {data.title}
               </div>
             </li>
           ))}
@@ -55,7 +74,7 @@ const Sidebar = (props: Props) => {
           </Link>
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

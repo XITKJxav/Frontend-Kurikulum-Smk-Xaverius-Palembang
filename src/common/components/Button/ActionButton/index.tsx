@@ -1,3 +1,4 @@
+import { JSX } from "@emotion/react/jsx-runtime";
 import { Button, CircularProgress } from "@mui/material";
 
 interface Props {
@@ -23,7 +24,7 @@ function ActionButton(props: Props): JSX.Element {
     size = "small",
     color = "inherit",
     className,
-    autoFocus
+    autoFocus,
   } = props;
 
   return (
