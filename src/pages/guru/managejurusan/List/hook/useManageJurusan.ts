@@ -1,7 +1,6 @@
 import JurusanService from "@api/jurusan";
 import { snackbar } from "@utils/snackbar";
-import { usejurusanpageContext } from "../context";
-import { Redirect } from "@utils/redirect";
+import { usejurusanpageContext } from "../../context";
 
 interface HookReturn {
   fetchJurusan: (params: string) => void;

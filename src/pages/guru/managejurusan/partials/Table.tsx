@@ -4,7 +4,8 @@ import { DataTable } from "@components/Table";
 import { useCallback, useEffect, useState } from "react";
 import Jurusancolumns from "../common/columns";
 import { usejurusanpageContext } from "../context";
-import useManageJurusan from "../hook/useManageJurusan";
+import useManageJurusan from "../List/hook/useManageJurusan";
+import { FiltersJurusan } from "../List/utils/filtersJurusan";
 
 export type Filters = {
   page: number;
@@ -14,38 +15,36 @@ export type Filters = {
 
 const TableJurusan = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [filters, setFilters] = useState<Filters>({
-    page: 1,
-    search: "",
-    orderBy: true,
-  });
-  const { page, search, orderBy } = filters;
+  const [search, setSearch] = useState<string>("");
+
   const { fetchJurusan } = useManageJurusan();
   const { state, setState } = usejurusanpageContext();
-  const { jurusanRequest, manageJurusanLoading } = state;
+  const { jurusanRequest, manageJurusanLoading, filters } = state;
   const columns = Jurusancolumns();
 
   const onSearch = useCallback((trem: string) => {
-    setFilters({ ...filters, search: trem });
+    setSearch(trem);
   }, []);
 
-  const handlePageChange = useCallback((newPage: number) => {
-    setFilters({ ...filters, page: newPage });
-  }, []);
-
-  const handleOrderBy = useCallback((order: boolean) => {
+  const handleFilter = useCallback((onOrder: boolean, onPage: number) => {
     setState((prev) => ({
       ...prev,
       filters: {
-        orderBy: order,
+        page: onPage,
+        orderBy: onOrder,
       },
     }));
-    setFilters({ ...filters, orderBy: order });
   }, []);
 
   useEffect(() => {
-    fetchJurusan(`?page=${page}&search=${search}&desc=${orderBy}`);
-  }, [search, page, orderBy]);
+    fetchJurusan(
+      FiltersJurusan({
+        onPage: filters.page,
+        onOrder: filters.orderBy,
+        onSearch: search,
+      })
+    );
+  }, [search, filters.page, filters.orderBy]);
 
   const onClose = useCallback(() => {
     setIsOpen(!isOpen);
@@ -58,14 +57,12 @@ const TableJurusan = () => {
       )}
       <AppearFadeIn trigger direction="bottom" delay={0.8}>
         <DataTable
-          onOrder={handleOrderBy}
-          order={orderBy}
+          onFilter={handleFilter}
+          order={filters.orderBy}
           handleChangeSearch={onSearch}
           onSearch={true}
           columns={columns}
-          page={page}
           pageSize={jurusanRequest?.last_page}
-          onChangePage={handlePageChange}
           data={jurusanRequest.data}
         />
       </AppearFadeIn>

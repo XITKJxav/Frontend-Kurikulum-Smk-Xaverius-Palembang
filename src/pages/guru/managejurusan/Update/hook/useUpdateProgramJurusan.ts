@@ -3,7 +3,7 @@ import { snackbar } from "@utils/snackbar";
 import { usejurusanpageContext } from "../../context";
 import { useFormContext } from "react-hook-form";
 import { JurusanUpdateModel } from "@api/jurusan/model";
-import useManageJurusan from "../../hook/useManageJurusan";
+import useManageJurusan from "../../List/hook/useManageJurusan";
 
 interface HookReturn {
   fetchJurusanById: (kdJurusan: string) => void;
@@ -11,7 +11,8 @@ interface HookReturn {
 }
 
 const useUpdateProgramJurusan = (): HookReturn => {
-  const { setState } = usejurusanpageContext();
+  const { setState, state } = usejurusanpageContext();
+  const { filters } = state;
   const jurusanService = new JurusanService();
   const { handleSubmit } = useFormContext();
   const { fetchJurusan } = useManageJurusan();
@@ -50,7 +51,7 @@ const useUpdateProgramJurusan = (): HookReturn => {
             manageJurusanLoading: false,
           }));
 
-          fetchJurusan("?page=1&desc=false");
+          fetchJurusan(`?page=${filters?.page}&desc=${filters?.orderBy}`);
           onClose();
         },
         onError: (errMessage) => {

@@ -2,15 +2,10 @@ import { listMenuGuru } from "@config/menu";
 import { useDashboardpageContext } from "../context";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AppearFadeIn from "@components/Animation/AppearFadeIn";
-import { useEffect } from "react";
-import { Satellite } from "@mui/icons-material";
 
 const DashboardBody = () => {
   const { state } = useDashboardpageContext();
-  const matchedPart = listMenuGuru.find((data) => data.title === state?.app);
-  useEffect(() => {
-    console.log(state.app);
-  }, []);
+
   return (
     <HelmetProvider>
       <Helmet>
