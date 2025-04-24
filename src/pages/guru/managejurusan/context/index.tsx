@@ -11,6 +11,7 @@ type StateType = {
   jurusanRequest: JurusanResponse;
   jurusanByIdRequest: JurusanModel[];
   filters: {
+    page: number;
     orderBy: boolean;
   };
   dialogLoading: boolean;
@@ -32,6 +33,7 @@ export const initialState: StateType = {
   },
 
   filters: {
+    page: 0,
     orderBy: false,
   },
 

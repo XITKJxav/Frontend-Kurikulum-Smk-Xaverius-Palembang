@@ -20,16 +20,11 @@ const Sidebar = (props: Props) => {
   useEffect(() => {}, [state.app]);
 
   const handleMenuClick = (appTitle: string) => {
-    // Log both the current app and the title that was clicked
-    console.log("Clicked:", appTitle, "Current app:", state.app);
-
-    // Immediately update the state, if you want the app to change to "manage jurusan"
     setState((prevState) => ({
       ...prevState,
-      app: appTitle as AppType, // Set the app state to the selected menu's title
+      app: appTitle as AppType,
     }));
 
-    // Call onChangeApp to perform any additional logic based on appTitle
     onChangeApp(appTitle as AppType);
   };
 
