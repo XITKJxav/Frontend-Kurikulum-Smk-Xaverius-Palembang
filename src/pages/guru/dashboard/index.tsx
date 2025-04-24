@@ -8,6 +8,7 @@ import { AppType } from "@types";
 const DashboardGuru = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const { state, setState } = useDashboardpageContext();
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };

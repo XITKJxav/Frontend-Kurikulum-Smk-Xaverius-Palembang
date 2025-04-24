@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -23,31 +23,28 @@ import { SearchBar } from "@components/Input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  page: number;
   pageSize: number;
   onSearch: boolean;
   order?: boolean;
-  onOrder?: (order: boolean) => void;
-  onChangePage: (page: number) => void;
-  handleChangeSearch: (trem: string) => void;
+  onFilter?: (onOrder: boolean, onPage: number) => void;
+  handleChangeSearch: (term: string) => void;
 }
 
-export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  pageSize,
+  onSearch,
+  order = true,
+  onFilter,
+  handleChangeSearch,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const {
-    columns,
-    data,
-    page,
-    pageSize,
-    onSearch,
-    order,
-    onOrder,
-    onChangePage,
-    handleChangeSearch,
-  } = props;
+  const [page, setPage] = useState<number>(1);
+  const [orderState, setOrderState] = useState<boolean>(order);
 
   const table = useReactTable({
-    data: data,
+    data,
     columns,
     state: { sorting },
     onSortingChange: setSorting,
@@ -56,15 +53,29 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     manualPagination: true,
   });
 
+  // Handler: Sorting toggle button
+  const handleToggleOrder = () => {
+    const newOrder = !orderState;
+    setOrderState(newOrder);
+    setPage(1); // reset to first page
+    onFilter?.(newOrder, 1);
+  };
+
+  // Handler: Change page
+  const handleChangePage = (newPage: number) => {
+    setPage(newPage);
+    onFilter?.(orderState, newPage);
+  };
+
   return (
     <div>
       <div className="flex flex-wrap gap-6 justify-end mb-4">
-        {onOrder && (
+        {onFilter && (
           <button
-            onClick={() => onOrder(!order)}
+            onClick={handleToggleOrder}
             className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 hover:scale-105 transition-all duration-300 focus:outline-none"
           >
-            {order ? "asc" : "desc "}
+            {orderState ? "asc" : "desc"}
           </button>
         )}
 
@@ -129,7 +140,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
           variant="contained"
           color="primary"
           disabled={page <= 1}
-          onClick={() => onChangePage(page - 1)}
+          onClick={() => handleChangePage(page - 1)}
         >
           Previous
         </Button>
@@ -142,7 +153,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
           variant="contained"
           color="primary"
           disabled={page >= pageSize}
-          onClick={() => onChangePage(page + 1)}
+          onClick={() => handleChangePage(page + 1)}
         >
           Next
         </Button>
