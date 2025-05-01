@@ -42,10 +42,13 @@ export type APIFieldError = {
 
 export type AppType =
   | "home"
-  | "penugasan"
-  | "jadwal"
   | "manage jurusan"
-  | "setting";
+  | "ruang kelas"
+  | "jadwal"
+  | "penugasan"
+  | "Ketua Kelas"
+  | "settings";
+
 export type AppTypeUser = "home" | "schedule";
 
 export type AppList = {

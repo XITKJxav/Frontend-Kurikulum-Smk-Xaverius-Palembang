@@ -1,10 +1,11 @@
 import { ActionButton } from "@components/Button";
 import { BaseDialog, LoadingDialog } from "@components/Dialog";
-import { DialogContent } from "@mui/material";
+import { DialogContent, FormControl, MenuItem, TextField } from "@mui/material";
 import useUpdateProgramJurusan from "../Update/hook/useUpdateProgramJurusan";
 import { useEffect, useRef } from "react";
 import { usejurusanpageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
+import ErrorMessage from "@components/ErrorMessage";
 
 interface Props {
   isOpen: boolean;
@@ -52,9 +53,7 @@ const CardUpdateProgramJurusan = (props: Props) => {
   const defaultStatus = status ? true : false;
 
   useEffect(() => {
-    if (status !== undefined) {
-      setValue("status", defaultStatus);
-    }
+    status !== undefined && setValue("status", defaultStatus);
   }, [status, setValue, defaultStatus]);
 
   return (
@@ -62,45 +61,34 @@ const CardUpdateProgramJurusan = (props: Props) => {
       open={isOpen}
       onClose={handleCloseDialog}
       title="Pengaturan Program Jurusan"
-      message={"Pengaturan Program Jurusan"}
+      message={kd_jurusan}
     >
       <DialogContent>
-        <div className="flex flex-col gap-3 mt-3 mb-3">
-          <label className="text-md font-semibold">Kode Jurusan</label>
-          {kd_jurusan}
-        </div>
-        <div className="flex flex-col gap-3 mt-3 mb-3">
-          <label className="text-md font-semibold">Nama Jurusan</label>
+        <div className="flex flex-col gap-3 mt-3 mb-6 ">
+          <label className="font-semibold text-md">Nama Jurusan</label>
           {jurusanByIdRequest[0]?.nama_jurusan}
         </div>
-        <div className="flex flex-col gap-3 mt-3 mb-3">
-          <label htmlFor="status" className="text-md font-semibold">
-            Status Jurusan
-          </label>
-
+        <div className="flex flex-col gap-3 mt-3 mb-3 ">
           <Controller
             name="status"
             control={control}
             defaultValue={defaultStatus}
             render={({ field, fieldState }) => (
               <>
-                <select
-                  {...field}
-                  id="status"
-                  className="border p-2 rounded-md"
-                  value={field.value ? "1" : "0"}
-                  onChange={(e) => {
-                    field.onChange(e.target.value === "1" ? true : false);
-                  }}
-                >
-                  <option value="0">Disable</option>
-                  <option value="1">Active</option>
-                </select>
-                {fieldState?.error && (
-                  <span className="text-red-500 text-sm">
-                    {fieldState?.error?.message}
-                  </span>
-                )}
+                <FormControl fullWidth size="small" error={!!fieldState?.error}>
+                  <TextField
+                    {...field}
+                    select
+                    label="Pilih Status"
+                    value={field.value ? "1" : "0"}
+                    onChange={(e) => field.onChange(e.target.value === "1")}
+                    variant="outlined"
+                  >
+                    <MenuItem value="0">Disable</MenuItem>
+                    <MenuItem value="1">Active</MenuItem>
+                  </TextField>
+                  <ErrorMessage messageError={fieldState.error?.message} />
+                </FormControl>
               </>
             )}
           />

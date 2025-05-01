@@ -8,7 +8,7 @@ import { FormProvider } from "react-hook-form";
 import useUpdateJurusanForm from "../Update/hook/useUpdateProgramJurusanForm";
 
 const JurusanColumn = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); // State for dialog visibility
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedKdJurusan, setSelectedKdJurusan] = useState<string | null>(
     null
   );
@@ -17,13 +17,12 @@ const JurusanColumn = () => {
 
   const handleOpenDialog = (kd_jurusan: string) => {
     setSelectedKdJurusan(kd_jurusan);
-    setIsDialogOpen(true); // Open the dialog
+    setIsDialogOpen(true);
   };
 
-  // Close the dialog
   const handleCloseDialog = () => {
-    setSelectedKdJurusan(null); // Clear selected kd_jurusan
-    setIsDialogOpen(false); // Close the dialog
+    setSelectedKdJurusan(null);
+    setIsDialogOpen(false);
   };
 
   const columns: ColumnDef<JurusanModel>[] = [
@@ -69,12 +68,11 @@ const JurusanColumn = () => {
         <>
           <button
             className="bg-yellow-500 text-white font-semibold p-2 rounded-lg hover:bg-yellow-600 focus:outline-none"
-            onClick={() => handleOpenDialog(row.original.kd_jurusan)} // Open dialog for selected kd_jurusan
+            onClick={() => handleOpenDialog(row.original.kd_jurusan)}
           >
             <Edit />
           </button>
 
-          {/* Conditional rendering of the dialog */}
           {isDialogOpen && selectedKdJurusan === row.original.kd_jurusan && (
             <FormProvider {...jurusanUpdatereqForm}>
               <CardUpdateProgramJurusan

@@ -13,7 +13,7 @@ export type Filters = {
   orderBy: boolean;
 };
 
-const TableJurusan = () => {
+const TabelProgramJurusan = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
 
@@ -69,4 +69,4 @@ const TableJurusan = () => {
     </>
   );
 };
-export default TableJurusan;
+export default TabelProgramJurusan;
