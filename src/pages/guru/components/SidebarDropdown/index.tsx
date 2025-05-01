@@ -33,7 +33,7 @@ const SidebarDropdown = ({
     <li>
       <div
         onClick={onClickParent}
-        className="flex items-center gap-3 hover:bg-blue-600 p-2 rounded cursor-pointer capitalize"
+        className="flex items-center gap-3 hover:bg-[#261FB3] p-2 rounded cursor-pointer capitalize"
       >
         {menu.icon}
         {menu.titleDropDown}

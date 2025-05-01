@@ -65,7 +65,7 @@ const Sidebar = ({ isOpen, isActive, isClose, onChangeApp }: Props) => {
                   <div
                     onClick={() => handleMenuClick(menu.title)}
                     className={clsx(
-                      "flex items-center gap-3 hover:bg-blue-600 p-2 rounded capitalize cursor-pointer",
+                      "flex items-center gap-3 hover:bg-[#261FB3] p-2 rounded capitalize cursor-pointer",
                       isActive.toLowerCase() === menu.title.toLowerCase() &&
                         "bg-[#261FB3]"
                     )}
