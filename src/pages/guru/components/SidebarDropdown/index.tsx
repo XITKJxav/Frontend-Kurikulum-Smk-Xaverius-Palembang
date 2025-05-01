@@ -1,6 +1,4 @@
-// components/SidebarDropdown.tsx
 import { clsx } from "clsx";
-import { AppType } from "@types";
 import AppearOnScroll from "@components/Animation/AppearOnScroll";
 
 interface DropdownMenu {
