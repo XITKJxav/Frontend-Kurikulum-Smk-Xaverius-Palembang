@@ -45,7 +45,7 @@ const SidebarDropdown = ({
               <li
                 onClick={() => onClickChild(child.title)}
                 className={clsx(
-                  "flex items-center gap-2 hover:bg-blue-600 p-2 rounded capitalize cursor-pointer",
+                  "flex items-center gap-2 hover:bg-[#261FB3] p-2 rounded capitalize cursor-pointer",
                   isActive.toLowerCase() === child.title.toLowerCase() &&
                     "bg-[#261FB3]"
                 )}
