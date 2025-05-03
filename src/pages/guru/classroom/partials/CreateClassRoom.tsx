@@ -3,10 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Autocomplete, FormControl, MenuItem, TextField } from "@mui/material";
 import ErrorMessage from "@components/ErrorMessage";
 import useClassRoom from "../Create/hook/useClassRoom";
-import { useEffect } from "react";
 import { useClassroompageContext } from "../context";
-import useGetClassRoom from "../LIst/hook/useGetClassRoom";
-import { Filters } from "../LIst/utils/Filters";
 
 const CreateClassRoom = () => {
   const { control } = useFormContext();

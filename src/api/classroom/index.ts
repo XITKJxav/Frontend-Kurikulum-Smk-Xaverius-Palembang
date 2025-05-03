@@ -30,11 +30,11 @@ export default class ClassRoomService {
   }
 
   async fetchClassRoomByIdRequest(
-    idJurusan: number,
-    callback: FetchCallback<ClassRoomModel>
+    id: number,
+    callback: FetchCallback<ClassRoomModel[]>
   ) {
-    const targetPath = `${this.basePathRuangKelas}/${idJurusan}`;
-    const res: APIResponse<ClassRoomModel> = await this.api.GET(targetPath);
+    const targetPath = `${this.basePathRuangKelas}/${id}`;
+    const res: APIResponse<ClassRoomModel[]> = await this.api.GET(targetPath);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

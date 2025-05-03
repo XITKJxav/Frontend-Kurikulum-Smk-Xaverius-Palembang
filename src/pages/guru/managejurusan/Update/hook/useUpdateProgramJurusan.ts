@@ -17,8 +17,8 @@ const useUpdateProgramJurusan = (): HookReturn => {
   const { handleSubmit } = useFormContext();
   const { fetchJurusan } = useManageJurusan();
 
-  const fetchJurusanById = (kdJurusan: string) => {
-    jurusanService.fetchProgramJurusanById(kdJurusan, {
+  const fetchJurusanById = async (kdJurusan: string) => {
+    await jurusanService.fetchProgramJurusanById(kdJurusan, {
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,

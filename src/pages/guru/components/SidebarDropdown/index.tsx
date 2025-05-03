@@ -1,5 +1,6 @@
 import { clsx } from "clsx";
 import AppearOnScroll from "@components/Animation/AppearOnScroll";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 interface DropdownMenu {
   titleDropDown: string;
@@ -35,6 +36,9 @@ const SidebarDropdown = ({
       >
         {menu.icon}
         {menu.titleDropDown}
+        <div className="ms-auto">
+          {isOpen ? <ExpandLess /> : <ExpandMore />}
+        </div>
       </div>
       {isOpen && (
         <ul className="p-3 rounded-md mt-2 space-y-2 bg-[#0C0950]">

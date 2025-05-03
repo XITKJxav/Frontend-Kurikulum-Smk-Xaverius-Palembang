@@ -28,7 +28,7 @@ const useClassRoom = (): HookReturn => {
       trigger();
       classRoomService.createClassRoomRequest(classRoomData, {
         onSuccess: () => {
-          snackbar.success("Successfully Sign In to sistem");
+          snackbar.success("Successfully create class Room");
 
           setState((prev) => ({
             ...prev,

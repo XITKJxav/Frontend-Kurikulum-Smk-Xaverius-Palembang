@@ -1,40 +1,40 @@
-import { ClassRoomModel } from "@api/classroom/model";
-import { JurusanModel } from "@api/jurusan/model";
 import { Edit } from "@mui/icons-material";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
-import CardUpdateClassRoom from "../partials/CardUpdateClassRoom";
-import useUpdateClassRoomForm from "../Update/hook/useUpdateClassRoomForm";
+import { ClassCoordinatorModel } from "@api/classcoordinator/model";
+import useUpdateClassCoordinatorForm from "../Update/hook/useUpdateClassCoordinatorForm";
+import CardUpdateClassCoordinator from "../partials/CardUpdateClassCoordinator";
 
-const ClassRoomColumn = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); // State for dialog visibility
-  const [selectedIdRuangan, setSelectedIdRuangan] = useState<number>();
-  const { classRoomUpdatereqForm } = useUpdateClassRoomForm();
+const ClassCoordinatorColumn = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [selectedIdClassCoordinator, setSelectedIdclassCoordinator] =
+    useState<string>();
+  const { classCoordinatorUpdatereqForm } = useUpdateClassCoordinatorForm();
 
-  const onOpen = (id?: number) => {
-    id && setSelectedIdRuangan(id);
+  const onOpen = (id?: string) => {
+    id && setSelectedIdclassCoordinator(id);
     setIsDialogOpen(!isDialogOpen);
   };
 
-  const columns: ColumnDef<ClassRoomModel>[] = [
+  const columns: ColumnDef<ClassCoordinatorModel>[] = [
     {
-      accessorKey: "id",
-      header: "id Ruangan",
+      accessorKey: "kd_kepengurusan_kelas",
+      header: "kd ketua kelas",
     },
     {
-      accessorKey: "nama_ruangan",
+      accessorKey: "name",
+      header: "Nama Lengkap",
+    },
+    {
+      accessorKey: "ruangan_kelas.nama_ruangan",
       header: "Nama Ruangan",
-    },
-    {
-      accessorKey: "jurusan.nama_jurusan",
-      header: "Nama Jurusan",
     },
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({ row }: { row: { original: ClassRoomModel } }) => (
+      cell: ({ row }: { row: { original: ClassCoordinatorModel } }) => (
         <span
           className={`px-2 py-1 rounded-full text-white text-xs ${
             !row.original.status ? "bg-red-500" : "bg-green-500"
@@ -47,37 +47,40 @@ const ClassRoomColumn = () => {
     {
       accessorKey: "created_at",
       header: "Created At",
-      cell: ({ row }: { row: { original: ClassRoomModel } }) =>
+      cell: ({ row }: { row: { original: ClassCoordinatorModel } }) =>
         format(new Date(row?.original?.created_at), "MMM dd, yyyy"),
       meta: { hideOnMobile: true },
     },
     {
       accessorKey: "update_at",
       header: "Update At",
-      cell: ({ row }: { row: { original: ClassRoomModel } }) =>
+      cell: ({ row }: { row: { original: ClassCoordinatorModel } }) =>
         format(new Date(row?.original?.updated_at), "MMM dd, yyyy"),
       meta: { hideOnMobile: true },
     },
     {
       accessorKey: "action",
       header: "Action",
-      cell: ({ row }: { row: { original: ClassRoomModel } }) => (
+      cell: ({ row }: { row: { original: ClassCoordinatorModel } }) => (
         <>
           <button
+            type="button"
             className="p-2 font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none"
-            onClick={() => onOpen(row.original.id)}
+            onClick={() => onOpen(row.original.kd_kepengurusan_kelas)}
           >
             <Edit />
           </button>
-          {isDialogOpen && selectedIdRuangan === row.original.id && (
-            <FormProvider {...classRoomUpdatereqForm}>
-              <CardUpdateClassRoom
-                isOpen={isDialogOpen}
-                idClassRoom={selectedIdRuangan}
-                onClose={onOpen}
-              />
-            </FormProvider>
-          )}
+          {isDialogOpen &&
+            selectedIdClassCoordinator ===
+              row.original.kd_kepengurusan_kelas && (
+              <FormProvider {...classCoordinatorUpdatereqForm}>
+                <CardUpdateClassCoordinator
+                  isOpen={isDialogOpen}
+                  idClassCoordinator={selectedIdClassCoordinator}
+                  onClose={onOpen}
+                />
+              </FormProvider>
+            )}
         </>
       ),
     },
@@ -86,4 +89,4 @@ const ClassRoomColumn = () => {
   return columns;
 };
 
-export default ClassRoomColumn;
+export default ClassCoordinatorColumn;

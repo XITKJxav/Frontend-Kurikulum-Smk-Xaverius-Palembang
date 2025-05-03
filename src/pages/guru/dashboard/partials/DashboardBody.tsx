@@ -20,7 +20,7 @@ const DashboardBody = () => {
         <title>Dashboard {state.app}</title>
       </Helmet>
       <AppearFadeIn trigger direction="bottom" delay={0.8}>
-        <div className="h-[100vh] w-full p-6 shadow-lg bg-white rounded-xl overflow-x-hidden">
+        <div className="min-h-[100vh] w-full p-6 shadow-lg bg-white rounded-xl overflow-x-hidden">
           {activePage?.part || <div>Halaman tidak ditemukan</div>}
         </div>
       </AppearFadeIn>

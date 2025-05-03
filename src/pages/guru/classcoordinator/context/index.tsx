@@ -1,50 +1,48 @@
 import {
-  ClassRoomCreateModel,
-  ClassRoomModel,
-  ClassRoomReponseModel,
-  ClassRoomUpdateModel,
-} from "@api/classroom/model";
-import { JurusanModel } from "@api/jurusan/model";
+  ClassCoordinatorModel,
+  ClassCoordinatorResponseModel,
+  CreateClassCoordinatorModel,
+  UpdateClassCoordinatorModel,
+} from "@api/classcoordinator/model";
+import { ClassRoomModel } from "@api/classroom/model";
 import { createContext, useContext, useState } from "react";
 
 type StateType = {
-  classroomLoading: boolean;
-  classroomRequest: ClassRoomReponseModel;
-  classroomUpdatereqDetails: ClassRoomUpdateModel;
-  classroomByIdRequest: ClassRoomModel[];
-  jurusanRequest: JurusanModel[];
+  classCoordinatorLoading: boolean;
+  classCoordinatorRequest: ClassCoordinatorResponseModel;
+  classCoordinatorByIdRequest: ClassCoordinatorModel[];
+  classRoomRequest: ClassRoomModel[];
 
-  filtersClassRoom: {
+  filtersClassCoordinator: {
     page: number;
     orderBy: boolean;
   };
 
-  classroomreqForm: ClassRoomCreateModel;
-  classroomUpdatereqForm: ClassRoomUpdateModel;
+  classCoordinatorCreateReqForm: CreateClassCoordinatorModel;
+  classCoordinatorUpdateReqForm: UpdateClassCoordinatorModel;
 };
 
 export const initialState: StateType = {
-  classroomLoading: false,
-  jurusanRequest: [],
-  classroomByIdRequest: [],
+  classCoordinatorLoading: false,
+  classRoomRequest: [],
+  classCoordinatorByIdRequest: [],
 
-  classroomRequest: {
+  classCoordinatorRequest: {
     total: 0,
-    current_page: 2,
+    current_page: 1,
     last_page: 1,
     data: [],
     path: "",
     per_page: 10,
   },
 
-  filtersClassRoom: {
+  filtersClassCoordinator: {
     page: 0,
     orderBy: false,
   },
 
-  classroomreqForm: {} as ClassRoomCreateModel,
-  classroomUpdatereqForm: {} as ClassRoomUpdateModel,
-  classroomUpdatereqDetails: {} as ClassRoomUpdateModel,
+  classCoordinatorCreateReqForm: {} as CreateClassCoordinatorModel,
+  classCoordinatorUpdateReqForm: {} as UpdateClassCoordinatorModel,
 };
 
 type ContextType = {
@@ -52,28 +50,30 @@ type ContextType = {
   setState: React.Dispatch<React.SetStateAction<StateType>>;
 };
 
-const ClassroompageContext = createContext<ContextType | undefined>(undefined);
+const ClassCoordinatorPageContext = createContext<ContextType | undefined>(
+  undefined
+);
 
-const useClassroompageContext = (): ContextType => {
-  const context = useContext(ClassroompageContext);
+const useClassCoordinatorPageContext = (): ContextType => {
+  const context = useContext(ClassCoordinatorPageContext);
   if (!context) {
     throw new Error(
-      "useClassRoompageContext must be used within a ClassRoompageProvider"
+      "useClassCoordinatorPageContext must be used within a ClassCoordinatorPageProvider"
     );
   }
   return context;
 };
 
-const ClassroompageProvider: React.FC<{ children: React.ReactNode }> = ({
+const ClassCoordinatorPageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, setState] = useState<StateType>(initialState);
   return (
-    <ClassroompageContext.Provider value={{ state, setState }}>
+    <ClassCoordinatorPageContext.Provider value={{ state, setState }}>
       {children}
-    </ClassroompageContext.Provider>
+    </ClassCoordinatorPageContext.Provider>
   );
 };
 
-export { ClassroompageProvider, useClassroompageContext };
+export { ClassCoordinatorPageProvider, useClassCoordinatorPageContext };
 export type { StateType };

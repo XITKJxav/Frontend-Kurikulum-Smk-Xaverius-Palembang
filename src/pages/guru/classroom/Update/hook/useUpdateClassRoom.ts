@@ -18,12 +18,12 @@ const useUpdateClassRoom = (): HookReturn => {
   const { handleSubmit } = useFormContext();
   const { fetchClassRoom } = useGetClassRoom();
 
-  const fetchClassRoomById = (id: number) => {
-    classRoomService.fetchClassRoomByIdRequest(id, {
+  const fetchClassRoomById = async (id: number) => {
+    await classRoomService.fetchClassRoomByIdRequest(id, {
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
-          classroomByIdRequest: [data],
+          classroomByIdRequest: data,
         }));
       },
       onError: (errMessage) => {
@@ -42,15 +42,15 @@ const useUpdateClassRoom = (): HookReturn => {
 
       setState((prev) => ({
         ...prev,
-        manageJurusanLoading: true,
+        classRoomLoading: true,
       }));
 
       classRoomService.updateClassRoomRequest(id, data, {
         onSuccess: (data) => {
-          snackbar.success("Successfully Updated Status Program Jurusan");
+          snackbar.success("Successfully Updated Class Room");
           setState((prev) => ({
             ...prev,
-            manageJurusanLoading: false,
+            classRoomLoading: false,
           }));
           console.log(data);
           fetchClassRoom(
@@ -65,7 +65,7 @@ const useUpdateClassRoom = (): HookReturn => {
           snackbar.error(errMessage);
           setState((prev) => ({
             ...prev,
-            manageJurusanLoading: false,
+            classRoomLoading: false,
           }));
         },
       });

@@ -5,8 +5,8 @@ import { useEffect, useRef } from "react";
 import { useClassroompageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
 import ErrorMessage from "@components/ErrorMessage";
-import useUpdateClassRoom from "../Update/hook/useUpdateClassRoom";
 import Autocomplete from "@mui/material/Autocomplete";
+import useUpdateClassRoom from "../Update/hook/useUpdateClassRoom";
 
 interface Props {
   isOpen: boolean;
@@ -17,15 +17,15 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
   const { state, setState } = useClassroompageContext();
   const { handleUpdateForm, fetchClassRoomById } = useUpdateClassRoom();
   const { classroomByIdRequest, jurusanRequest } = state;
-  const { control, setValue } = useFormContext();
+  const { control, setValue, reset } = useFormContext();
+  const fetchStatus = useRef<{ [key: number]: boolean }>({});
+  const classRoomData = classroomByIdRequest[0];
 
   const romanOptions = [
     { value: "X", label: "10" },
     { value: "XI", label: "11" },
     { value: "XII", label: "12" },
   ];
-
-  const fetchStatus = useRef<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     if (
@@ -34,29 +34,27 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
       classroomByIdRequest.length !== 0
     )
       return;
-    fetchClassRoomById(idClassRoom);
     fetchStatus.current[idClassRoom] = true;
-  }, [idClassRoom, fetchClassRoomById, classroomByIdRequest]);
+    fetchClassRoomById(idClassRoom);
+  }, []);
+
+  useEffect(() => {
+    if (classRoomData?.status !== undefined) {
+      setValue("status", classRoomData.status);
+    }
+  }, []);
 
   const handleCloseDialog = () => {
     setState((prevState) => ({
       ...prevState,
       classroomByIdRequest: [],
     }));
+    reset();
     if (idClassRoom) fetchStatus.current[idClassRoom] = false;
     onClose();
   };
 
-  const status = classroomByIdRequest[0]?.status;
-  const defaultStatus = status ? true : false;
-
-  useEffect(() => {
-    if (status !== undefined) {
-      setValue("status", defaultStatus);
-    }
-  }, [status, defaultStatus, setValue]);
-
-  if (status === undefined) {
+  if (!classRoomData) {
     return <LoadingDialog open={isOpen} onClose={onClose} />;
   }
 
@@ -65,18 +63,14 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
       open={isOpen}
       onClose={handleCloseDialog}
       title="Pengaturan Program Jurusan"
-      message={classroomByIdRequest[0]?.nama_ruangan}
+      message={classRoomData?.nama_ruangan}
     >
       <DialogContent>
         <div className="flex flex-col mt-3 mb-3">
           <Controller
             name="nomor_ruangan"
             control={control}
-            defaultValue={
-              classroomByIdRequest && classroomByIdRequest[0]?.nama_ruangan
-                ? classroomByIdRequest[0]?.nama_ruangan.split("-")[0]
-                : ""
-            }
+            defaultValue={classRoomData?.nama_ruangan.split("-")[0]}
             render={({ field, fieldState }) => (
               <>
                 <FormControl fullWidth size="small" error={!!fieldState.error}>
@@ -99,12 +93,11 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
             )}
           />
         </div>
-
         <div className="flex flex-col mt-3 mb-3">
           <Controller
             name="kd_jurusan"
             control={control}
-            defaultValue={classroomByIdRequest[0]?.jurusan?.kd_jurusan || ""}
+            defaultValue={classRoomData?.jurusan?.kd_jurusan || ""}
             render={({ field, fieldState }) => {
               const selectedOption =
                 jurusanRequest.find(
@@ -142,41 +135,11 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
               );
             }}
           />
-
-          {/* <Controller
-            name="kd_jurusan"
-            control={control}
-            defaultValue={classroomByIdRequest[0]?.jurusan?.kd_jurusan || ""}
-            render={({ field, fieldState }) => (
-              <>
-                <FormControl fullWidth size="small" error={!!fieldState.error}>
-                  <TextField
-                    {...field}
-                    select
-                    label="Pilih Jurusan"
-                    variant="outlined"
-                    value={field.value}
-                  >
-                    {jurusanRequest.map((option) => (
-                      <MenuItem
-                        key={option.kd_jurusan}
-                        value={option.kd_jurusan}
-                      >
-                        {option.nama_jurusan}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </FormControl>
-                <ErrorMessage messageError={fieldState.error?.message} />
-              </>
-            )}
-          /> */}
         </div>
         <div className="flex flex-col gap-3 mt-3 mb-3">
           <Controller
             name="status"
             control={control}
-            defaultValue={defaultStatus}
             render={({ field, fieldState }) => (
               <>
                 <FormControl fullWidth size="small" error={!!fieldState?.error}>
@@ -197,6 +160,7 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
             )}
           />
         </div>
+
         <ActionButton
           label="Submit"
           onClick={() => {

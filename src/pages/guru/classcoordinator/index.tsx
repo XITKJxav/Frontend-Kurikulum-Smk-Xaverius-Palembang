@@ -1,11 +1,11 @@
-import { ClassroompageProvider } from "./context";
-import ClassRoomBody from "./partials/ClassRoomBody";
+import { ClassCoordinatorPageProvider } from "./context";
+import ClassCoordinatorBody from "./partials/ClassCoordinatorBody";
 
-const ClassRoomPage = () => {
+const ClassCoordinatorPage = () => {
   return (
-    <ClassroompageProvider>
-      <ClassRoomBody />
-    </ClassroompageProvider>
+    <ClassCoordinatorPageProvider>
+      <ClassCoordinatorBody />
+    </ClassCoordinatorPageProvider>
   );
 };
-export default ClassRoomPage;
+export default ClassCoordinatorPage;

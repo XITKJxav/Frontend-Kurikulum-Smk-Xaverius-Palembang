@@ -12,12 +12,25 @@ export type ClassCoordinatorResponseModel = {
   to?: number;
 };
 
+export type ClassRoomModel = {
+  id: number;
+  nama_ruangan: string;
+  kd_jurusan: string;
+  status: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export type ClassCoordinatorModel = {
   kd_kepengurusan_kelas: string;
   name: string;
+  email: string;
+  no_telp: string;
   id_ruang_kelas: bigint;
-  access_token: string;
-  refresh_token: string;
+  ruangan_kelas: ClassRoomModel;
+  status: boolean;
+  created_at: string;
+  updated_at: string;
 };
 
 export type CreateClassCoordinatorModel = {
@@ -36,6 +49,7 @@ export type UpdateClassCoordinatorModel = {
   password_confirmation: string;
   id_ruang_kelas: number;
   no_telp: string;
+  status: boolean;
 };
 
 export type LoginClassCoordinatorModel = {

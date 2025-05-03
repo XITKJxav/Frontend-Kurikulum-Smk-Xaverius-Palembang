@@ -35,8 +35,11 @@ const DashboardGuru = () => {
           onChangeApp={handleChangeApp}
           isActive={state.app}
         />
-        <div className="bg-gray-100 flex-1 p-lg-5 p-2 w-full">
+        <div className="bg-gray-100 flex-1 p-3 w-full">
           <DashboardBody />
+          <footer className="text-center py-3 mt-2">
+            <p>&copy; 2025 SMK XAVERIUS powered by Multi Data Palembang</p>
+          </footer>
         </div>
       </div>
     </div>

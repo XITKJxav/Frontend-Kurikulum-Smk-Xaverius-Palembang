@@ -9,6 +9,7 @@ import { createContext, useContext, useState } from "react";
 
 type StateType = {
   classroomLoading: boolean;
+  classroomUpdateLoading: boolean;
   classroomRequest: ClassRoomReponseModel;
   classroomUpdatereqDetails: ClassRoomUpdateModel;
   classroomByIdRequest: ClassRoomModel[];
@@ -27,7 +28,7 @@ export const initialState: StateType = {
   classroomLoading: false,
   jurusanRequest: [],
   classroomByIdRequest: [],
-
+  classroomUpdateLoading: false,
   classroomRequest: {
     total: 0,
     current_page: 2,

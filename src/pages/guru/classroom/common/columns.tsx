@@ -1,12 +1,11 @@
 import { ClassRoomModel } from "@api/classroom/model";
-import { JurusanModel } from "@api/jurusan/model";
 import { Edit } from "@mui/icons-material";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
-import CardUpdateClassRoom from "../partials/CardUpdateClassRoom";
 import useUpdateClassRoomForm from "../Update/hook/useUpdateClassRoomForm";
+import CardUpdateClassRoom from "../partials/CardUpdateClassRoom";
 
 const ClassRoomColumn = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); // State for dialog visibility

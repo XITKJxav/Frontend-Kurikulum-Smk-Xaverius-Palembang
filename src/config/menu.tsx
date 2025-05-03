@@ -7,6 +7,7 @@ import {
   Class,
   SupervisorAccount,
 } from "@mui/icons-material";
+import ClassCoordinatorPage from "@pages/guru/classcoordinator";
 import ClassRoomPage from "@pages/guru/classroom";
 import HomePage from "@pages/guru/homepage";
 import JadwalPage from "@pages/guru/jadwal";
@@ -35,7 +36,7 @@ export const listMenuGuru = [
       {
         title: "ketua kelas",
         icon: <SupervisorAccount />,
-        part: <ClassRoomPage />,
+        part: <ClassCoordinatorPage />,
       },
     ],
   },

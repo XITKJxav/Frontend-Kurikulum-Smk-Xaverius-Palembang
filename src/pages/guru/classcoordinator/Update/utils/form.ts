@@ -1,27 +1,52 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ClassRoomUpdateModel } from "@api/classroom/model";
+import { UpdateClassCoordinatorModel } from "@api/classcoordinator/model";
 
-export const classroomreqDefaultValues: ClassRoomUpdateModel = {
-  nomor_ruangan: "",
-  kd_jurusan: "",
+export const classcoordinatorreqDefaultValues: UpdateClassCoordinatorModel = {
+  name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+  id_ruang_kelas: 0,
+  no_telp: "",
   status: false,
 };
 
-export const classRoomValidations = yupResolver(
+export const classCoordinatorValidations = yupResolver(
   yup.object().shape({
-    nomor_ruangan: yup.string().required("nomor ruangan is Required"),
-    kd_jurusan: yup.string().required("nomor ruangan is Required"),
-    status: yup.boolean().required("Status is Required"),
+    name: yup.string().required("Name is required"),
+    email: yup.string().email("Invalid email").required("Email is required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    password_confirmation: yup
+      .string()
+      .oneOf([yup.ref("password")], "Password confirmation does not match")
+      .required("Password confirmation is required"),
+    id_ruang_kelas: yup
+      .number()
+      .typeError("Classroom must be selected")
+      .moreThan(0, "Classroom must be selected")
+      .required("Classroom is required"),
+    no_telp: yup
+      .string()
+      .matches(/^[0-9]+$/, "Phone number must contain only digits")
+      .required("Phone number is required"),
+    status: yup.boolean().required("Status is required"),
   })
 );
 
-export const classRoomDetailsFormatter = (
-  data: ClassRoomUpdateModel
-): ClassRoomUpdateModel => {
+export const classCoordinatorDetailsFormatter = (
+  data: UpdateClassCoordinatorModel
+): UpdateClassCoordinatorModel => {
   return {
-    nomor_ruangan: data?.nomor_ruangan,
-    kd_jurusan: data?.kd_jurusan,
-    status: data?.status || false,
+    name: data.name,
+    email: data.email,
+    password: data.password,
+    password_confirmation: data.password_confirmation,
+    id_ruang_kelas: data.id_ruang_kelas,
+    no_telp: data.no_telp,
+    status: false,
   };
 };
