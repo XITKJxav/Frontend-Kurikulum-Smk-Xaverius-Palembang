@@ -1,8 +1,8 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LoginClassAdministratorModel } from "@api/classcoordinator/model";
+import { LoginClassCoordinatorModel } from "@api/classcoordinator/model";
 
-export const signinreqDefaultValues: LoginClassAdministratorModel = {
+export const signinreqDefaultValues: LoginClassCoordinatorModel = {
   email: "",
   password: "",
 };
@@ -21,8 +21,8 @@ export const signInValidations = yupResolver(
 );
 
 export const signInDetailsFormatter = (
-  data: LoginClassAdministratorModel
-): LoginClassAdministratorModel => {
+  data: LoginClassCoordinatorModel
+): LoginClassCoordinatorModel => {
   return {
     email: data.email,
     password: data.password,

@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useDashboardpageContext } from "@pages/guru/dashboard/context";
 import DashboardBody from "./partials/DashboardBody";
 import { AppType } from "@types";
+import { LocalStorage } from "@utils/localStorage";
 
 const DashboardGuru = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const { state, setState } = useDashboardpageContext();
-
+  const { setItem, getItem } = LocalStorage();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -18,12 +19,21 @@ const DashboardGuru = () => {
   };
 
   const handleChangeApp = (appName: AppType) => {
+    setItem("appPage", appName);
     setState((prev) => ({
       ...prev,
-      app: appName,
+      app: getItem("appPage") || "home",
     }));
+
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() => {
+    setState((prev) => ({
+      ...prev,
+      app: getItem("appPage") || "home",
+    }));
+  }, []);
 
   return (
     <div className="flex flex-col h-screen overflow-x-hidden border-red-100 ">

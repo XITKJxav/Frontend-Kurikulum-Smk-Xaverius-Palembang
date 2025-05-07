@@ -1,11 +1,11 @@
-import useLoginAdministratorClassForm from "../loginUser/hook/useLoginAdministratorClassForm";
+import useSignInClassCoordinatorForm from "../authentication/hook/useSignInCoordinatorClassForm";
 import CardLogin from "./CardLogin";
 import { FormProvider } from "react-hook-form";
 
 const LoginBody = () => {
-  const { signInreqForm } = useLoginAdministratorClassForm();
+  const { signInreqForm } = useSignInClassCoordinatorForm();
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex items-center justify-center">
       <FormProvider {...signInreqForm}>
         <CardLogin />
       </FormProvider>

@@ -32,12 +32,14 @@ export default class API {
       if (isAxiosError(err)) {
         return {
           status: false,
+          status_code: err?.response?.data?.status_code,
           message: err?.response?.data?.message || err?.response?.data,
           data: null,
         } as unknown as APIResponse<T>;
       } else {
         return {
           status: false,
+          status_code: 500,
           message: "Internal Server Error",
         } as APIResponse<T>;
       }

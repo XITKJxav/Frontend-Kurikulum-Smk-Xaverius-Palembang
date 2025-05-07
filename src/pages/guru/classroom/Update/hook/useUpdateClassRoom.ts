@@ -46,13 +46,12 @@ const useUpdateClassRoom = (): HookReturn => {
       }));
 
       classRoomService.updateClassRoomRequest(id, data, {
-        onSuccess: (data) => {
+        onSuccess: () => {
           snackbar.success("Successfully Updated Class Room");
           setState((prev) => ({
             ...prev,
             classRoomLoading: false,
           }));
-          console.log(data);
           fetchClassRoom(
             Filters({
               onPage: filtersClassRoom?.page,

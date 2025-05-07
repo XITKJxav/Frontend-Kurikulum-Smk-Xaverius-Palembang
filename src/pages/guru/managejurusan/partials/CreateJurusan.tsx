@@ -1,10 +1,7 @@
 import { ActionButton } from "@components/Button";
 import { Controller, useFormContext } from "react-hook-form";
 import useCreateProgramJurusanForm from "../Create/hook/useCreateProgramJurusan";
-import clsx from "clsx";
-import ErrorMessage from "@components/ErrorMessage";
-import glassmorphism from "@utils/glassmorphism";
-import { TextField } from "@mui/material";
+import InputTextField from "@components/Input/InputText";
 
 const CreateJurusan = () => {
   const { control } = useFormContext();
@@ -20,22 +17,14 @@ const CreateJurusan = () => {
             control={control}
             defaultValue=""
             render={({ field, fieldState }) => (
-              <>
-                <TextField
-                  {...field}
-                  id="jurusan"
-                  label="Nama Jurusan"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  autoComplete="off"
-                  error={!!fieldState.error}
-                  helperText={fieldState.error?.message}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  className={clsx(glassmorphism({ input: true }))}
-                />
-                <ErrorMessage messageError={fieldState.error?.message} />
-              </>
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="Nama Jurusan"
+                id="nama_jurusan"
+                type="text"
+                autoComplete="off"
+              />
             )}
           />
         </div>

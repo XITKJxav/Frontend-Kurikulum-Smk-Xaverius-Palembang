@@ -23,7 +23,7 @@ const ClassCoordinatorBody = () => {
 
   return (
     <div className="w-full overflow-x-auto">
-      <h1 className="mb-1 text-2xl font-extrabold uppercase">Ruang Kelas</h1>
+      <h1 className="mb-1 text-2xl font-extrabold uppercase">Ketua Kelas</h1>
       <TabNavigation listMenu={listMenu} />
     </div>
   );

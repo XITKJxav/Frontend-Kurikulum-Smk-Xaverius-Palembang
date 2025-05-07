@@ -1,18 +1,18 @@
 import { useFormContext } from "react-hook-form";
 import { useLoginadministratorclassPageContext } from "../../context";
-import { LoginClassAdministratorModel } from "@api/classcoordinator/model";
-import ClassAdministratorService from "@api/classcoordinator";
 import { snackbar } from "@utils/snackbar";
 import { LocalStorage } from "@utils/localStorage";
+import ClassCoordinatorService from "@api/classcoordinator";
+import { LoginClassCoordinatorModel } from "@api/classcoordinator/model";
 
 interface HookReturn {
   handleSubmitForm: () => void;
 }
 
-const useLoginAdministratorClass = (): HookReturn => {
+const useSignInClassCoordinator = (): HookReturn => {
   const { setState } = useLoginadministratorclassPageContext();
   const { handleSubmit, trigger } = useFormContext();
-  const userService = new ClassAdministratorService();
+  const classCoordinatorService = new ClassCoordinatorService();
   const { setItem } = LocalStorage();
 
   const handleSubmitForm = async () => {
@@ -22,15 +22,15 @@ const useLoginAdministratorClass = (): HookReturn => {
         signInLoading: true,
       }));
 
-      const userData: LoginClassAdministratorModel = {
+      const userData: LoginClassCoordinatorModel = {
         email: values.email,
         password: values.password,
       };
 
       trigger();
-      userService.signInClassAdministorRequest(userData, {
+      classCoordinatorService.signInClassCoordinatorRequest(userData, {
         onSuccess: (data) => {
-          snackbar.success("Successfully Sign In to sistem");
+          snackbar.success("Welcome Back Class Coordinator");
           setItem("userData", data);
           setState((prev) => ({
             ...prev,
@@ -53,4 +53,4 @@ const useLoginAdministratorClass = (): HookReturn => {
   };
 };
 
-export default useLoginAdministratorClass;
+export default useSignInClassCoordinator;

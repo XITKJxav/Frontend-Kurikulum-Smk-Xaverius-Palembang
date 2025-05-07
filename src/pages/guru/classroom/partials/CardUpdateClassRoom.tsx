@@ -1,12 +1,11 @@
 import { ActionButton } from "@components/Button";
 import { BaseDialog, LoadingDialog } from "@components/Dialog";
-import { DialogContent, FormControl, MenuItem, TextField } from "@mui/material";
+import { DialogContent } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useClassroompageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
-import ErrorMessage from "@components/ErrorMessage";
-import Autocomplete from "@mui/material/Autocomplete";
 import useUpdateClassRoom from "../Update/hook/useUpdateClassRoom";
+import InputAutocomplete from "@components/Input/InputAutoComplate";
 
 interface Props {
   isOpen: boolean;
@@ -66,109 +65,76 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
       message={classRoomData?.nama_ruangan}
     >
       <DialogContent>
-        <div className="flex flex-col mt-3 mb-3">
+        <div className="flex flex-col items-center justify-center gap-4 mt-3">
           <Controller
             name="nomor_ruangan"
             control={control}
             defaultValue={classRoomData?.nama_ruangan.split("-")[0]}
             render={({ field, fieldState }) => (
-              <>
-                <FormControl fullWidth size="small" error={!!fieldState.error}>
-                  <TextField
-                    {...field}
-                    select
-                    label="Pilih Ruangan"
-                    variant="outlined"
-                    value={field.value}
-                  >
-                    {romanOptions.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </FormControl>
-                <ErrorMessage messageError={fieldState.error?.message} />
-              </>
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="Pilih Nomor Ruangan"
+                id="nomor_kelas"
+                data={romanOptions.map((item) => ({
+                  id: item.value,
+                  label: item.label,
+                }))}
+                size="small"
+                allowClear={false}
+              />
             )}
           />
-        </div>
-        <div className="flex flex-col mt-3 mb-3">
+
           <Controller
             name="kd_jurusan"
             control={control}
             defaultValue={classRoomData?.jurusan?.kd_jurusan || ""}
-            render={({ field, fieldState }) => {
-              const selectedOption =
-                jurusanRequest.find(
-                  (item) => item.kd_jurusan === field.value
-                ) || null;
-
-              return (
-                <>
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    error={!!fieldState.error}
-                  >
-                    <Autocomplete
-                      options={jurusanRequest}
-                      getOptionLabel={(option) => option?.nama_jurusan || ""}
-                      value={selectedOption}
-                      onChange={(_, value) =>
-                        field.onChange(value?.kd_jurusan || "")
-                      }
-                      isOptionEqualToValue={(option, value) =>
-                        option.kd_jurusan === value?.kd_jurusan
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Pilih Jurusan"
-                          variant="outlined"
-                        />
-                      )}
-                    />
-                  </FormControl>
-                  <ErrorMessage messageError={fieldState.error?.message} />
-                </>
-              );
-            }}
+            render={({ field, fieldState }) => (
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="Pilih Jurusan"
+                id="kd_jurusan"
+                data={jurusanRequest.map((item) => ({
+                  id: item.kd_jurusan,
+                  label: item.nama_jurusan,
+                }))}
+                size="small"
+                allowClear={false}
+              />
+            )}
           />
-        </div>
-        <div className="flex flex-col gap-3 mt-3 mb-3">
+
           <Controller
             name="status"
             control={control}
             render={({ field, fieldState }) => (
-              <>
-                <FormControl fullWidth size="small" error={!!fieldState?.error}>
-                  <TextField
-                    {...field}
-                    select
-                    label="Pilih Status"
-                    value={field.value ? "1" : "0"}
-                    onChange={(e) => field.onChange(e.target.value === "1")}
-                    variant="outlined"
-                  >
-                    <MenuItem value="0">Disable</MenuItem>
-                    <MenuItem value="1">Active</MenuItem>
-                  </TextField>
-                  <ErrorMessage messageError={fieldState.error?.message} />
-                </FormControl>
-              </>
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="status"
+                id="status"
+                allowClear={false}
+                onSearch={false}
+                data={[
+                  { id: 1, label: "Active" },
+                  { id: 0, label: "Disable" },
+                ]}
+                size="small"
+              />
             )}
           />
-        </div>
 
-        <ActionButton
-          label="Submit"
-          onClick={() => {
-            handleUpdateForm(idClassRoom || 0, handleCloseDialog);
-          }}
-          color="primary"
-          className="w-full mt-4"
-        />
+          <ActionButton
+            label="Submit"
+            onClick={() => {
+              handleUpdateForm(idClassRoom || 0, handleCloseDialog);
+            }}
+            color="primary"
+            className="w-full mt-4"
+          />
+        </div>
       </DialogContent>
     </BaseDialog>
   );

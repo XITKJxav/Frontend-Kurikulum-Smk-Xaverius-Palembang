@@ -1,7 +1,7 @@
 import { JSX } from "@emotion/react/jsx-runtime";
 
 export type FilterParams = {
-  params: Record<string, string | number>; // Lebih ringkas dari [key: string]: string | number
+  params: Record<string, string | number>;
 };
 
 export type APIResponse<T = void> = {

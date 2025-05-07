@@ -1,9 +1,8 @@
 import { ActionButton } from "@components/Button";
 import { Controller, useFormContext } from "react-hook-form";
-import { Autocomplete, FormControl, MenuItem, TextField } from "@mui/material";
-import ErrorMessage from "@components/ErrorMessage";
 import useClassRoom from "../Create/hook/useClassRoom";
 import { useClassroompageContext } from "../context";
+import InputAutocomplete from "@components/Input/InputAutoComplate";
 
 const CreateClassRoom = () => {
   const { control } = useFormContext();
@@ -26,26 +25,17 @@ const CreateClassRoom = () => {
             control={control}
             defaultValue=""
             render={({ field, fieldState }) => (
-              <>
-                <FormControl fullWidth size="small" error={!!fieldState.error}>
-                  <TextField
-                    {...field}
-                    select
-                    label="Pilih Ruangan"
-                    value={field.value || ""}
-                    onChange={(e) => field.onChange(e.target.value)}
-                    variant="outlined"
-                  >
-                    {romanOptions.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </FormControl>
-
-                <ErrorMessage messageError={fieldState.error?.message} />
-              </>
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="Pilih Nomor Ruangan"
+                id="nomor_kelas"
+                data={romanOptions.map((item) => ({
+                  id: item.value,
+                  label: item.label,
+                }))}
+                size="small"
+              />
             )}
           />
         </div>
@@ -56,34 +46,17 @@ const CreateClassRoom = () => {
             control={control}
             defaultValue=""
             render={({ field, fieldState }) => (
-              <>
-                <FormControl fullWidth size="small" error={!!fieldState.error}>
-                  <Autocomplete
-                    options={jurusanRequest}
-                    getOptionLabel={(option) => option?.nama_jurusan || ""}
-                    value={
-                      jurusanRequest.find(
-                        (item) => item.kd_jurusan === field.value
-                      ) || null
-                    }
-                    onChange={(_, value) =>
-                      field.onChange(value ? value.kd_jurusan : "")
-                    }
-                    isOptionEqualToValue={(option, value) =>
-                      option.kd_jurusan === value?.kd_jurusan
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Pilih Jurusan"
-                        variant="outlined"
-                      />
-                    )}
-                  />
-                </FormControl>
-
-                <ErrorMessage messageError={fieldState.error?.message} />
-              </>
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="Pilih Jurusan"
+                id="kd_jurusan"
+                data={jurusanRequest.map((item) => ({
+                  id: item.kd_jurusan,
+                  label: item.nama_jurusan,
+                }))}
+                size="small"
+              />
             )}
           />
         </div>

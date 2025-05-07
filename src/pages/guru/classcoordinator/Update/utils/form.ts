@@ -6,7 +6,6 @@ export const classcoordinatorreqDefaultValues: UpdateClassCoordinatorModel = {
   name: "",
   email: "",
   password: "",
-  password_confirmation: "",
   id_ruang_kelas: 0,
   no_telp: "",
   status: false,
@@ -16,14 +15,6 @@ export const classCoordinatorValidations = yupResolver(
   yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
-    password: yup
-      .string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-    password_confirmation: yup
-      .string()
-      .oneOf([yup.ref("password")], "Password confirmation does not match")
-      .required("Password confirmation is required"),
     id_ruang_kelas: yup
       .number()
       .typeError("Classroom must be selected")
@@ -44,7 +35,6 @@ export const classCoordinatorDetailsFormatter = (
     name: data.name,
     email: data.email,
     password: data.password,
-    password_confirmation: data.password_confirmation,
     id_ruang_kelas: data.id_ruang_kelas,
     no_telp: data.no_telp,
     status: false,

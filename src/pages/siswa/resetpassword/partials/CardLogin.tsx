@@ -1,7 +1,7 @@
 import AppearFadeIn from "@components/Animation/AppearFadeIn";
 import { ActionButton } from "@components/Button";
 import CardAutosize from "@components/Card/CardAutosize";
-import useLoginAdministratorClassForm from "@pages/siswa/login/loginUser/hook/useLoginAdministratorClassForm";
+import useLoginAdministratorClassForm from "@pages/siswa/login/loginUser/hook/useSignInCoordinatorClassForm";
 import clsx from "clsx";
 import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";

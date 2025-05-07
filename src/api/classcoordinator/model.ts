@@ -32,6 +32,11 @@ export type ClassCoordinatorModel = {
   created_at: string;
   updated_at: string;
 };
+export type ClassCoordinatorSigninResponseModel = {
+  status: boolean;
+  status_code: number;
+  data: ClassCoordinatorModel[];
+};
 
 export type CreateClassCoordinatorModel = {
   name: string;
@@ -46,7 +51,6 @@ export type UpdateClassCoordinatorModel = {
   name: string;
   email: string;
   password: string;
-  password_confirmation: string;
   id_ruang_kelas: number;
   no_telp: string;
   status: boolean;

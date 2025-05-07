@@ -1,14 +1,14 @@
-import { LoginClassAdministratorModel } from "@api/classcoordinator/model";
+import { LoginClassCoordinatorModel } from "@api/classcoordinator/model";
 import { createContext, useContext, useState } from "react";
 
 type StateType = {
   signInLoading: boolean;
-  signinreqDetails: LoginClassAdministratorModel;
+  signinreqDetails: LoginClassCoordinatorModel;
 };
 
 export const initialState: StateType = {
   signInLoading: false,
-  signinreqDetails: {} as LoginClassAdministratorModel,
+  signinreqDetails: {} as LoginClassCoordinatorModel,
 };
 
 type ContextType = {
@@ -24,7 +24,7 @@ const useLoginadministratorclassPageContext = (): ContextType => {
   const context = useContext(LoginadministratorclasspageContext);
   if (!context) {
     throw new Error(
-      "useLoginadministratorclasspageContext  must be used within a  LoginadministratorclasspageProvider"
+      "useLoginclasscoordinatorpageContext  must be used within a  LoginclasscoordinatorpageProvider"
     );
   }
   return context;

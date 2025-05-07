@@ -11,28 +11,33 @@ import AppearFadeIn from "@components/Animation/AppearFadeIn";
 import SchedulePage from "../SchedulePage";
 import bg1 from "@assets/bg-2.jpg";
 import LoginAdministratorClassPage from "../login";
+import { LocalStorage } from "@utils/localStorage";
+import { useEffect } from "react";
 
 const HomepageLayout = () => {
   const { state } = useHomepageContext();
   const { handleChangeApp } = useHomepage();
   const { md, sm, xs } = useWindowSize();
-
+  const { getItem } = LocalStorage();
   const appComponent = {
     home: <AppList />,
     schedule: <SchedulePage />,
   };
-
+  const user = getItem("userData");
+  useEffect(() => {
+    console.log(user);
+  }, []);
   const isAppHome = state.app === "home";
-  const users = null;
+
   return (
     <div
       className="w-full h-[100vh] overflow-x-hidden bg-cover bg-no-repeat"
       style={{ backgroundImage: `url(${bg1})` }}
     >
-      <div className="flex h-full flex-col lg:mt-20 mt-10 w-full overflow-x-hidden">
+      <div className="flex flex-col w-full h-full mt-10 overflow-x-hidden lg:mt-20">
         <AutoMargin
           trigger={md}
-          className="w-fit mx-auto "
+          className="mx-auto w-fit "
           initial={{ marginTop: "1rem" }}
           animate={{ marginTop: state.app === "home" ? "6rem" : "1rem" }}
         >
@@ -45,11 +50,12 @@ const HomepageLayout = () => {
             SMK XAVERIUS PALEMBANG
           </TextAutosize>
         </AutoMargin>
-        <div className="flex justify-center items-center md:p-4 p-1">
-          <LoginAdministratorClassPage />
-          {users != null && (
+        <div className="flex items-center justify-center p-1 md:p-4">
+          {!user ? (
+            <LoginAdministratorClassPage />
+          ) : (
             <CardAutosize
-              className="mx-auto backdrop-blur-lg bg-stone-500/30 shadow-lg rounded-lg"
+              className="mx-auto rounded-lg shadow-lg backdrop-blur-lg bg-stone-500/30"
               trigger={!isAppHome}
               initialSize={{ width: "32.3rem" }}
               animateSize={{ width: "60rem" }}
@@ -83,7 +89,7 @@ const HomepageLayout = () => {
           )}
         </div>
       </div>
-      <footer className="text-center py-4 text-white backdrop-blur-lg bg-stone-500/20">
+      <footer className="py-4 text-center text-white backdrop-blur-lg bg-stone-500/20">
         <p>&copy; 2025 SMK XAVERIUS powered by Multi Data Palembang</p>
       </footer>
     </div>

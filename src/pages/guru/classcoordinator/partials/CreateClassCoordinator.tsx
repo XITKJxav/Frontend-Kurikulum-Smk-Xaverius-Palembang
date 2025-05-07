@@ -1,9 +1,10 @@
 import { ActionButton } from "@components/Button";
 import { Controller, useFormContext } from "react-hook-form";
-import { FormControl, MenuItem, TextField } from "@mui/material";
-import ErrorMessage from "@components/ErrorMessage";
 import { useClassCoordinatorPageContext } from "../context";
 import useClassCoordinator from "../Create/hook/useClassCoordinator";
+import InputTextField from "@components/Input/InputText";
+import InputSelect from "@components/Input/InputSelect";
+import InputAutocomplete from "@components/Input/InputAutoComplate";
 
 const CreateClassCoordinator = () => {
   const { control } = useFormContext();
@@ -19,16 +20,13 @@ const CreateClassCoordinator = () => {
           control={control}
           defaultValue=""
           render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                fullWidth
-                size="small"
-                label="Nama Lengkap"
-                variant="outlined"
-              />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
+            <InputTextField
+              field={field}
+              fieldState={fieldState}
+              label="name"
+              id="name"
+              autoComplete="name"
+            />
           )}
         />
 
@@ -37,18 +35,13 @@ const CreateClassCoordinator = () => {
           control={control}
           defaultValue=""
           render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                fullWidth
-                size="small"
-                type="email"
-                label="Email"
-                autoComplete="email"
-                variant="outlined"
-              />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
+            <InputTextField
+              field={field}
+              fieldState={fieldState}
+              label="email"
+              id="email"
+              autoComplete="email"
+            />
           )}
         />
 
@@ -57,35 +50,29 @@ const CreateClassCoordinator = () => {
           control={control}
           defaultValue=""
           render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                fullWidth
-                size="small"
-                label="No Telepon"
-                variant="outlined"
-              />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
+            <InputTextField
+              field={field}
+              fieldState={fieldState}
+              label="No Telepon"
+              id="no_telp"
+              autoComplete="tel"
+            />
           )}
         />
+
         <Controller
           name="password"
           control={control}
           defaultValue=""
           render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                fullWidth
-                size="small"
-                label="Password"
-                type="password"
-                autoComplete="new-password"
-                variant="outlined"
-              />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
+            <InputTextField
+              field={field}
+              fieldState={fieldState}
+              label="Password"
+              id="password"
+              type="password"
+              autoComplete="new-password"
+            />
           )}
         />
 
@@ -94,18 +81,14 @@ const CreateClassCoordinator = () => {
           control={control}
           defaultValue=""
           render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                fullWidth
-                size="small"
-                label="Konfirmasi Password"
-                type="password"
-                autoComplete="new-password"
-                variant="outlined"
-              />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
+            <InputTextField
+              field={field}
+              fieldState={fieldState}
+              label="Konfirmasi Password"
+              id="password_confirmation"
+              type="password"
+              autoComplete="new-password"
+            />
           )}
         />
 
@@ -114,22 +97,18 @@ const CreateClassCoordinator = () => {
           control={control}
           defaultValue=""
           render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                select
-                label="Pilih Ruangan"
-                value={field.value || ""}
-                onChange={(e) => field.onChange(e.target.value)}
-              >
-                {classRoomRequest.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.nama_ruangan}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
+            <InputAutocomplete
+              field={field}
+              fieldState={fieldState}
+              label="Pilih Ruangan"
+              id="id_ruang_kelas"
+              allowClear={false}
+              onSearch={false}
+              data={classRoomRequest.map((item) => ({
+                id: item.id,
+                label: item.nama_ruangan,
+              }))}
+            />
           )}
         />
 

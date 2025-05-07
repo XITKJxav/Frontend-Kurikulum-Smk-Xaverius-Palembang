@@ -16,6 +16,7 @@ interface Props {
 
 const Sidebar = ({ isOpen, isActive, isClose, onChangeApp }: Props) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
   const handleMenuClick = (appTitle: string, menuTitle?: string) => {
     onChangeApp(appTitle as AppType);
     isClose();

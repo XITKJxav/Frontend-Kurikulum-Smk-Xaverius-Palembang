@@ -1,11 +1,20 @@
 import { ActionButton } from "@components/Button";
 import { BaseDialog, LoadingDialog } from "@components/Dialog";
-import { DialogContent, FormControl, MenuItem, TextField } from "@mui/material";
+import {
+  DialogContent,
+  FormControl,
+  InputLabel,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useClassCoordinatorPageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
 import ErrorMessage from "@components/ErrorMessage";
 import useUpdateClassCoordinator from "../Update/hook/useUpdateClassCoordinator";
+import InputTextField from "@components/Input/InputText";
+import InputSelect from "@components/Input/InputSelect";
+import InputAutocomplete from "@components/Input/InputAutoComplate";
 
 interface Props {
   isOpen: boolean;
@@ -27,22 +36,21 @@ const CardUpdateClassCoordinator = ({
     classCoordinatorLoading,
   } = state;
 
-  const { control, setValue } = useFormContext();
+  const { control, setValue, reset } = useFormContext();
   const fetchStatus = useRef<{ [key: string]: boolean }>({});
-
   const data = classCoordinatorByIdRequest[0];
 
   useEffect(() => {
-    if (
-      !idClassCoordinator ||
-      fetchStatus.current[idClassCoordinator] ||
-      classCoordinatorByIdRequest.length !== 0
-    )
-      return;
-
-    fetchClassCoordinatorById(idClassCoordinator);
-    fetchStatus.current[idClassCoordinator] = true;
-  }, []);
+    if (!idClassCoordinator || fetchStatus.current[idClassCoordinator]) return;
+    if (classCoordinatorByIdRequest.length === 0) {
+      fetchClassCoordinatorById(idClassCoordinator);
+      fetchStatus.current[idClassCoordinator] = true;
+    }
+  }, [
+    idClassCoordinator,
+    classCoordinatorByIdRequest.length,
+    fetchClassCoordinatorById,
+  ]);
 
   useEffect(() => {
     if (data?.status !== undefined) {
@@ -53,8 +61,9 @@ const CardUpdateClassCoordinator = ({
   const handleCloseDialog = () => {
     setState((prevState) => ({
       ...prevState,
-      coordinatorByIdRequest: [],
+      classCoordinatorByIdRequest: [],
     }));
+    reset();
     if (idClassCoordinator) fetchStatus.current[idClassCoordinator] = false;
     onClose();
   };
@@ -71,139 +80,116 @@ const CardUpdateClassCoordinator = ({
       message={data.kd_kepengurusan_kelas || ""}
     >
       <DialogContent>
-        <Controller
-          name="name"
-          control={control}
-          defaultValue={data.name || ""}
-          render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField {...field} label="Nama Lengkap" variant="outlined" />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
-          )}
-        />
+        <form className="flex flex-col items-center justify-center gap-4 mt-3 ">
+          <Controller
+            name="name"
+            control={control}
+            defaultValue={data.name || ""}
+            render={({ field, fieldState }) => (
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="name"
+                id="name"
+                autoComplete="name"
+              />
+            )}
+          />
 
-        <Controller
-          name="email"
-          control={control}
-          defaultValue={data.email || ""}
-          render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                type="email"
-                label="Email"
+          <Controller
+            name="email"
+            control={control}
+            defaultValue={data.email || ""}
+            render={({ field, fieldState }) => (
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="email"
+                id="email"
                 autoComplete="email"
-                variant="outlined"
               />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
-          )}
-        />
+            )}
+          />
 
-        <Controller
-          name="no_telp"
-          control={control}
-          defaultValue={data.no_telp || ""}
-          render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField {...field} label="No Telepon" variant="outlined" />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
-          )}
-        />
+          <Controller
+            name="no_telp"
+            control={control}
+            defaultValue={data.no_telp || ""}
+            render={({ field, fieldState }) => (
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="No Telepon"
+                id="no_telp"
+                autoComplete="tel"
+              />
+            )}
+          />
 
-        <Controller
-          name="password"
-          control={control}
-          defaultValue=""
-          render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field, fieldState }) => (
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="new Password"
+                id="password"
                 type="password"
-                label="Password"
                 autoComplete="new-password"
-                variant="outlined"
               />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
-          )}
-        />
+            )}
+          />
 
-        <Controller
-          name="password_confirmation"
-          control={control}
-          defaultValue=""
-          render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                type="password"
-                label="Konfirmasi Password"
-                autoComplete="new-password"
-                variant="outlined"
-              />
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
-          )}
-        />
-
-        <Controller
-          name="id_ruang_kelas"
-          control={control}
-          defaultValue={data.id_ruang_kelas || ""}
-          render={({ field, fieldState }) => (
-            <FormControl fullWidth size="small" error={!!fieldState.error}>
-              <TextField
-                {...field}
-                select
+          <Controller
+            name="id_ruang_kelas"
+            control={control}
+            defaultValue={data.id_ruang_kelas || ""}
+            render={({ field, fieldState }) => (
+              <InputSelect
+                field={field}
+                fieldState={fieldState}
                 label="Pilih Ruangan"
-                onChange={(e) => field.onChange(e.target.value)}
-              >
-                {classRoomRequest.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.nama_ruangan}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <ErrorMessage messageError={fieldState.error?.message} />
-            </FormControl>
-          )}
-        />
-
-        <div className="flex flex-col gap-3 mt-3 mb-3">
+                id="id_ruang_kelas-native"
+                data={classRoomRequest.map((item) => ({
+                  id: item.id,
+                  label: item.nama_ruangan,
+                }))}
+                size="small"
+              />
+            )}
+          />
           <Controller
             name="status"
             control={control}
             defaultValue={!!data.status}
             render={({ field, fieldState }) => (
-              <FormControl fullWidth size="small" error={!!fieldState?.error}>
-                <TextField
-                  {...field}
-                  select
-                  label="Pilih Status"
-                  value={field.value ? "1" : "0"}
-                  onChange={(e) => field.onChange(e.target.value === "1")}
-                  variant="outlined"
-                >
-                  <MenuItem value="0">Disable</MenuItem>
-                  <MenuItem value="1">Active</MenuItem>
-                </TextField>
-                <ErrorMessage messageError={fieldState.error?.message} />
-              </FormControl>
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="status"
+                id="status"
+                allowClear={false}
+                onSearch={false}
+                data={[
+                  { id: 1, label: "Active" },
+                  { id: 0, label: "Disable" },
+                ]}
+                size="small"
+              />
             )}
           />
-        </div>
 
-        <ActionButton
-          label="Submit"
-          onClick={() =>
-            handleUpdateForm(idClassCoordinator || "", handleCloseDialog)
-          }
-          color="primary"
-          className="w-full mt-4"
-        />
+          <ActionButton
+            label="Submit"
+            onClick={() =>
+              handleUpdateForm(idClassCoordinator || "", handleCloseDialog)
+            }
+            color="primary"
+            className="w-full"
+          />
+        </form>
       </DialogContent>
     </BaseDialog>
   );

@@ -19,13 +19,12 @@ const useUpdateClassCoordinator = (): HookReturn => {
   const { fetchClassCoordinator } = useGetClassCoordinator();
 
   const fetchClassCoordinatorById = (id: string) => {
-    classCoordinatorService.fetchClassCoordinatorRequest(id, {
+    classCoordinatorService.fetchClassCoordinatorByidRequest(id, {
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
-          classroomByIdRequest: data,
+          classCoordinatorByIdRequest: data,
         }));
-        console.log(data);
       },
       onError: (errMessage) => {
         snackbar.error(errMessage);
@@ -39,7 +38,6 @@ const useUpdateClassCoordinator = (): HookReturn => {
         name: values.name,
         email: values.email,
         password: values.password,
-        password_confirmation: values.password_confirmation,
         id_ruang_kelas: values.id_ruang_kelas,
         no_telp: values.no_telp,
         status: values.status,

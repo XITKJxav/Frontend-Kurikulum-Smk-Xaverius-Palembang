@@ -1,11 +1,11 @@
 import { ActionButton } from "@components/Button";
 import { BaseDialog, LoadingDialog } from "@components/Dialog";
-import { DialogContent, FormControl, MenuItem, TextField } from "@mui/material";
+import { DialogContent } from "@mui/material";
 import useUpdateProgramJurusan from "../Update/hook/useUpdateProgramJurusan";
 import { useEffect, useRef } from "react";
 import { usejurusanpageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
-import ErrorMessage from "@components/ErrorMessage";
+import InputAutocomplete from "@components/Input/InputAutoComplate";
 
 interface Props {
   isOpen: boolean;
@@ -74,22 +74,19 @@ const CardUpdateProgramJurusan = (props: Props) => {
             control={control}
             defaultValue={defaultStatus}
             render={({ field, fieldState }) => (
-              <>
-                <FormControl fullWidth size="small" error={!!fieldState?.error}>
-                  <TextField
-                    {...field}
-                    select
-                    label="Pilih Status"
-                    value={field.value ? "1" : "0"}
-                    onChange={(e) => field.onChange(e.target.value === "1")}
-                    variant="outlined"
-                  >
-                    <MenuItem value="0">Disable</MenuItem>
-                    <MenuItem value="1">Active</MenuItem>
-                  </TextField>
-                  <ErrorMessage messageError={fieldState.error?.message} />
-                </FormControl>
-              </>
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="status"
+                id="status"
+                allowClear={false}
+                onSearch={false}
+                data={[
+                  { id: 1, label: "Active" },
+                  { id: 0, label: "Disable" },
+                ]}
+                size="small"
+              />
             )}
           />
         </div>
