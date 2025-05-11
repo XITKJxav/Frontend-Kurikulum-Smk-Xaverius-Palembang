@@ -1,13 +1,11 @@
-import { FormProvider, useFormContext } from "react-hook-form";
-import { LoginadministratorclasspageProvider } from "./context";
+import { LoginClassCoordinatorProvider } from "./context";
 import LoginBody from "./partials/LoginBody";
-import useLoginAdministratorClassForm from "./loginUser/hook/useSignInCoordinatorClassForm";
 
 const LoginAdministratorClassPage = () => {
   return (
-    <LoginadministratorclasspageProvider>
+    <LoginClassCoordinatorProvider>
       <LoginBody />
-    </LoginadministratorclasspageProvider>
+    </LoginClassCoordinatorProvider>
   );
 };
 export default LoginAdministratorClassPage;

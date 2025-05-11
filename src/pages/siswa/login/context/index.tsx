@@ -16,33 +16,30 @@ type ContextType = {
   setState: React.Dispatch<React.SetStateAction<StateType>>;
 };
 
-const LoginadministratorclasspageContext = createContext<
-  ContextType | undefined
->(undefined);
+const LoginClassCoordinatorContext = createContext<ContextType | undefined>(
+  undefined
+);
 
-const useLoginadministratorclassPageContext = (): ContextType => {
-  const context = useContext(LoginadministratorclasspageContext);
+const useLoginClassCoordinatorContext = (): ContextType => {
+  const context = useContext(LoginClassCoordinatorContext);
   if (!context) {
     throw new Error(
-      "useLoginclasscoordinatorpageContext  must be used within a  LoginclasscoordinatorpageProvider"
+      "useLoginClassCoordinatorContext must be used within a LoginClassCoordinatorProvider"
     );
   }
   return context;
 };
 
-const LoginadministratorclasspageProvider: React.FC<{
+const LoginClassCoordinatorProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [state, setState] = useState<StateType>(initialState);
   return (
-    <LoginadministratorclasspageContext.Provider value={{ state, setState }}>
+    <LoginClassCoordinatorContext.Provider value={{ state, setState }}>
       {children}
-    </LoginadministratorclasspageContext.Provider>
+    </LoginClassCoordinatorContext.Provider>
   );
 };
 
-export {
-  LoginadministratorclasspageProvider,
-  useLoginadministratorclassPageContext,
-};
+export { LoginClassCoordinatorProvider, useLoginClassCoordinatorContext };
 export type { StateType };

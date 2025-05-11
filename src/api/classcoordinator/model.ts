@@ -32,10 +32,19 @@ export type ClassCoordinatorModel = {
   created_at: string;
   updated_at: string;
 };
+
 export type ClassCoordinatorSigninResponseModel = {
   status: boolean;
   status_code: number;
-  data: ClassCoordinatorModel[];
+  data: SignInClassCoordinatorDataModel[];
+};
+
+export type SignInClassCoordinatorDataModel = {
+  kd_pengurus_kelas: string;
+  name: string;
+  id_ruang_kelas: string;
+  access_token: string;
+  refresh_token: string;
 };
 
 export type CreateClassCoordinatorModel = {

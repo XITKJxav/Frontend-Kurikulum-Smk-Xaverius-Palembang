@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 export default class ClassCoordinatorService {
   basePathSignIn: string = "/signin/ketua-kelas";
+  basePathSignOut: string = "/signout/ketua-kelas";
   basePath: string = "/ketua-kelas";
   basePathClassRoom: string = "/ruang-kelas";
 
@@ -37,6 +38,7 @@ export default class ClassCoordinatorService {
       callback.onSuccess(res?.data);
     }
   }
+
   async fetchClassCoordinatorByidRequest(
     id: string,
     callback: FetchCallback<ClassCoordinatorModel[]>
@@ -110,6 +112,25 @@ export default class ClassCoordinatorService {
 
     const res: APIResponse<ClassCoordinatorSigninResponseModel[]> =
       await this.api.POST(targetPath, data);
+
+    if (!res?.status) {
+      callback.onError(res?.message || "Unknown error");
+    } else {
+      callback.onSuccess(res.data);
+    }
+  }
+
+  async signOutClassCoordinatorRequest(
+    accessToken: string,
+    callback: FetchCallback<{}>
+  ) {
+    const targetPath = `${this.basePathSignIn}`;
+
+    const res: APIResponse<{}> = await this.api.POST(
+      targetPath,
+      {},
+      accessToken
+    );
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

@@ -18,15 +18,20 @@ export default class API {
     this.headers = {
       "Content-type": "application/json",
     };
+
     this.api = axios.create({
       baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/v1`,
       httpsAgent: false,
     } as AxiosRequestConfig);
   }
 
-  async GET<T>(path: string): Promise<APIResponse<T>> {
+  async GET<T>(path: string, access_token?: string): Promise<APIResponse<T>> {
     try {
-      const res = await this.api.get(path, { headers: this.headers });
+      const headers = {
+        ...this.headers,
+        ...(access_token && { Authorization: `Bearer ${access_token}` }),
+      };
+      const res = await this.api.get(path, { headers: headers });
       return res.data;
     } catch (err: AxiosError | any) {
       if (isAxiosError(err)) {
@@ -46,9 +51,18 @@ export default class API {
     }
   }
 
-  async POST<T, U = T>(path: string, data: any): Promise<APIResponse<U>> {
+  async POST<T, U = T>(
+    path: string,
+    data: any,
+    access_token?: string
+  ): Promise<APIResponse<U>> {
     try {
-      const res = await this.api.post(path, data, { headers: this.headers });
+      const headers = {
+        ...this.headers,
+        ...(access_token && { Authorization: `Bearer ${access_token}` }),
+      };
+
+      const res = await this.api.post(path, data, { headers: headers });
       return res.data;
     } catch (err: AxiosError | any) {
       if (isAxiosError(err)) {
@@ -66,11 +80,17 @@ export default class API {
     }
   }
 
-  async POSTFORM<T, U = T>(path: string, data: any): Promise<APIResponse<U>> {
+  async POSTFORM<T, U = T>(
+    path: string,
+    data: any,
+    access_token?: string
+  ): Promise<APIResponse<U>> {
     try {
       const headers: Headers = {
         "Content-type": "multipart/form-data",
+        ...(access_token && { Authorization: `Bearer ${access_token}` }),
       };
+
       const res = await this.api.post(path, data, { headers });
       return res.data;
     } catch (err: AxiosError | any) {
@@ -89,9 +109,17 @@ export default class API {
     }
   }
 
-  async PUT<T, U = T>(path: string, data: any): Promise<APIResponse<U>> {
+  async PUT<T, U = T>(
+    path: string,
+    data: any,
+    access_token?: string
+  ): Promise<APIResponse<U>> {
     try {
-      const res = await this.api.put(path, data, { headers: this.headers });
+      const headers = {
+        ...this.headers,
+        ...(access_token && { Authorization: `Bearer ${access_token}` }),
+      };
+      const res = await this.api.put(path, data, { headers: headers });
       return res.data;
     } catch (err: AxiosError | any) {
       if (isAxiosError(err)) {
@@ -109,9 +137,15 @@ export default class API {
     }
   }
 
-  async DELETE<T, U = T>(path: string): Promise<APIResponse<U>> {
+  async DELETE<T, U = T>(
+    path: string,
+    access_token?: string
+  ): Promise<APIResponse<U>> {
     try {
-      const res = await this.api.delete(path);
+      const headers = {
+        ...(access_token && { Authorization: `Bearer ${access_token}` }),
+      };
+      const res = await this.api.delete(path, { headers: headers });
       return res.data;
     } catch (err: AxiosError | any) {
       if (isAxiosError(err)) {

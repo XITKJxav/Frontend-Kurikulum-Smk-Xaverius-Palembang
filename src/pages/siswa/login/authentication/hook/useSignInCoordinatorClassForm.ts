@@ -4,7 +4,7 @@ import {
   signinreqDefaultValues,
   signInValidations,
 } from "../utils/form";
-import { useLoginadministratorclassPageContext } from "../../context";
+import { useLoginClassCoordinatorContext } from "../../context";
 import { LoginClassCoordinatorModel } from "@api/classcoordinator/model";
 
 interface HookReturn {
@@ -12,7 +12,7 @@ interface HookReturn {
 }
 
 const useSignInClassCoordinatorForm = (): HookReturn => {
-  const { state } = useLoginadministratorclassPageContext();
+  const { state } = useLoginClassCoordinatorContext();
 
   const signInreqForm = useForm<LoginClassCoordinatorModel>({
     defaultValues: signinreqDefaultValues,

@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { useLoginadministratorclassPageContext } from "../../context";
+import { useLoginClassCoordinatorContext } from "../../context";
 import { snackbar } from "@utils/snackbar";
 import { LocalStorage } from "@utils/localStorage";
 import ClassCoordinatorService from "@api/classcoordinator";
@@ -10,7 +10,7 @@ interface HookReturn {
 }
 
 const useSignInClassCoordinator = (): HookReturn => {
-  const { setState } = useLoginadministratorclassPageContext();
+  const { setState } = useLoginClassCoordinatorContext();
   const { handleSubmit, trigger } = useFormContext();
   const classCoordinatorService = new ClassCoordinatorService();
   const { setItem } = LocalStorage();
