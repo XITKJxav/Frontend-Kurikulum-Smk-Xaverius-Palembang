@@ -44,10 +44,14 @@ export type AppType =
   | "home"
   | "manage jurusan"
   | "ruang kelas"
+  | "karyawan"
   | "jadwal"
   | "penugasan"
-  | "Ketua Kelas"
-  | "settings";
+  | "siswa"
+  | "settings"
+  | "mata pelajaran"
+  | "agenda upacara"
+  | "durasi pembelajar";
 
 export type AppTypeUser = "home" | "schedule";
 

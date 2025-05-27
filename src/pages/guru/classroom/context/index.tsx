@@ -4,7 +4,10 @@ import {
   ClassRoomReponseModel,
   ClassRoomUpdateModel,
 } from "@api/classroom/model";
-import { JurusanModel } from "@api/jurusan/model";
+import {
+  JurusanOptionModel,
+  KaryawanOptionModel,
+} from "@api/HealthOption/model";
 import { createContext, useContext, useState } from "react";
 
 type StateType = {
@@ -13,7 +16,8 @@ type StateType = {
   classroomRequest: ClassRoomReponseModel;
   classroomUpdatereqDetails: ClassRoomUpdateModel;
   classroomByIdRequest: ClassRoomModel[];
-  jurusanRequest: JurusanModel[];
+  waliKelasRequest: KaryawanOptionModel[];
+  jurusanRequest: JurusanOptionModel[];
 
   filtersClassRoom: {
     page: number;
@@ -37,6 +41,7 @@ export const initialState: StateType = {
     path: "",
     per_page: 10,
   },
+  waliKelasRequest: [],
 
   filtersClassRoom: {
     page: 0,

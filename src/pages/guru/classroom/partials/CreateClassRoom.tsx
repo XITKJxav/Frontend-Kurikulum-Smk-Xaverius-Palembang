@@ -8,7 +8,7 @@ const CreateClassRoom = () => {
   const { control } = useFormContext();
   const { handleSubmitForm } = useClassRoom();
   const { state } = useClassroompageContext();
-  const { jurusanRequest } = state;
+  const { jurusanRequest, waliKelasRequest } = state;
 
   const romanOptions = [
     { value: "X", label: "10" },
@@ -54,6 +54,26 @@ const CreateClassRoom = () => {
                 data={jurusanRequest.map((item) => ({
                   id: item.kd_jurusan,
                   label: item.nama_jurusan,
+                }))}
+                size="small"
+              />
+            )}
+          />
+        </div>
+        <div className="flex flex-col mt-3 mb-3">
+          <Controller
+            name="kd_wali_kelas"
+            control={control}
+            defaultValue=""
+            render={({ field, fieldState }) => (
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="Pilih Wali Kelas"
+                id="kd_wali_kelas"
+                data={waliKelasRequest.map((item) => ({
+                  id: item.kd_karyawan,
+                  label: item.name,
                 }))}
                 size="small"
               />

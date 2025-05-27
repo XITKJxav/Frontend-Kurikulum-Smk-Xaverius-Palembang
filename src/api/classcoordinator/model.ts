@@ -22,7 +22,7 @@ export type ClassRoomModel = {
 };
 
 export type ClassCoordinatorModel = {
-  kd_kepengurusan_kelas: string;
+  kd_siswa: string;
   name: string;
   email: string;
   no_telp: string;
@@ -31,20 +31,6 @@ export type ClassCoordinatorModel = {
   status: boolean;
   created_at: string;
   updated_at: string;
-};
-
-export type ClassCoordinatorSigninResponseModel = {
-  status: boolean;
-  status_code: number;
-  data: SignInClassCoordinatorDataModel[];
-};
-
-export type SignInClassCoordinatorDataModel = {
-  kd_pengurus_kelas: string;
-  name: string;
-  id_ruang_kelas: string;
-  access_token: string;
-  refresh_token: string;
 };
 
 export type CreateClassCoordinatorModel = {
@@ -63,18 +49,4 @@ export type UpdateClassCoordinatorModel = {
   id_ruang_kelas: number;
   no_telp: string;
   status: boolean;
-};
-
-export type LoginClassCoordinatorModel = {
-  email: string;
-  password: string;
-};
-
-export type SendVerificationCodeModel = {
-  email: string;
-};
-
-export type resetPasswordModel = {
-  email: string;
-  otp: string;
 };

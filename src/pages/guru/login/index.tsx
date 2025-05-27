@@ -1,11 +1,11 @@
-import { JurusanpageProvider } from "./context";
+import { KaryawanSignInProvider } from "./context";
 import LoginBody from "./partials/LoginBody";
 
-const JurusanPage = () => {
+const KaryawanSigninPage = () => {
   return (
-    <LoginpageProvider>
+    <KaryawanSignInProvider>
       <LoginBody />
-    </LoginpageProvider>
+    </KaryawanSignInProvider>
   );
 };
-export default JurusanPage;
+export default KaryawanSigninPage;

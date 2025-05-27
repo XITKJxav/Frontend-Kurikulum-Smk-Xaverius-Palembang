@@ -11,7 +11,6 @@ const CreateJurusan = () => {
     <div className="flex flex-col items-center justify-center">
       <div className="w-[60%]">
         <div className="flex flex-col mt-3 mb-3">
-          <label htmlFor="jurusan">Nama Jurusan</label>
           <Controller
             name="nama_jurusan"
             control={control}

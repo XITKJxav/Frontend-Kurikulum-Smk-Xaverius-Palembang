@@ -7,18 +7,23 @@ import {
 } from "./model";
 import API from "..";
 import { JurusanModel } from "@api/jurusan/model";
+import { useNavigate } from "react-router-dom";
 
 export default class ClassRoomService {
   basePathRuangKelas: string = "/ruang-kelas";
   basePathJurusan: string = "/jurusan";
   private api: API = new API();
+  
+  private handleUnauthorized(navigate: ReturnType<typeof useNavigate>) {
+    navigate("/refresh-token");
+  }
 
   async fetchClassRoomRequest(
     params: string,
-    callback: FetchCallback<ClassRoomReponseModel>
+    callback: FetchCallback<ClassRoomReponseModel[]>
   ) {
     const targetPath = `${this.basePathRuangKelas}?${params}`;
-    const res: APIResponse<ClassRoomReponseModel> = await this.api.GET(
+    const res: APIResponse<ClassRoomReponseModel[]> = await this.api.GET(
       targetPath
     );
 
@@ -43,12 +48,9 @@ export default class ClassRoomService {
     }
   }
 
-  async fetchJurusanRequest(
-    params: string,
-    callback: FetchCallback<JurusanModel[]>
-  ) {
-    const targetPath = `${this.basePathJurusan}?${params}&offLimit=true&status=1`;
-    const res: APIResponse<JurusanModel[]> = await this.api.GET(targetPath);
+  async fetchJurusanRequest(callback: FetchCallback<JurusanModel[][]>) {
+    const targetPath = `${this.basePathJurusan}?offLimit=true`;
+    const res: APIResponse<JurusanModel[][]> = await this.api.GET(targetPath);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -59,10 +61,10 @@ export default class ClassRoomService {
 
   async createClassRoomRequest(
     data: ClassRoomCreateModel,
-    callback: FetchCallback<ClassRoomModel>
+    callback: FetchCallback<ClassRoomModel[]>
   ) {
     const targetPath = this.basePathRuangKelas;
-    const res: APIResponse<ClassRoomModel> = await this.api.POST(
+    const res: APIResponse<ClassRoomModel[]> = await this.api.POST(
       targetPath,
       data
     );

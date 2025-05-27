@@ -3,6 +3,7 @@ import { SnackbarProvider } from "notistack";
 import LayoutGuru from "@pages/guru/LayoutGuru";
 import DashboardGuru from "@pages/guru/dashboard";
 import Homepage from "@pages/siswa/Homepage";
+import KaryawanSigninPage from "@pages/guru/login";
 
 function App() {
   return (
@@ -14,13 +15,11 @@ function App() {
         }}
       >
         <Routes>
-          <Route path="/guru" element={<LayoutGuru />}>
+          <Route path="/akademik" element={<LayoutGuru />}>
             <Route index element={<DashboardGuru />} />
           </Route>
-
-          <Route path="/">
-            <Route index element={<Homepage />} />
-          </Route>
+          <Route path="/sign-in" element={<KaryawanSigninPage />} />
+          <Route index element={<Homepage />} />
         </Routes>
       </SnackbarProvider>
     </BrowserRouter>

@@ -2,7 +2,6 @@ import { listMenuGuru } from "@config/menu";
 import { useDashboardpageContext } from "../context";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AppearFadeIn from "@components/Animation/AppearFadeIn";
-import { useEffect } from "react";
 
 const DashboardBody = () => {
   const { state } = useDashboardpageContext();

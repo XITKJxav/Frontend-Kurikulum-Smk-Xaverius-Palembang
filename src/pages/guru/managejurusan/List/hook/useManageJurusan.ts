@@ -19,9 +19,10 @@ const useManageJurusan = (): HookReturn => {
       onSuccess: (res) => {
         setState((prev) => ({
           ...prev,
-          jurusanRequest: res,
+          jurusanRequest: res[0],
           manageJurusanLoading: false,
         }));
+        console.log(res[0]);
       },
       onError: (errMessage) => {
         setState((prev) => ({

@@ -23,6 +23,7 @@ const useClassRoom = (): HookReturn => {
       const classRoomData: ClassRoomCreateModel = {
         nomor_ruangan: values.nomor_ruangan,
         kd_jurusan: values.kd_jurusan,
+        kd_wali_kelas: values.kd_wali_kelas,
       };
 
       trigger();

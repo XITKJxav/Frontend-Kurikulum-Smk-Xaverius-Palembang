@@ -1,24 +1,29 @@
 import ClassRoomService from "@api/classroom";
 import { useClassroompageContext } from "../../context";
 import { snackbar } from "@utils/snackbar";
+import HealthOptionService from "@api/HealthOption";
 
 interface HookReturn {
   fetchClassRoom: (params: string) => void;
-  fetchJurusan: (params: string) => void;
+  fetchJurusan: () => void;
+  fetchWaliKelas: () => void;
 }
 
 const useGetClassRoom = (): HookReturn => {
   const classRoomService = new ClassRoomService();
+  const healthOptionService = new HealthOptionService();
+
   const { setState } = useClassroompageContext();
 
-  const fetchJurusan = async (params: string) => {
-    await classRoomService.fetchJurusanRequest(params, {
+  const fetchJurusan = async () => {
+    await healthOptionService.fetchJurusanRequestOptions({
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
-          jurusanRequest: data,
+          jurusanRequest: data[0],
           classroomLoading: false,
         }));
+        console.log("dataJurusanoption=", data);
       },
       onError: (errMessage) => {
         snackbar.error(errMessage);
@@ -40,9 +45,10 @@ const useGetClassRoom = (): HookReturn => {
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
-          classroomRequest: data,
+          classroomRequest: data[0],
           classroomLoading: false,
         }));
+        console.log(data);
       },
       onError: (errMessage) => {
         snackbar.error(errMessage);
@@ -54,6 +60,30 @@ const useGetClassRoom = (): HookReturn => {
     });
   };
 
-  return { fetchJurusan, fetchClassRoom };
+  const fetchWaliKelas = async () => {
+    setState((prev) => ({
+      ...prev,
+      classroomLoading: true,
+    }));
+
+    await healthOptionService.fetchKaryawanRequestOptions({
+      onSuccess: (data) => {
+        setState((prev) => ({
+          ...prev,
+          waliKelasRequest: data[0],
+          classroomLoading: false,
+        }));
+      },
+      onError: (err) => {
+        snackbar.error(err);
+        setState((prev) => ({
+          ...prev,
+          classroomLoading: false,
+        }));
+      },
+    });
+  };
+
+  return { fetchJurusan, fetchClassRoom, fetchWaliKelas };
 };
 export default useGetClassRoom;

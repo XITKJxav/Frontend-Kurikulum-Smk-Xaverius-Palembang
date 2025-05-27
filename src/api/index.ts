@@ -59,7 +59,9 @@ export default class API {
     try {
       const headers = {
         ...this.headers,
-        ...(access_token && { Authorization: `Bearer ${access_token}` }),
+        ...(access_token?.trim()
+          ? { Authorization: `Bearer ${access_token}` }
+          : {}),
       };
 
       const res = await this.api.post(path, data, { headers: headers });
@@ -68,12 +70,14 @@ export default class API {
       if (isAxiosError(err)) {
         return {
           status: false,
+          status_code: err?.response?.data?.status_code,
           message: err?.response?.data?.message || err?.response?.data,
           data: null,
         } as unknown as APIResponse<U>;
       } else {
         return {
           status: false,
+          status_code: 500,
           message: "Internal Server Error",
         } as APIResponse<U>;
       }
@@ -97,12 +101,14 @@ export default class API {
       if (isAxiosError(err)) {
         return {
           status: false,
+          status_code: err?.response?.data?.status_code,
           message: err?.response?.data?.message || err?.response?.data,
           data: null,
         } as unknown as APIResponse<U>;
       } else {
         return {
           status: false,
+          status_code: 500,
           message: "Internal Server Error",
         } as APIResponse<U>;
       }
@@ -125,12 +131,14 @@ export default class API {
       if (isAxiosError(err)) {
         return {
           status: false,
+          status_code: err?.response?.data?.status_code,
           message: err?.response?.data?.message || err?.response?.data,
           data: null,
         } as unknown as APIResponse<U>;
       } else {
         return {
           status: false,
+          status_code: 500,
           message: "Internal Server Error",
         } as APIResponse<U>;
       }
@@ -151,12 +159,14 @@ export default class API {
       if (isAxiosError(err)) {
         return {
           status: false,
+          status_code: err?.response?.data?.status_code,
           message: err?.response?.data?.message || err?.response?.data,
           data: null,
         } as unknown as APIResponse<U>;
       } else {
         return {
           status: false,
+          status_code: 500,
           message: "Internal Server Error",
         } as APIResponse<U>;
       }

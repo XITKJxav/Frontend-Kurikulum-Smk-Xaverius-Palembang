@@ -1,4 +1,5 @@
 import { JurusanModel } from "@api/jurusan/model";
+import { KaryawanModel } from "@api/karyawan/model";
 
 export type ClassRoomReponseModel = {
   total: number;
@@ -18,6 +19,7 @@ export type ClassRoomModel = {
   id: number;
   nama_ruangan: string;
   jurusan: JurusanModel;
+  kd_wali_kelas: KaryawanModel;
   status: boolean;
   created_at: string;
   updated_at: string;
@@ -26,6 +28,7 @@ export type ClassRoomModel = {
 export type ClassRoomCreateModel = {
   nomor_ruangan: string;
   kd_jurusan: string;
+  kd_wali_kelas: string;
 };
 
 export type ClassRoomUpdateModel = {

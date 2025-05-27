@@ -5,11 +5,13 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  SxProps,
   TextField,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import ErrorMessage from "@components/ErrorMessage";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
+import { Theme } from "@emotion/react";
 
 interface InputTextProps<T extends FieldValues = FieldValues> {
   field: ControllerRenderProps<T, any>;
@@ -24,6 +26,8 @@ interface InputTextProps<T extends FieldValues = FieldValues> {
   label?: string;
   id?: string;
   className?: string;
+  sx?: SxProps<Theme>;
+  color?: string;
 }
 
 const InputTextField = (props: InputTextProps) => {
@@ -36,6 +40,8 @@ const InputTextField = (props: InputTextProps) => {
     type = "text",
     className,
     size = "medium",
+    sx,
+    color,
   } = props;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -52,7 +58,9 @@ const InputTextField = (props: InputTextProps) => {
       variant="outlined"
       error={!!fieldState.error}
     >
-      <InputLabel htmlFor={id}>{label}</InputLabel>
+      <InputLabel htmlFor={id}>
+        <span className={color}>{label}</span>
+      </InputLabel>
 
       <OutlinedInput
         {...field}
@@ -63,16 +71,22 @@ const InputTextField = (props: InputTextProps) => {
         value={field.value}
         size={size}
         className={className}
+        sx={sx}
         endAdornment={
           isPassword ? (
             <InputAdornment position="end">
               <IconButton onClick={handleToggleVisibility} edge="end">
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? (
+                  <VisibilityOff className={color} />
+                ) : (
+                  <Visibility className={color} />
+                )}
               </IconButton>
             </InputAdornment>
           ) : undefined
         }
       />
+      <ErrorMessage messageError={fieldState.error?.message} />
     </FormControl>
   );
 };

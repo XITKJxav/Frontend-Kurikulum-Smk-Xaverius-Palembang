@@ -1,11 +1,16 @@
+import { DayModel, RegulerTimeModel } from "@api/jadwal/model";
 import { createContext, useContext, useState } from "react";
 
 type StateType = {
   SchedulePageLoading: boolean;
+  schenduleTimeRegulerReq: RegulerTimeModel[];
+  schenduleDayReq: DayModel[];
 };
 
 export const initialState: StateType = {
   SchedulePageLoading: false,
+  schenduleTimeRegulerReq: [],
+  schenduleDayReq: [],
 };
 
 type ContextType = {

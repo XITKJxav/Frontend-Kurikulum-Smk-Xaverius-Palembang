@@ -6,11 +6,19 @@ import {
   School,
   Class,
   SupervisorAccount,
+  Work,
+  MeetingRoom,
+  AutoStories,
+  Schedule,
+  Timer,
+  CalendarViewDay,
+  Foundation,
 } from "@mui/icons-material";
 import ClassCoordinatorPage from "@pages/guru/classcoordinator";
 import ClassRoomPage from "@pages/guru/classroom";
 import HomePage from "@pages/guru/homepage";
 import JadwalPage from "@pages/guru/jadwal";
+import KaryawanPage from "@pages/guru/karyawan";
 import JurusanPage from "@pages/guru/managejurusan";
 
 export const listMenuGuru = [
@@ -20,35 +28,69 @@ export const listMenuGuru = [
     part: <HomePage />,
   },
   {
-    titleDropDown: "Akademik",
-    icon: <Class />,
+    titleDropDown: "Prasarana",
+    icon: <Foundation />,
     children: [
       {
         title: "manage jurusan",
         icon: <School />,
         part: <JurusanPage />,
       },
+
       {
         title: "ruang kelas",
-        icon: <Class />,
+        icon: <MeetingRoom />,
         part: <ClassRoomPage />,
       },
+
       {
-        title: "ketua kelas",
-        icon: <SupervisorAccount />,
+        title: "mata pelajaran",
+        icon: <AutoStories />,
         part: <ClassCoordinatorPage />,
       },
     ],
   },
   {
-    title: "jadwal",
-    icon: <CalendarMonth />,
-    part: <JadwalPage />,
+    titleDropDown: "Akademik",
+    icon: <Class />,
+    children: [
+      {
+        title: "karyawan",
+        icon: <Work />,
+        part: <KaryawanPage />,
+      },
+      {
+        title: "siswa",
+        icon: <SupervisorAccount />,
+        part: <ClassCoordinatorPage />,
+      },
+      {
+        title: "mata pelajaran",
+        icon: <AutoStories />,
+        part: <ClassCoordinatorPage />,
+      },
+      {
+        title: "jadwal pembelajaran",
+        icon: <CalendarMonth />,
+        part: <JadwalPage />,
+      },
+    ],
   },
   {
-    title: "penugasan",
-    icon: <HomeWork />,
-    part: <HomePage />,
+    titleDropDown: "manage jadwal",
+    icon: <CalendarMonth />,
+    children: [
+      {
+        title: "durasi pembelajaran",
+        icon: <Timer />,
+        part: <KaryawanPage />,
+      },
+      {
+        title: "setting jadwal",
+        icon: <CalendarMonth />,
+        part: <JadwalPage />,
+      },
+    ],
   },
   {
     title: "settings",

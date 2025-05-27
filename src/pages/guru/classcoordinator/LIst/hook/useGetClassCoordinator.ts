@@ -24,7 +24,7 @@ const useGetClassCoordinator = (): HookReturn => {
         onSuccess: (data) => {
           setState((prev) => ({
             ...prev,
-            classCoordinatorRequest: data,
+            classCoordinatorRequest: data[0],
             classCoordinatorLoading: false,
           }));
         },
@@ -50,7 +50,7 @@ const useGetClassCoordinator = (): HookReturn => {
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
-          classRoomRequest: data,
+          classRoomRequest: data[0],
           classCoordinatorLoading: false,
         }));
       },

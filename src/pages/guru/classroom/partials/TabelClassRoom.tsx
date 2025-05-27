@@ -10,7 +10,7 @@ import { DataTable } from "@components/Table";
 const TabelClassRoom = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
-  const { fetchClassRoom, fetchJurusan } = useGetClassRoom();
+  const { fetchClassRoom, fetchJurusan, fetchWaliKelas } = useGetClassRoom();
   const { state, setState } = useClassroompageContext();
   const { classroomRequest, classroomLoading, filtersClassRoom } = state;
 
@@ -46,9 +46,14 @@ const TabelClassRoom = () => {
       })
     );
   }, [search, filtersClassRoom?.page, filtersClassRoom?.orderBy]);
+  const fetchData = () => {
+    fetchJurusan();
+    fetchWaliKelas();
+  };
   useEffect(() => {
-    fetchJurusan(Filters({}));
+    fetchData();
   }, []);
+
   return (
     <>
       {classroomLoading && (

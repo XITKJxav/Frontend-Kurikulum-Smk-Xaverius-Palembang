@@ -1,14 +1,18 @@
 import AppearFadeIn from "@components/Animation/AppearFadeIn";
 import { ActionButton } from "@components/Button";
 import CardAutosize from "@components/Card/CardAutosize";
-import clsx from "clsx";
 import { Controller, useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
 import useSignInClassCoordinator from "../authentication/hook/useSignInCoordinatorClass";
+import InputTextField from "@components/Input/InputText";
+import { useLoginClassCoordinatorContext } from "../context";
+import { LoadingDialog } from "@components/Dialog";
 
 const CardLogin = () => {
   const { control } = useFormContext();
   const { handleSubmitForm } = useSignInClassCoordinator();
+  const { state } = useLoginClassCoordinatorContext();
+  const { signInLoading } = state;
 
   return (
     <CardAutosize
@@ -17,63 +21,81 @@ const CardLogin = () => {
       trigger={true}
       animateSize={{ width: "100rem" }}
     >
+      {signInLoading && <LoadingDialog open={true} onClose={() => {}} />}
       <AppearFadeIn direction="left" className="p-5 drop-shadow-xl">
-        <div className="flex flex-col items-center justify-center ">
-          <div className="mt-3 mb-3">
-            <label
-              htmlFor="email"
-              className="block mb-2 font-medium text-white"
-            >
-              Email
-            </label>
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="email"
-                  id="email"
-                  placeholder="yourEmail@gmail.com"
-                  autoComplete="off"
-                  className={clsx(
-                    "w-full px-5 py-2 rounded-xl bg-white/10",
-                    "text-white placeholder-white/70 border border-white/20",
-                    "backdrop-blur-md focus:outline-none focus:ring-2",
-                    "focus:ring-white/30 focus:border-white/30 transition-all"
-                  )}
-                />
-              )}
-            />
-          </div>
+        <div className="flex flex-col items-center justify-center gap-3 p-5">
+          <h1 className="mb-6 text-4xl font-bold tracking-wide text-white drop-shadow-md">
+            Sign Up
+          </h1>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field, fieldState }) => (
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="email"
+                id="email"
+                type="email"
+                autoComplete="off"
+                color="text-white"
+                sx={{
+                  input: { color: "white" },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "white",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "gray",
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: "white",
+                    opacity: 0.7,
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "white",
+                  },
+                }}
+              />
+            )}
+          />
 
-          <div className="mt-3 mb-2">
-            <label
-              htmlFor="password"
-              className="block mb-2 font-medium text-white"
-            >
-              Password
-            </label>
-            <Controller
-              name="password"
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="password"
-                  id="password"
-                  placeholder="password..."
-                  autoComplete="off"
-                  className={clsx(
-                    "w-full px-5 py-2 rounded-xl bg-white/10",
-                    "text-white placeholder-white/70 border border-white/20",
-                    "backdrop-blur-md focus:outline-none focus:ring-2",
-                    "focus:ring-white/30 focus:border-white/30 transition-all"
-                  )}
-                />
-              )}
-            />
-          </div>
+          <Controller
+            name="password"
+            control={control}
+            render={({ field, fieldState }) => (
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="Password"
+                id="password"
+                type="password"
+                autoComplete="off"
+                color="text-white"
+                sx={{
+                  input: { color: "white" },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "white",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "gray",
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: "white",
+                    opacity: 0.7,
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "white",
+                  },
+                }}
+              />
+            )}
+          />
 
           <div className="w-full mb-3">
             <Link

@@ -3,35 +3,41 @@ import API from "..";
 import {
   ClassCoordinatorModel,
   ClassCoordinatorResponseModel,
-  ClassCoordinatorSigninResponseModel,
   CreateClassCoordinatorModel,
-  LoginClassCoordinatorModel,
   UpdateClassCoordinatorModel,
 } from "./model";
 import { ClassRoomModel } from "@api/classroom/model";
 import { useNavigate } from "react-router-dom";
+import { LocalStorage } from "@utils/localStorage";
 
 export default class ClassCoordinatorService {
   basePathSignIn: string = "/signin/ketua-kelas";
   basePathSignOut: string = "/signout/ketua-kelas";
-  basePath: string = "/ketua-kelas";
+  basePath: string = "/siswa";
   basePathClassRoom: string = "/ruang-kelas";
 
   private api: API = new API();
 
+  private async handleUnauthorized(navigate: ReturnType<typeof useNavigate>) {
+    const { deleteItem } = LocalStorage();
+    deleteItem("userData");
+    navigate(0);
+  }
+
   async fetchClassCoordinatorRequest(
     params: string,
-    callback: FetchCallback<ClassCoordinatorResponseModel>,
+    callback: FetchCallback<ClassCoordinatorResponseModel[]>,
     navigate: ReturnType<typeof useNavigate>
   ) {
     const targetPath = `${this.basePath}?${params}`;
-    const res: APIResponse<ClassCoordinatorResponseModel> = await this.api.GET(
-      targetPath
-    );
-    if (res?.status_code == 401) {
-      navigate("/");
+    const res: APIResponse<ClassCoordinatorResponseModel[]> =
+      await this.api.GET(targetPath);
+
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(navigate);
       return;
     }
+
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
     } else {
@@ -41,12 +47,20 @@ export default class ClassCoordinatorService {
 
   async fetchClassCoordinatorByidRequest(
     id: string,
-    callback: FetchCallback<ClassCoordinatorModel[]>
+    access_token: string,
+    callback: FetchCallback<ClassCoordinatorModel[]>,
+    navigate: ReturnType<typeof useNavigate>
   ) {
     const targetPath = `${this.basePath}/${id}`;
     const res: APIResponse<ClassCoordinatorModel[]> = await this.api.GET(
-      targetPath
+      targetPath,
+      access_token
     );
+
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(navigate);
+      return;
+    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -56,11 +70,11 @@ export default class ClassCoordinatorService {
   }
 
   async fetchClassRoomRequestOptions(
-    callback: FetchCallback<ClassRoomModel[]>
+    callback: FetchCallback<ClassRoomModel[][]>
   ) {
     const targetPath = `${this.basePathClassRoom}??offLimit=true`;
 
-    const res: APIResponse<ClassRoomModel[]> = await this.api.GET(targetPath);
+    const res: APIResponse<ClassRoomModel[][]> = await this.api.GET(targetPath);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -101,41 +115,6 @@ export default class ClassCoordinatorService {
       callback.onError(res?.message || "Unknown error");
     } else {
       callback.onSuccess(res?.data);
-    }
-  }
-
-  async signInClassCoordinatorRequest(
-    data: LoginClassCoordinatorModel,
-    callback: FetchCallback<ClassCoordinatorSigninResponseModel[]>
-  ) {
-    const targetPath = this.basePathSignIn;
-
-    const res: APIResponse<ClassCoordinatorSigninResponseModel[]> =
-      await this.api.POST(targetPath, data);
-
-    if (!res?.status) {
-      callback.onError(res?.message || "Unknown error");
-    } else {
-      callback.onSuccess(res.data);
-    }
-  }
-
-  async signOutClassCoordinatorRequest(
-    accessToken: string,
-    callback: FetchCallback<{}>
-  ) {
-    const targetPath = `${this.basePathSignIn}`;
-
-    const res: APIResponse<{}> = await this.api.POST(
-      targetPath,
-      {},
-      accessToken
-    );
-
-    if (!res?.status) {
-      callback.onError(res?.message || "Unknown error");
-    } else {
-      callback.onSuccess(res.data);
     }
   }
 }

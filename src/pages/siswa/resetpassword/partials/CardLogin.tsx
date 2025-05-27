@@ -10,7 +10,7 @@ const CardLogin = () => {
   const { control } = useFormContext();
   const { handleSubmitForm } = useLoginAdministratorClassForm();
 
-  const handleSubmitForm = () => {};
+  // const handleSubmitForm = () => {};
   return (
     <CardAutosize
       className="mx-auto backdrop-blur-lg  bg-stone-500/30 shadow-lg rounded-lg"

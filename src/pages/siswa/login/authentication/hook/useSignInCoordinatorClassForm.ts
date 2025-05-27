@@ -5,19 +5,19 @@ import {
   signInValidations,
 } from "../utils/form";
 import { useLoginClassCoordinatorContext } from "../../context";
-import { LoginClassCoordinatorModel } from "@api/classcoordinator/model";
+import { SignInRequestModel } from "@api/authentication/model";
 
 interface HookReturn {
-  signInreqForm: UseFormReturn<LoginClassCoordinatorModel>;
+  signInreqForm: UseFormReturn<SignInRequestModel>;
 }
 
 const useSignInClassCoordinatorForm = (): HookReturn => {
   const { state } = useLoginClassCoordinatorContext();
 
-  const signInreqForm = useForm<LoginClassCoordinatorModel>({
+  const signInreqForm = useForm<SignInRequestModel>({
     defaultValues: signinreqDefaultValues,
     values: signInDetailsFormatter(state.signinreqDetails),
-    resolver: signInValidations as Resolver<LoginClassCoordinatorModel>,
+    resolver: signInValidations as Resolver<SignInRequestModel>,
   });
 
   return {

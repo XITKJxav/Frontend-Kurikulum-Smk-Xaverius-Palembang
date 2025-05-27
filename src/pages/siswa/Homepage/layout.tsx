@@ -1,6 +1,5 @@
 import CardAutosize from "@components/Card/CardAutosize";
 import { useHomepageContext } from "./context";
-import TextAutosize from "@components/Animation/TextAutosize";
 import AutoMargin from "@components/Animation/AutoMargin";
 import useWindowSize from "@hooks/useWindowSize";
 import AppList from "./partials/AppList";
@@ -12,46 +11,76 @@ import SchedulePage from "../SchedulePage";
 import bg1 from "@assets/bg-2.jpg";
 import LoginAdministratorClassPage from "../login";
 import { LocalStorage } from "@utils/localStorage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Navbar from "./partials/Navbar";
+import useSignOutClassCoordinator from "./hooks/useSignOutClassCoordinator";
+import img from "@assets/logo.png";
+import { LoadingDialog } from "@components/Dialog";
+import { siswaSignInResponseRequestModel } from "@api/authentication/model";
+import useUserSiswa from "./hooks/useUserSiswa";
 
 const HomepageLayout = () => {
   const { state } = useHomepageContext();
   const { handleChangeApp } = useHomepage();
-  const { md, sm, xs } = useWindowSize();
+  const { md } = useWindowSize();
   const { getItem } = LocalStorage();
+  const { handleSignOut } = useSignOutClassCoordinator();
+  const { fetchUserSiswa } = useUserSiswa();
+  const { isLoading } = state;
+  const [activeDropDownProfile, setActiveDropDownProfile] =
+    useState<boolean>(false);
+
   const appComponent = {
     home: <AppList />,
     schedule: <SchedulePage />,
   };
-  const user = getItem("userData");
-  useEffect(() => {
-    console.log(user);
-  }, []);
+
+  const user: siswaSignInResponseRequestModel[] = getItem("userData") ?? [];
+
   const isAppHome = state.app === "home";
+
+  const handleProfileDropDown = () => {
+    setActiveDropDownProfile(!activeDropDownProfile);
+  };
+
+  useEffect(() => {
+    if (user.length <= 0 || user) {
+      return;
+    }
+    fetchUserSiswa();
+  }, []);
 
   return (
     <div
       className="w-full h-[100vh] overflow-x-hidden bg-cover bg-no-repeat"
       style={{ backgroundImage: `url(${bg1})` }}
     >
-      <div className="flex flex-col w-full h-full mt-10 overflow-x-hidden lg:mt-20">
+      {isLoading && <LoadingDialog open={true} onClose={() => {}} />}
+      <div className="flex flex-col w-full h-full overflow-x-hidden">
+        {user.length > 0 && (
+          <Navbar
+            onLogout={() => handleSignOut()}
+            userData={user[0]}
+            onClickProfile={handleProfileDropDown}
+            activeDropDownProfile={activeDropDownProfile}
+          />
+        )}
         <AutoMargin
           trigger={md}
           className="mx-auto w-fit "
           initial={{ marginTop: "1rem" }}
           animate={{ marginTop: state.app === "home" ? "6rem" : "1rem" }}
         >
-          <TextAutosize
-            initialSize="2.5rem"
-            targetSize={xs ? "2.2rem" : "1rem"}
-            trigger={!md || !sm}
-            className="text-white uppercase"
-          >
-            SMK XAVERIUS PALEMBANG
-          </TextAutosize>
+          {!user && (
+            <img
+              src={img}
+              alt="logo"
+              className="w-32 h-auto sm:w-28 md:w-24 lg:w-25 xl:w-30"
+            />
+          )}
         </AutoMargin>
         <div className="flex items-center justify-center p-1 md:p-4">
-          {!user ? (
+          {!user[0] ? (
             <LoginAdministratorClassPage />
           ) : (
             <CardAutosize

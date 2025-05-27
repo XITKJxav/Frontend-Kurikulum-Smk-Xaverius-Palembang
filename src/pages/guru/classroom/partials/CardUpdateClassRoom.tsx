@@ -6,6 +6,7 @@ import { useClassroompageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
 import useUpdateClassRoom from "../Update/hook/useUpdateClassRoom";
 import InputAutocomplete from "@components/Input/InputAutoComplate";
+import useGetClassRoom from "../LIst/hook/useGetClassRoom";
 
 interface Props {
   isOpen: boolean;
@@ -15,7 +16,7 @@ interface Props {
 const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
   const { state, setState } = useClassroompageContext();
   const { handleUpdateForm, fetchClassRoomById } = useUpdateClassRoom();
-  const { classroomByIdRequest, jurusanRequest } = state;
+  const { classroomByIdRequest, jurusanRequest, waliKelasRequest } = state;
   const { control, setValue, reset } = useFormContext();
   const fetchStatus = useRef<{ [key: number]: boolean }>({});
   const classRoomData = classroomByIdRequest[0];
@@ -99,6 +100,26 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
                 data={jurusanRequest.map((item) => ({
                   id: item.kd_jurusan,
                   label: item.nama_jurusan,
+                }))}
+                size="small"
+                allowClear={false}
+              />
+            )}
+          />
+
+          <Controller
+            name="kd_wali_kelas"
+            control={control}
+            defaultValue={classRoomData?.jurusan?.kd_jurusan || ""}
+            render={({ field, fieldState }) => (
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="Pilih wali kelas"
+                id="kd_wali_kelas"
+                data={waliKelasRequest.map((item) => ({
+                  id: item.kd_karyawan,
+                  label: item.name,
                 }))}
                 size="small"
                 allowClear={false}

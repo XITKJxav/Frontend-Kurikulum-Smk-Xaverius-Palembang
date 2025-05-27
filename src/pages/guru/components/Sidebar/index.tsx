@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { clsx } from "clsx";
 import { listMenuGuru } from "@config/menu";
 import { AppType } from "@types";
-import { Logout } from "@mui/icons-material";
 import SidebarDropdown from "../SidebarDropdown";
 import AppearOnScroll from "@components/Animation/AppearOnScroll";
 

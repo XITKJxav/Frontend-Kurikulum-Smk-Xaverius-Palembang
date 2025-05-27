@@ -2,8 +2,9 @@ import { useFormContext } from "react-hook-form";
 import { useLoginClassCoordinatorContext } from "../../context";
 import { snackbar } from "@utils/snackbar";
 import { LocalStorage } from "@utils/localStorage";
-import ClassCoordinatorService from "@api/classcoordinator";
-import { LoginClassCoordinatorModel } from "@api/classcoordinator/model";
+import { useNavigate } from "react-router-dom";
+import AuthtenticationService from "@api/authentication";
+import { SignInRequestModel } from "@api/authentication/model";
 
 interface HookReturn {
   handleSubmitForm: () => void;
@@ -12,8 +13,9 @@ interface HookReturn {
 const useSignInClassCoordinator = (): HookReturn => {
   const { setState } = useLoginClassCoordinatorContext();
   const { handleSubmit, trigger } = useFormContext();
-  const classCoordinatorService = new ClassCoordinatorService();
+  const classCoordinatorService = new AuthtenticationService();
   const { setItem } = LocalStorage();
+  const navigate = useNavigate();
 
   const handleSubmitForm = async () => {
     return handleSubmit(async (values) => {
@@ -22,26 +24,28 @@ const useSignInClassCoordinator = (): HookReturn => {
         signInLoading: true,
       }));
 
-      const userData: LoginClassCoordinatorModel = {
+      const userData: SignInRequestModel = {
         email: values.email,
         password: values.password,
       };
 
       trigger();
-      classCoordinatorService.signInClassCoordinatorRequest(userData, {
+      await classCoordinatorService.signInSiswaRequest(userData, {
         onSuccess: (data) => {
-          snackbar.success("Welcome Back Class Coordinator");
+          snackbar.info("Welcome Back Class Coordinator");
           setItem("userData", data);
+          navigate(0);
           setState((prev) => ({
             ...prev,
             signInLoading: false,
           }));
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
+
+        onError: () => {
+          snackbar.error("Invalid Username and Password");
           setState((prev) => ({
             ...prev,
-            signInLoading: true,
+            signInLoading: false,
           }));
         },
       });

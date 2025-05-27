@@ -20,8 +20,8 @@ const ClassCoordinatorColumn = () => {
 
   const columns: ColumnDef<ClassCoordinatorModel>[] = [
     {
-      accessorKey: "kd_kepengurusan_kelas",
-      header: "kd ketua kelas",
+      accessorKey: "kd_siswa",
+      header: "kd Siswa",
     },
     {
       accessorKey: "name",
@@ -66,13 +66,12 @@ const ClassCoordinatorColumn = () => {
           <button
             type="button"
             className="p-2 font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none"
-            onClick={() => onOpen(row.original.kd_kepengurusan_kelas)}
+            onClick={() => onOpen(row.original.kd_siswa)}
           >
             <Edit />
           </button>
           {isDialogOpen &&
-            selectedIdClassCoordinator ===
-              row.original.kd_kepengurusan_kelas && (
+            selectedIdClassCoordinator === row.original.kd_siswa && (
               <FormProvider {...classCoordinatorUpdatereqForm}>
                 <CardUpdateClassCoordinator
                   isOpen={isDialogOpen}

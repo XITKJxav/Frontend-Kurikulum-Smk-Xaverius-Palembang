@@ -1,11 +1,14 @@
+import { SignInRequestModel } from "@api/authentication/model";
 import { createContext, useContext, useState } from "react";
 
 type StateType = {
-  //
+  signInLoading: boolean;
+  signinkaryawanreqDetails: SignInRequestModel;
 };
 
 export const initialState: StateType = {
-  //
+  signInLoading: false,
+  signinkaryawanreqDetails: {} as SignInRequestModel,
 };
 
 type ContextType = {
@@ -13,28 +16,29 @@ type ContextType = {
   setState: React.Dispatch<React.SetStateAction<StateType>>;
 };
 
-const LoginpageContext = createContext<ContextType | undefined>(undefined);
+const KaryawanSignInContext = createContext<ContextType | undefined>(undefined);
 
-const useLoginpageContext = (): ContextType => {
-  const context = useContext(LoginpageContext);
+const useKaryawanSignInContext = (): ContextType => {
+  const context = useContext(KaryawanSignInContext);
   if (!context) {
     throw new Error(
-      "useLoginpageContext must be used within a LoginpageProvider"
+      "useKaryawanSignInContext must be used within a KaryawanSignInProvider"
     );
   }
   return context;
 };
 
-const LoginpageProvider: React.FC<{ children: React.ReactNode }> = ({
+const KaryawanSignInProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, setState] = useState<StateType>(initialState);
+
   return (
-    <LoginpageContext.Provider value={{ state, setState }}>
+    <KaryawanSignInContext.Provider value={{ state, setState }}>
       {children}
-    </LoginpageContext.Provider>
+    </KaryawanSignInContext.Provider>
   );
 };
 
-export { LoginpageProvider, useLoginpageContext };
+export { KaryawanSignInProvider, useKaryawanSignInContext };
 export type { StateType };

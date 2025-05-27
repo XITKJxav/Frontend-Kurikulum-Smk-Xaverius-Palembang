@@ -1,16 +1,9 @@
 import { ActionButton } from "@components/Button";
 import { BaseDialog, LoadingDialog } from "@components/Dialog";
-import {
-  DialogContent,
-  FormControl,
-  InputLabel,
-  Select,
-  TextField,
-} from "@mui/material";
+import { DialogContent } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useClassCoordinatorPageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
-import ErrorMessage from "@components/ErrorMessage";
 import useUpdateClassCoordinator from "../Update/hook/useUpdateClassCoordinator";
 import InputTextField from "@components/Input/InputText";
 import InputSelect from "@components/Input/InputSelect";
@@ -54,8 +47,9 @@ const CardUpdateClassCoordinator = ({
 
   useEffect(() => {
     if (data?.status !== undefined) {
-      setValue("status", !!data.status);
+      setValue("status", data?.status);
     }
+    console.log(idClassCoordinator);
   }, [data?.status, setValue]);
 
   const handleCloseDialog = () => {
@@ -77,7 +71,7 @@ const CardUpdateClassCoordinator = ({
       open={isOpen}
       onClose={handleCloseDialog}
       title="Pengaturan Koordinator Kelas"
-      message={data.kd_kepengurusan_kelas || ""}
+      message={data.kd_siswa || ""}
     >
       <DialogContent>
         <form className="flex flex-col items-center justify-center gap-4 mt-3 ">

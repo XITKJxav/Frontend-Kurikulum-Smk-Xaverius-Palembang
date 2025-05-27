@@ -18,11 +18,7 @@ const CardUpdateProgramJurusan = (props: Props) => {
   const { state, setState } = usejurusanpageContext();
   const { handleSubmitForm, fetchJurusanById } = useUpdateProgramJurusan();
   const { jurusanByIdRequest } = state;
-  const { control, setValue } = useFormContext();
-
-  useEffect(() => {
-    fetchJurusan();
-  }, [kd_jurusan, jurusanByIdRequest, fetchJurusanById]);
+  const { control, setValue, getValues } = useFormContext();
 
   const fetchStatus = useRef<{ [key: string]: boolean }>({});
 
@@ -30,7 +26,6 @@ const CardUpdateProgramJurusan = (props: Props) => {
     if (fetchStatus.current[kd_jurusan] || jurusanByIdRequest.length !== 0) {
       return;
     }
-
     fetchJurusanById(kd_jurusan);
     fetchStatus.current[kd_jurusan] = true;
   };
@@ -44,17 +39,16 @@ const CardUpdateProgramJurusan = (props: Props) => {
     onClose();
   };
 
-  const status = jurusanByIdRequest[0]?.status;
-
-  if (status === undefined) {
-    return <LoadingDialog open={isOpen} onClose={onClose} />;
-  }
-
-  const defaultStatus = status ? true : false;
+  const data = jurusanByIdRequest[0];
 
   useEffect(() => {
-    status !== undefined && setValue("status", defaultStatus);
-  }, [status, setValue, defaultStatus]);
+    fetchJurusan();
+    setValue("status", jurusanByIdRequest[0]?.status);
+  }, [kd_jurusan, jurusanByIdRequest, fetchJurusanById]);
+
+  if (data === undefined) {
+    return <LoadingDialog open={isOpen} onClose={onClose} />;
+  }
 
   return (
     <BaseDialog
@@ -72,7 +66,7 @@ const CardUpdateProgramJurusan = (props: Props) => {
           <Controller
             name="status"
             control={control}
-            defaultValue={defaultStatus}
+            defaultValue={0}
             render={({ field, fieldState }) => (
               <InputAutocomplete
                 field={field}

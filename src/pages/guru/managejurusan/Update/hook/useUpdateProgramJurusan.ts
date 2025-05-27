@@ -22,7 +22,7 @@ const useUpdateProgramJurusan = (): HookReturn => {
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
-          jurusanByIdRequest: [data],
+          jurusanByIdRequest: data,
         }));
       },
       onError: (errMessage) => {

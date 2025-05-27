@@ -1,4 +1,4 @@
-import { SignInClassCoordinatorDataModel } from "@api/classcoordinator/model";
+import { siswaSignInResponseRequestModel } from "@api/authentication/model";
 import img from "@assets/profile.webp";
 import { Logout } from "@mui/icons-material";
 
@@ -6,7 +6,7 @@ interface Props {
   onClickProfile: () => void;
   activeDropDownProfile: boolean;
   onLogout: () => void;
-  userData: SignInClassCoordinatorDataModel | undefined;
+  userData: siswaSignInResponseRequestModel | undefined;
 }
 
 const Navbar = ({
@@ -16,7 +16,7 @@ const Navbar = ({
   userData,
 }: Props) => {
   return (
-    <nav className="relative bg-[#261FB3] text-white py-4 px-12 shadow-md drop-shadow-lg">
+    <nav className=" bg-[#261FB3] text-white py-4 px-12 shadow-md drop-shadow-lg">
       <div className="flex items-center justify-between mx-auto">
         <h2 className="text-2xl font-semibold">SMK XAVERIUS</h2>
         <div className="relative">
@@ -36,7 +36,7 @@ const Navbar = ({
               <ul className="py-2">
                 <li
                   className="flex gap-2 px-4 py-2 cursor-pointer hover:bg-[#160dc6]"
-                  onClick={onLogout}
+                  onClick={() => onLogout()}
                 >
                   <Logout />
                   Logout
