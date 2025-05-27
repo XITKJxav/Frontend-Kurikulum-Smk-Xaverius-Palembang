@@ -47,14 +47,12 @@ export default class ClassCoordinatorService {
 
   async fetchClassCoordinatorByidRequest(
     id: string,
-    access_token: string,
     callback: FetchCallback<ClassCoordinatorModel[]>,
     navigate: ReturnType<typeof useNavigate>
   ) {
     const targetPath = `${this.basePath}/${id}`;
     const res: APIResponse<ClassCoordinatorModel[]> = await this.api.GET(
-      targetPath,
-      access_token
+      targetPath
     );
 
     if (res?.status_code === 401) {

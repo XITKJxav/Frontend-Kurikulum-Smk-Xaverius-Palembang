@@ -3,7 +3,6 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useClassCoordinatorPageContext } from "../context";
 import useClassCoordinator from "../Create/hook/useClassCoordinator";
 import InputTextField from "@components/Input/InputText";
-import InputSelect from "@components/Input/InputSelect";
 import InputAutocomplete from "@components/Input/InputAutoComplate";
 
 const CreateClassCoordinator = () => {

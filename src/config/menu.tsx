@@ -20,6 +20,7 @@ import HomePage from "@pages/guru/homepage";
 import JadwalPage from "@pages/guru/jadwal";
 import KaryawanPage from "@pages/guru/karyawan";
 import JurusanPage from "@pages/guru/managejurusan";
+import MataPelajaranPage from "@pages/guru/matapelajaran";
 
 export const listMenuGuru = [
   {
@@ -42,12 +43,6 @@ export const listMenuGuru = [
         icon: <MeetingRoom />,
         part: <ClassRoomPage />,
       },
-
-      {
-        title: "mata pelajaran",
-        icon: <AutoStories />,
-        part: <ClassCoordinatorPage />,
-      },
     ],
   },
   {
@@ -67,7 +62,7 @@ export const listMenuGuru = [
       {
         title: "mata pelajaran",
         icon: <AutoStories />,
-        part: <ClassCoordinatorPage />,
+        part: <MataPelajaranPage />,
       },
       {
         title: "jadwal pembelajaran",

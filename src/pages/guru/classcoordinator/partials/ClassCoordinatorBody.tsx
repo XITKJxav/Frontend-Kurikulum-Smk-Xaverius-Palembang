@@ -8,11 +8,11 @@ const ClassCoordinatorBody = () => {
   const { classcoordinatorreqForm } = useCreateClassCoordinatorForm();
   const listMenu = [
     {
-      label: "Daftar Ketua Kelas",
+      label: "Daftar Siswa",
       partial: <TabelClassCoordinator />,
     },
     {
-      label: "Register Ketua Kelas",
+      label: "Register Siswa",
       partial: (
         <FormProvider {...classcoordinatorreqForm}>
           <CreateClassCoordinator />
@@ -23,7 +23,7 @@ const ClassCoordinatorBody = () => {
 
   return (
     <div className="w-full overflow-x-auto">
-      <h1 className="mb-1 text-2xl font-extrabold uppercase">Ketua Kelas</h1>
+      <h1 className="mb-1 text-2xl font-extrabold uppercase">Siswa</h1>
       <TabNavigation listMenu={listMenu} />
     </div>
   );

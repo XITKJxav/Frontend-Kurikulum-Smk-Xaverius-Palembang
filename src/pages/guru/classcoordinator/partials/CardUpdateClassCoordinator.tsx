@@ -49,7 +49,6 @@ const CardUpdateClassCoordinator = ({
     if (data?.status !== undefined) {
       setValue("status", data?.status);
     }
-    console.log(idClassCoordinator);
   }, [data?.status, setValue]);
 
   const handleCloseDialog = () => {

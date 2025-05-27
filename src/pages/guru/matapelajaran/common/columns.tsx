@@ -2,42 +2,42 @@ import { Edit } from "@mui/icons-material";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { FormProvider } from "react-hook-form";
-import { KaryawanModel } from "@api/karyawan/model";
-import useUpdateKaryawanForm from "../Update/hook/useUpdateKaryawanForm";
-import CardUpdateKaryawan from "../partials/CardUpdateKaryawan";
 import { useState } from "react";
+import { MataPelajaranModel } from "@api/matapelajaran/model";
+import useUpdateMataPelajaranForm from "../Update/hook/useUpdateMataPelajaranForm";
+import CardUpdateMataPelajaran from "../partials/CardUpdateMataPelajaran";
 
-const KaryawanColumn = () => {
+const mataPelajaranColumn = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [selectedIdMataPelajaran, setSelectedIdMataPelajaran] = useState<
+  const [selectedIdmataPelajaran, setSelectedIdmataPelajaran] = useState<
     string | null
   >(null);
 
-  const { KaryawanUpdatereqForm } = useUpdateKaryawanForm();
+  const { mataPelajaranUpdatereqForm } = useUpdateMataPelajaranForm();
 
-  const handleOpenDialog = (kd_karyawan: string) => {
-    setSelectedIdMataPelajaran(kd_karyawan);
+  const handleOpenDialog = (kd_mataPelajaran: string) => {
+    setSelectedIdmataPelajaran(kd_mataPelajaran);
     setIsDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
-    setSelectedIdMataPelajaran(null);
+    setSelectedIdmataPelajaran(null);
     setIsDialogOpen(false);
   };
 
-  const columns: ColumnDef<KaryawanModel>[] = [
+  const columns: ColumnDef<MataPelajaranModel>[] = [
     {
-      accessorKey: "kd_karyawan",
-      header: "Kd Karyawan",
+      accessorKey: "id_mata_pelajaran",
+      header: "Id Mata Pelajaran",
     },
     {
-      accessorKey: "name",
-      header: "Nama Karyawan",
+      accessorKey: "nama",
+      header: "Nama Mata Pelajaran",
     },
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({ row }: { row: { original: KaryawanModel } }) => (
+      cell: ({ row }: { row: { original: MataPelajaranModel } }) => (
         <span
           className={`px-2 py-1 rounded-full text-white text-xs ${
             !row.original.status ? "bg-red-500" : "bg-green-500"
@@ -50,38 +50,39 @@ const KaryawanColumn = () => {
     {
       accessorKey: "created_at",
       header: "Created At",
-      cell: ({ row }: { row: { original: KaryawanModel } }) =>
+      cell: ({ row }: { row: { original: MataPelajaranModel } }) =>
         format(new Date(row?.original?.created_at), "MMM dd, yyyy"),
       meta: { hideOnMobile: true },
     },
     {
       accessorKey: "update_at",
       header: "Update At",
-      cell: ({ row }: { row: { original: KaryawanModel } }) =>
+      cell: ({ row }: { row: { original: MataPelajaranModel } }) =>
         format(new Date(row?.original?.updated_at), "MMM dd, yyyy"),
       meta: { hideOnMobile: true },
     },
     {
       accessorKey: "action",
       header: "Action",
-      cell: ({ row }: { row: { original: KaryawanModel } }) => (
+      cell: ({ row }: { row: { original: MataPelajaranModel } }) => (
         <>
           <button
             className="p-2 font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none"
-            onClick={() => handleOpenDialog(row.original.kd_karyawan)}
+            onClick={() => handleOpenDialog(row?.original?.id_mata_pelajaran)}
           >
             <Edit />
           </button>
 
-          {isDialogOpen && selectedKdKaryawan === row.original.kd_karyawan && (
-            <FormProvider {...KaryawanUpdatereqForm}>
-              <CardUpdateKaryawan
-                isOpen={isDialogOpen}
-                kd_karyawan={selectedKdKaryawan}
-                onClose={handleCloseDialog}
-              />
-            </FormProvider>
-          )}
+          {isDialogOpen &&
+            selectedIdmataPelajaran === row.original.id_mata_pelajaran && (
+              <FormProvider {...mataPelajaranUpdatereqForm}>
+                <CardUpdateMataPelajaran
+                  isOpen={isDialogOpen}
+                  id_mata_pelajaran={selectedIdmataPelajaran}
+                  onClose={handleCloseDialog}
+                />
+              </FormProvider>
+            )}
         </>
       ),
     },
@@ -90,4 +91,4 @@ const KaryawanColumn = () => {
   return columns;
 };
 
-export default KaryawanColumn;
+export default mataPelajaranColumn;

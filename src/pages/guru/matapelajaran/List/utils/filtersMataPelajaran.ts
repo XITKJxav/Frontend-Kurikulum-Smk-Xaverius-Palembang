@@ -4,7 +4,7 @@ interface Props {
   onSearch?: string;
 }
 
-export const FiltersKaryawan = (props: Props) => {
+export const FiltersMataPelajaran = (props: Props) => {
   const { onPage, onOrder, onSearch } = props;
   return `?page=${onPage} & orderBy=${onOrder} & search=${onSearch}`;
 };

@@ -1,32 +1,33 @@
 import { RoleOptionModel } from "@api/HealthOption/model";
 import {
-  CreateKaryawanRequestModel,
-  KaryawanModel,
-  KaryawanResponseRequestModel,
-  UpdateKaryawanRequestModel,
-} from "@api/karyawan/model";
+  CreateMataPelajaranRequestModel,
+  MataPelajaranModel,
+  MataPelajaranResponseRequestModel,
+  UpdateMataPelajaranRequestModel,
+} from "@api/matapelajaran/model";
+
 import { createContext, useContext, useState } from "react";
 
 type StateType = {
-  KaryawanLoading: boolean;
-  karyawanRequest: KaryawanResponseRequestModel;
-  karyawanByIdRequest: KaryawanModel[];
-  roleRequest: RoleOptionModel[];
+  mataPelajaranLoading: boolean;
+  mataPelajaranRequest: MataPelajaranResponseRequestModel;
+  mataPelajaranByIdRequest: MataPelajaranModel[];
+
   filters: {
     page: number;
     orderBy: boolean;
   };
+
   dialogLoading: boolean;
-  karyawanreqDetails: CreateKaryawanRequestModel;
-  karyawanUpdatereqDetails: UpdateKaryawanRequestModel;
+  mataPelajaranreqDetails: CreateMataPelajaranRequestModel;
+  mataPelajaranUpdatereqDetails: UpdateMataPelajaranRequestModel;
 };
 
 export const initialState: StateType = {
-  karyawanByIdRequest: [],
-  roleRequest: [],
-  KaryawanLoading: false,
+  mataPelajaranByIdRequest: [],
+  mataPelajaranLoading: false,
   dialogLoading: false,
-  karyawanRequest: {
+  mataPelajaranRequest: {
     total: 0,
     current_page: 2,
     last_page: 1,
@@ -40,8 +41,8 @@ export const initialState: StateType = {
     orderBy: false,
   },
 
-  karyawanreqDetails: {} as CreateKaryawanRequestModel,
-  karyawanUpdatereqDetails: {} as UpdateKaryawanRequestModel,
+  mataPelajaranreqDetails: {} as CreateMataPelajaranRequestModel,
+  mataPelajaranUpdatereqDetails: {} as UpdateMataPelajaranRequestModel,
 };
 
 type ContextType = {
@@ -49,28 +50,30 @@ type ContextType = {
   setState: React.Dispatch<React.SetStateAction<StateType>>;
 };
 
-const KaryawanpageContext = createContext<ContextType | undefined>(undefined);
+const MataPelajaranpageContext = createContext<ContextType | undefined>(
+  undefined
+);
 
-const usekaryawanpageContext = (): ContextType => {
-  const context = useContext(KaryawanpageContext);
+const useMataPelajaranpageContext = (): ContextType => {
+  const context = useContext(MataPelajaranpageContext);
   if (!context) {
     throw new Error(
-      "useDashboardpageContext must be used within a DashboardpageProvider"
+      "useMataPelajaranpageContext must be used within a MataPelajaranpageProvider"
     );
   }
   return context;
 };
 
-const KaryawanpageProvider: React.FC<{ children: React.ReactNode }> = ({
+const MataPelajaranpageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, setState] = useState<StateType>(initialState);
   return (
-    <KaryawanpageContext.Provider value={{ state, setState }}>
+    <MataPelajaranpageContext.Provider value={{ state, setState }}>
       {children}
-    </KaryawanpageContext.Provider>
+    </MataPelajaranpageContext.Provider>
   );
 };
 
-export { KaryawanpageProvider, usekaryawanpageContext };
+export { MataPelajaranpageProvider, useMataPelajaranpageContext };
 export type { StateType };

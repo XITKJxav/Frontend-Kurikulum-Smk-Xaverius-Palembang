@@ -2,10 +2,10 @@ import AppearFadeIn from "@components/Animation/AppearFadeIn";
 import { LoadingDialog } from "@components/Dialog";
 import { DataTable } from "@components/Table";
 import { useCallback, useEffect, useState } from "react";
-import { usekaryawanpageContext } from "../context";
-import { FiltersKaryawan } from "../List/utils/filtersKaryawan";
+import { useMataPelajaranpageContext } from "../context";
 import KaryawanColumn from "../common/columns";
-import useKaryawan from "../List/hook/useKaryawan";
+import useMataPelajaran from "../List/hook/useMataPelajaran";
+import { FiltersMataPelajaran } from "../List/utils/filtersMataPelajaran";
 
 export type Filters = {
   page: number;
@@ -13,13 +13,13 @@ export type Filters = {
   orderBy: boolean;
 };
 
-const TabelKaryawan = () => {
+const TabelMataPelajaran = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
 
-  const { fetchKaryawan, fetchRole } = useKaryawan();
-  const { state, setState } = usekaryawanpageContext();
-  const { karyawanRequest, KaryawanLoading, filters } = state;
+  const { fetchMataPelajaran } = useMataPelajaran();
+  const { state, setState } = useMataPelajaranpageContext();
+  const { mataPelajaranRequest, mataPelajaranLoading, filters } = state;
   const columns = KaryawanColumn();
 
   const onSearch = useCallback((trem: string) => {
@@ -36,14 +36,13 @@ const TabelKaryawan = () => {
     }));
   }, []);
   const fetchData = useCallback(() => {
-    fetchKaryawan(
-      FiltersKaryawan({
+    fetchMataPelajaran(
+      FiltersMataPelajaran({
         onPage: filters.page,
         onOrder: filters.orderBy,
         onSearch: search,
       })
     );
-    fetchRole();
   }, []);
 
   useEffect(() => {
@@ -56,8 +55,8 @@ const TabelKaryawan = () => {
 
   return (
     <>
-      {KaryawanLoading && (
-        <LoadingDialog open={KaryawanLoading} onClose={onClose} />
+      {mataPelajaranLoading && (
+        <LoadingDialog open={mataPelajaranLoading} onClose={onClose} />
       )}
       <AppearFadeIn trigger direction="bottom" delay={0.8}>
         <DataTable
@@ -66,11 +65,11 @@ const TabelKaryawan = () => {
           handleChangeSearch={onSearch}
           onSearch={true}
           columns={columns}
-          pageSize={karyawanRequest?.last_page}
-          data={karyawanRequest.data}
+          pageSize={mataPelajaranRequest?.last_page}
+          data={mataPelajaranRequest?.data}
         />
       </AppearFadeIn>
     </>
   );
 };
-export default TabelKaryawan;
+export default TabelMataPelajaran;

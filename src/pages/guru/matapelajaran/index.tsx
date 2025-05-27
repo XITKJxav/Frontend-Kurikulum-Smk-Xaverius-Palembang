@@ -1,11 +1,11 @@
-import { KaryawanpageProvider } from "./context";
-import KaryawanBody from "./partials/KaryawanBody";
+import { MataPelajaranpageProvider } from "./context";
+import MataPelajaranBody from "./partials/MataPelajaranBody";
 
-const KaryawanPage = () => {
+const MataPelajaranPage = () => {
   return (
-    <KaryawanpageProvider>
-      <KaryawanBody />
-    </KaryawanpageProvider>
+    <MataPelajaranpageProvider>
+      <MataPelajaranBody />
+    </MataPelajaranpageProvider>
   );
 };
-export default KaryawanPage;
+export default MataPelajaranPage;

@@ -5,6 +5,7 @@ import { Filters } from "../../LIst/utils/Filters";
 import useGetClassCoordinator from "../../LIst/hook/useGetClassCoordinator";
 import { UpdateClassCoordinatorModel } from "@api/classcoordinator/model";
 import ClassCoordinatorService from "@api/classcoordinator";
+import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchClassCoordinatorById: (id: string) => void;
@@ -17,19 +18,24 @@ const useUpdateClassCoordinator = (): HookReturn => {
   const classCoordinatorService = new ClassCoordinatorService();
   const { handleSubmit } = useFormContext();
   const { fetchClassCoordinator } = useGetClassCoordinator();
+  const navigate = useNavigate();
 
   const fetchClassCoordinatorById = (id: string) => {
-    classCoordinatorService.fetchClassCoordinatorByidRequest(id, {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          classCoordinatorByIdRequest: data,
-        }));
+    classCoordinatorService.fetchClassCoordinatorByidRequest(
+      id,
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            classCoordinatorByIdRequest: data,
+          }));
+        },
+        onError: (errMessage) => {
+          snackbar.error(errMessage);
+        },
       },
-      onError: (errMessage) => {
-        snackbar.error(errMessage);
-      },
-    });
+      navigate
+    );
   };
 
   const handleUpdateForm = (id: string, onClose: () => void) => {
