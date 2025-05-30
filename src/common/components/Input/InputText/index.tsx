@@ -51,6 +51,26 @@ const InputTextField = (props: InputTextProps) => {
     setShowPassword((prev) => !prev);
   };
 
+  if (type == "date") {
+    return (
+      <TextField
+        {...field}
+        id={id}
+        label={label}
+        type="date"
+        autoComplete={autoComplete}
+        error={!!fieldState.error}
+        helperText={fieldState.error?.message}
+        fullWidth
+        size={size}
+        className={className}
+        sx={sx}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+    );
+  }
   return (
     <FormControl
       fullWidth

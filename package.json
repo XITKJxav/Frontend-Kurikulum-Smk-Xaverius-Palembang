@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "clx": "^1.0.0",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
     "framer-motion": "^12.5.0",
     "jwt-decode": "^4.0.0",
     "notistack": "^3.0.2",

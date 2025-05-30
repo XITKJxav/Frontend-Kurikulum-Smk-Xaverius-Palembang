@@ -1,8 +1,46 @@
+import {
+  ClassRoomOptionModel,
+  MataPelajaranModel,
+} from "@api/HealthOption/model";
+import {
+  CreateJadwalModel,
+  DayModel,
+  JadwalModel,
+  JadwalUpdateModel,
+  RegulerTimeModel,
+} from "@api/jadwal/model";
+import { KaryawanModel } from "@api/karyawan/model";
 import { createContext, useContext, useState } from "react";
 
-type StateType = {};
+type StateType = {
+  schendulePageLoading: boolean;
+  schenduleTimeRegulerReq: RegulerTimeModel[];
+  schenduleTimeRegulerByIdReq: RegulerTimeModel[];
+  schenduleDayReq: DayModel[];
+  classRoomRequest: ClassRoomOptionModel[];
+  mataPelajaranreq: MataPelajaranModel[];
+  schendulereq: JadwalModel[];
+  schenduleIdreq: JadwalModel[];
+  karyawanreq: KaryawanModel[];
 
-export const initialState: StateType = {};
+  jadwalUpdateReqForm: JadwalUpdateModel;
+  jadwalCreateReqForm: CreateJadwalModel;
+};
+
+export const initialState: StateType = {
+  schendulePageLoading: true,
+  schenduleTimeRegulerReq: [],
+  schenduleIdreq: [],
+  schenduleTimeRegulerByIdReq: [],
+  schenduleDayReq: [],
+  classRoomRequest: [],
+  mataPelajaranreq: [],
+  schendulereq: [],
+  karyawanreq: [],
+
+  jadwalUpdateReqForm: {} as JadwalUpdateModel,
+  jadwalCreateReqForm: {} as CreateJadwalModel,
+};
 
 type ContextType = {
   state: StateType;
@@ -15,7 +53,7 @@ const useJadwalpageContext = (): ContextType => {
   const context = useContext(JadwalpageContext);
   if (!context) {
     throw new Error(
-      "useDashboardpageContext must be used within a DashboardpageProvider"
+      "useSchendulepageContext must be used within a SchendulepageProvider"
     );
   }
   return context;

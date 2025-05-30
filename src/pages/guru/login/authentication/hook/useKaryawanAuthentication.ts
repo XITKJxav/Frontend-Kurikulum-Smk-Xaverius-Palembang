@@ -5,8 +5,10 @@ import AuthtenticationService from "@api/authentication";
 import { snackbar } from "@utils/snackbar";
 import { LocalStorage } from "@utils/localStorage";
 import { useNavigate } from "react-router-dom";
-
-const useKaryawanAuthentication = () => {
+interface HookReturn {
+  handleSigninForm: () => void;
+}
+const useKaryawanAuthentication = (): HookReturn => {
   const { setState } = useKaryawanSignInContext();
   const { handleSubmit, trigger } = useFormContext();
   const { setItem } = LocalStorage();
@@ -28,7 +30,7 @@ const useKaryawanAuthentication = () => {
       trigger();
       await karyawanService.signinKaryawanRequest(userData, {
         onSuccess: (data) => {
-          setItem("userData", data);
+          setItem("karyawanData", data);
           navigate("/akademik");
           setState((prev) => ({
             ...prev,
@@ -36,8 +38,9 @@ const useKaryawanAuthentication = () => {
           }));
         },
 
-        onError: () => {
+        onError: (err) => {
           snackbar.error("Invalid Username and Password");
+          console.log(err);
           setState((prev) => ({
             ...prev,
             signInLoading: false,
@@ -46,6 +49,6 @@ const useKaryawanAuthentication = () => {
       });
     })();
   };
-  return handleSigninForm;
+  return { handleSigninForm };
 };
 export default useKaryawanAuthentication;

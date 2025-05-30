@@ -23,7 +23,6 @@ const useGetClassRoom = (): HookReturn => {
           jurusanRequest: data[0],
           classroomLoading: false,
         }));
-        console.log("dataJurusanoption=", data);
       },
       onError: (errMessage) => {
         snackbar.error(errMessage);

@@ -1,15 +1,26 @@
-import { useSchedulePageContext } from "@pages/siswa/SchedulePage/context";
 import useSchendule from "./../hooks/useSchendule";
 import { useCallback, useEffect, useState } from "react";
+import { FiltersJadwal } from "../utils/filterJadwal";
+import { LocalStorage } from "@utils/localStorage";
+import { siswaSignInResponseRequestModel } from "@api/authentication/model";
+
+import TabNavigation from "@components/TabNavigation";
+import TableJadwalReguler from "./TableJadwalReguler";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { useSchedulePageContext } from "../context";
+import TableJadwalUpacara from "./TableJadwalUpacara";
 
 const Body = () => {
-  const { fetchDayRequest, fetchTimeRegulerRequest } = useSchendule();
+  const {
+    fetchDayRequest,
+    fetchTimeRegulerRequest,
+    fetchByIdJadwal,
+    fetchJamUpacara,
+  } = useSchendule();
   const { state } = useSchedulePageContext();
-  const { schenduleTimeRegulerReq, schenduleDayReq } = state;
+  const { schenduleDayReq } = state;
 
-  const [day, setDay] = useState<number | string>("");
-
+  const [day, setDay] = useState<number | string>(1);
   const handleChangeDay = (event: SelectChangeEvent<string | number>) => {
     const selectedValue = Number(event.target.value);
     setDay(selectedValue);
@@ -26,15 +37,35 @@ const Body = () => {
       },
     },
   };
+  const { getItem } = LocalStorage();
+  const user: siswaSignInResponseRequestModel[] = getItem("userData") ?? [];
+  const dataUser = user[0];
+
+  const listMenu = [
+    {
+      label: "Jadwal Reguler",
+      partial: <TableJadwalReguler onDay={day} onUser={dataUser} />,
+    },
+    {
+      label: "Jadwal Upacara",
+      partial: <TableJadwalUpacara onDay={day} onUser={dataUser} />,
+    },
+  ];
 
   const fetchData = useCallback(() => {
-    fetchTimeRegulerRequest();
+    fetchTimeRegulerRequest(
+      FiltersJadwal({
+        onDay: day,
+      })
+    );
+    fetchJamUpacara(Number(day));
     fetchDayRequest();
+    fetchByIdJadwal("");
   }, [fetchDayRequest, fetchTimeRegulerRequest]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [day]);
 
   return (
     <div className="flex flex-col items-center justify-center p-6">
@@ -78,32 +109,9 @@ const Body = () => {
           ))}
         </Select>
       </div>
-
-      <table className="w-[70%] rounded table-auto">
-        <thead className="bg-[#261FB3] text-white">
-          <tr>
-            <th className="px-4 py-2">Waktu</th>
-            <th className="px-4 py-2">Mata Pelajaran</th>
-          </tr>
-        </thead>
-        <tbody>
-          {schenduleTimeRegulerReq?.map((item, index) => {
-            const jamMulai = item?.jam_mulai ?? "-";
-            const jamSelesai = item?.jam_selesai ?? "-";
-
-            return (
-              <tr key={index} className="border-b-2 border-indigo-500">
-                <td className="px-4 py-2 border-b-1">
-                  {jamMulai} - {jamSelesai}
-                </td>
-                <td className="px-4 py-2 text-center border-b-1">
-                  {item.type == "istirahat" && "ISTIRAHAT"}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="w-full">
+        <TabNavigation listMenu={listMenu} className="text-white" />
+      </div>
     </div>
   );
 };

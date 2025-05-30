@@ -3,20 +3,22 @@ import { snackbar } from "@utils/snackbar";
 import { useSchedulePageContext } from "../context";
 
 interface HookReturn {
-  fetchTimeRegulerRequest: () => void;
+  fetchTimeRegulerRequest: (params: string) => void;
   fetchDayRequest: () => void;
+  fetchByIdJadwal: (params: string) => void;
+  fetchJamUpacara: (hari: string | number) => void;
 }
 
 const useSchendule = (): HookReturn => {
   const schenduleService = new SchenduleService();
   const { setState } = useSchedulePageContext();
 
-  const fetchTimeRegulerRequest = () => {
+  const fetchTimeRegulerRequest = (params: string) => {
     setState((prev) => ({
       ...prev,
       schendulePageLoading: true,
     }));
-    schenduleService.fetchRegulerTimeRequest({
+    schenduleService.fetchRegulerTimeRequest(params, {
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
@@ -58,9 +60,49 @@ const useSchendule = (): HookReturn => {
       },
     });
   };
+
+  const fetchByIdJadwal = async (params: string) => {
+    setState((prev) => ({
+      ...prev,
+      SchedulePageLoading: true,
+    }));
+    schenduleService.fetchJadwalRequest(params, {
+      onSuccess: (data) => {
+        setState((prev) => ({
+          ...prev,
+          SchedulePageLoading: false,
+          schenduleIdreq: data[0],
+        }));
+      },
+      onError: (err) => {
+        snackbar.error(err);
+        setState((prev) => ({
+          ...prev,
+          SchedulePageLoading: false,
+        }));
+      },
+    });
+  };
+
+  const fetchJamUpacara = async (hari: string | number) => {
+    await schenduleService.fetchRegulerTimeUpacaraRequest(Number(hari), {
+      onSuccess: (data) => {
+        setState((prev) => ({
+          ...prev,
+          schenduleTimeUpacaraReq: data,
+        }));
+        console.log("upacara-finally:", data);
+      },
+      onError: (err) => {
+        snackbar.error(err);
+      },
+    });
+  };
   return {
     fetchTimeRegulerRequest,
     fetchDayRequest,
+    fetchByIdJadwal,
+    fetchJamUpacara,
   };
 };
 export default useSchendule;

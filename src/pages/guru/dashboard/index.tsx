@@ -5,6 +5,7 @@ import { useDashboardpageContext } from "@pages/guru/dashboard/context";
 import DashboardBody from "./partials/DashboardBody";
 import { AppType } from "@types";
 import { LocalStorage } from "@utils/localStorage";
+import useSignOutKaryawan from "./hook/useSignOutKaryawan";
 
 const DashboardGuru = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -13,6 +14,9 @@ const DashboardGuru = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const { handleSignOut } = useSignOutKaryawan();
+  const [activeDropDownProfile, setActiveDropDownProfile] =
+    useState<boolean>(false);
 
   const handleClose = () => {
     setIsSidebarOpen(false);
@@ -34,10 +38,17 @@ const DashboardGuru = () => {
       app: getItem("appPage") || "home",
     }));
   }, []);
-
+  const handleProfileDropDown = () => {
+    setActiveDropDownProfile(!activeDropDownProfile);
+  };
   return (
     <div className="flex flex-col h-screen overflow-x-hidden border-red-100 ">
-      <Navbar toggleSidebar={toggleSidebar} />
+      <Navbar
+        toggleSidebar={toggleSidebar}
+        onLogout={() => handleSignOut()}
+        onClickProfile={handleProfileDropDown}
+        activeDropDownProfile={activeDropDownProfile}
+      />
       <div className="flex flex-1">
         <Sidebar
           isOpen={isSidebarOpen}
@@ -45,9 +56,9 @@ const DashboardGuru = () => {
           onChangeApp={handleChangeApp}
           isActive={state.app}
         />
-        <div className="bg-gray-100 flex-1 p-3 w-full">
+        <div className="flex-1 w-full p-3 bg-gray-100">
           <DashboardBody />
-          <footer className="text-center py-3 mt-2">
+          <footer className="py-3 mt-2 text-center">
             <p>&copy; 2025 SMK XAVERIUS powered by Multi Data Palembang</p>
           </footer>
         </div>

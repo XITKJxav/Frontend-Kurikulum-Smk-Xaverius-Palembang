@@ -4,7 +4,6 @@ import {
   Autocomplete,
   AutocompleteRenderInputParams,
 } from "@mui/material";
-import ErrorMessage from "@components/ErrorMessage";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 interface Option {
@@ -38,7 +37,8 @@ const InputAutocomplete = <T extends FieldValues = FieldValues>({
   allowClear = true,
   onSearch = true,
 }: InputAutocompleteProps<T>) => {
-  const selectedOption = data.find((item) => item.id === field.value) || null;
+  const selectedOption =
+    data.find((item) => String(item.id) === String(field.value)) ?? null;
 
   return (
     <>
@@ -54,18 +54,21 @@ const InputAutocomplete = <T extends FieldValues = FieldValues>({
           getOptionLabel={(option) => option.label}
           value={selectedOption}
           onChange={(_, value) => field.onChange(value ? value.id : "")}
-          isOptionEqualToValue={(option, value) => option.id === value?.id}
+          isOptionEqualToValue={(option, value) =>
+            String(option.id) === String(value?.id)
+          }
           renderInput={(params: AutocompleteRenderInputParams) => (
             <TextField
               {...params}
               label={label}
               variant="outlined"
               onKeyDown={(e) => !onSearch && e.preventDefault()}
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
       </FormControl>
-      <ErrorMessage messageError={fieldState.error?.message} />
     </>
   );
 };

@@ -1,6 +1,7 @@
 export type KaryawanSignInResponseRequestModel = {
   kd_karyawan: string;
   name: string;
+  role: string;
   access_token: string;
   refresh_token: string;
 };

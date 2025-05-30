@@ -40,7 +40,7 @@ const useClassRoom = (): HookReturn => {
           snackbar.error(errMessage);
           setState((prev) => ({
             ...prev,
-            classroomLoading: true,
+            classroomLoading: false,
           }));
         },
       });

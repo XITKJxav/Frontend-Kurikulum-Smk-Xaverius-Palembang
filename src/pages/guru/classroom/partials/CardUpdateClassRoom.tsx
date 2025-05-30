@@ -6,7 +6,6 @@ import { useClassroompageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
 import useUpdateClassRoom from "../Update/hook/useUpdateClassRoom";
 import InputAutocomplete from "@components/Input/InputAutoComplate";
-import useGetClassRoom from "../LIst/hook/useGetClassRoom";
 
 interface Props {
   isOpen: boolean;
@@ -110,7 +109,7 @@ const CardUpdateClassRoom = ({ isOpen, idClassRoom, onClose }: Props) => {
           <Controller
             name="kd_wali_kelas"
             control={control}
-            defaultValue={classRoomData?.jurusan?.kd_jurusan || ""}
+            defaultValue={classRoomData?.kd_wali_kelas || ""}
             render={({ field, fieldState }) => (
               <InputAutocomplete
                 field={field}

@@ -64,18 +64,19 @@ const CreateClassRoom = () => {
           <Controller
             name="kd_wali_kelas"
             control={control}
-            defaultValue=""
+            defaultValue={""}
             render={({ field, fieldState }) => (
               <InputAutocomplete
                 field={field}
                 fieldState={fieldState}
-                label="Pilih Wali Kelas"
+                label="Pilih wali kelas"
                 id="kd_wali_kelas"
                 data={waliKelasRequest.map((item) => ({
-                  id: item.kd_karyawan,
+                  id: `${item.kd_karyawan}`,
                   label: item.name,
                 }))}
                 size="small"
+                allowClear={false}
               />
             )}
           />

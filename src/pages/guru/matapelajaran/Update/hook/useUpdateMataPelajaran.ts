@@ -1,9 +1,9 @@
 import { snackbar } from "@utils/snackbar";
 import { useFormContext } from "react-hook-form";
-import useKaryawan from "../../List/hook/useMataPelajaran";
 import MataPelajaranService from "@api/matapelajaran";
 import { UpdateMataPelajaranRequestModel } from "@api/matapelajaran/model";
 import { useMataPelajaranpageContext } from "../../context";
+import useMataPelajaran from "../../List/hook/useMataPelajaran";
 
 interface HookReturn {
   fetchMataPelajaranById: (id_mata_pelajaran: string) => void;
@@ -15,7 +15,7 @@ const useUpdateMataPelajaran = (): HookReturn => {
   const { filters } = state;
   const mataPelajaranService = new MataPelajaranService();
   const { handleSubmit } = useFormContext();
-  const { fetchMataPelajaran } = useKaryawan();
+  const { fetchMataPelajaran } = useMataPelajaran();
 
   const fetchMataPelajaranById = async (id_mata_pelajaran: string) => {
     await mataPelajaranService.fetchMataPelajaranByIdRequest(

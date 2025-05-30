@@ -13,7 +13,11 @@ import {
   Timer,
   CalendarViewDay,
   Foundation,
+  Flag,
+  Diversity3Outlined,
+  Diversity3,
 } from "@mui/icons-material";
+import AgendaUpacaraPage from "@pages/guru/agendaupacara";
 import ClassCoordinatorPage from "@pages/guru/classcoordinator";
 import ClassRoomPage from "@pages/guru/classroom";
 import HomePage from "@pages/guru/homepage";
@@ -81,8 +85,18 @@ export const listMenuGuru = [
         part: <KaryawanPage />,
       },
       {
-        title: "setting jadwal",
+        title: "agenda upacara",
+        icon: <Flag />,
+        part: <AgendaUpacaraPage />,
+      },
+      {
+        title: "rancang jadwal",
         icon: <CalendarMonth />,
+        part: <JadwalPage />,
+      },
+      {
+        title: "kegiatan ekstra",
+        icon: <Diversity3 />,
         part: <JadwalPage />,
       },
     ],
