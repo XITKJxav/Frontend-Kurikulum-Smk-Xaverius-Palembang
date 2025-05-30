@@ -11,7 +11,7 @@ interface HookReturn {
   jurusanUpdatereqForm: UseFormReturn<JurusanUpdateModel>;
 }
 
-const useUpdateJurusanForm = (): HookReturn => {
+const useUpdateClassRoomForm = (): HookReturn => {
   const { state } = usejurusanpageContext();
 
   const jurusanUpdatereqForm = useForm<JurusanUpdateModel>({
@@ -25,4 +25,4 @@ const useUpdateJurusanForm = (): HookReturn => {
   };
 };
 
-export default useUpdateJurusanForm;
+export default useUpdateClassRoomForm;

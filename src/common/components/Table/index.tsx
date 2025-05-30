@@ -53,15 +53,13 @@ export function DataTable<TData, TValue>({
     manualPagination: true,
   });
 
-  // Handler: Sorting toggle button
   const handleToggleOrder = () => {
     const newOrder = !orderState;
     setOrderState(newOrder);
-    setPage(1); // reset to first page
+    setPage(1);
     onFilter?.(newOrder, 1);
   };
 
-  // Handler: Change page
   const handleChangePage = (newPage: number) => {
     setPage(newPage);
     onFilter?.(orderState, newPage);
@@ -69,11 +67,11 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex flex-wrap gap-6 justify-end mb-4">
+      <div className="flex flex-wrap justify-end gap-6 mb-4">
         {onFilter && (
           <button
             onClick={handleToggleOrder}
-            className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 hover:scale-105 transition-all duration-300 focus:outline-none"
+            className="px-4 py-2 text-sm font-semibold text-white transition-all duration-300 bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 hover:scale-105 focus:outline-none"
           >
             {orderState ? "asc" : "desc"}
           </button>
@@ -135,7 +133,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </TableContainer>
 
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex items-center justify-between mt-4">
         <Button
           variant="contained"
           color="primary"

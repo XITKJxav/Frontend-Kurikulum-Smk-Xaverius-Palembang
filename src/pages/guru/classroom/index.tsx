@@ -1,11 +1,11 @@
-import { JurusanpageProvider } from "../managejurusan/context";
+import { ClassroompageProvider } from "./context";
 import ClassRoomBody from "./partials/ClassRoomBody";
 
-const JadwalPage = () => {
+const ClassRoomPage = () => {
   return (
-    <JurusanpageProvider>
+    <ClassroompageProvider>
       <ClassRoomBody />
-    </JurusanpageProvider>
+    </ClassroompageProvider>
   );
 };
-export default JadwalPage;
+export default ClassRoomPage;

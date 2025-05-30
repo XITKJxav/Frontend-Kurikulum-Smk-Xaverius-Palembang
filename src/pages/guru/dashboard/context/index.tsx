@@ -3,10 +3,12 @@ import { createContext, useContext, useState } from "react";
 
 type StateType = {
   app: AppType;
+  isLoading: boolean;
 };
 
 export const initialState: StateType = {
   app: "home",
+  isLoading: false,
 };
 
 type ContextType = {

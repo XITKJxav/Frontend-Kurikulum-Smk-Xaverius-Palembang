@@ -17,14 +17,15 @@ function LoadingDialog(props: Props): JSX.Element {
           width: "fit-content",
           padding: "1rem",
           borderRadius: 10,
-          backgroundColor: "#373737",
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(10px)",
           color: "white",
           userSelect: "text",
         },
       }}
       disableRestoreFocus={true}
     >
-      <CircularProgress sx={{ color: "white" }} />
+      <CircularProgress sx={{ color: "#4D55CC" }} />
     </Dialog>
   );
 }

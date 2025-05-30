@@ -1,11 +1,26 @@
+import {
+  DayModel,
+  JadwalModel,
+  JamUpacaraModel,
+  RegulerTimeModel,
+} from "@api/jadwal/model";
 import { createContext, useContext, useState } from "react";
 
 type StateType = {
   SchedulePageLoading: boolean;
+  schenduleTimeRegulerReq: RegulerTimeModel[];
+  schenduleTimeUpacaraReq: JamUpacaraModel;
+  schenduleDayReq: DayModel[];
+  schenduleIdreq: JadwalModel[];
 };
 
 export const initialState: StateType = {
   SchedulePageLoading: false,
+  schenduleTimeRegulerReq: [],
+  schenduleDayReq: [],
+  schenduleIdreq: [],
+
+  schenduleTimeUpacaraReq: {} as JamUpacaraModel,
 };
 
 type ContextType = {

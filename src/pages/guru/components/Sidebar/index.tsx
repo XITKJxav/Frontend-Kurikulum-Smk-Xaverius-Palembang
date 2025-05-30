@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { clsx } from "clsx";
 import { listMenuGuru } from "@config/menu";
 import { AppType } from "@types";
-import { Logout } from "@mui/icons-material";
-import { useDashboardpageContext } from "@pages/guru/dashboard/context";
-import { useEffect } from "react";
+import SidebarDropdown from "../SidebarDropdown";
+import AppearOnScroll from "@components/Animation/AppearOnScroll";
 
 interface Props {
   isOpen: boolean;
@@ -13,19 +12,17 @@ interface Props {
   onChangeApp: (app: AppType) => void;
 }
 
-const Sidebar = (props: Props) => {
-  const { isOpen, isActive, isClose, onChangeApp } = props;
-  const { state, setState } = useDashboardpageContext();
+const Sidebar = ({ isOpen, isActive, isClose, onChangeApp }: Props) => {
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-  useEffect(() => {}, [state.app]);
-
-  const handleMenuClick = (appTitle: string) => {
-    setState((prevState) => ({
-      ...prevState,
-      app: appTitle as AppType,
-    }));
-
+  const handleMenuClick = (appTitle: string, menuTitle?: string) => {
     onChangeApp(appTitle as AppType);
+    isClose();
+    setOpenDropdown((prev) => (prev === menuTitle ? prev : null));
+  };
+
+  const toggleDropdown = (dropdownTitle: string) => {
+    setOpenDropdown((prev) => (prev === dropdownTitle ? null : dropdownTitle));
   };
 
   return (
@@ -39,34 +36,46 @@ const Sidebar = (props: Props) => {
       ></div>
       <div
         className={clsx(
-          "transform-cpu bg-gradient-to-t from-[#0C0950] to-[#161179] text-white w-64 h-full p-5 fixed top-0 left-0",
+          "transform-cpu bg-[#151168] text-white w-64 h-full p-5 fixed top-0 left-0",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0"
         )}
       >
         <ul className="space-y-4">
-          {listMenuGuru.map((data, index) => (
-            <li className="" key={index}>
-              <div
-                onClick={() => handleMenuClick(data.title)} // Handle the click and update the app
-                className={clsx(
-                  "items-center flex gap-3 hover:bg-blue-600 p-2 rounded capitalize",
-                  isActive.toLowerCase() === data.title.toLowerCase() &&
-                    "bg-blue-600"
-                )}
-              >
-                {data.icon}
-                {data.title}
-              </div>
-            </li>
+          {listMenuGuru.map((menu, index) => (
+            <AppearOnScroll
+              key={index}
+              className="space-y-4"
+              duration={0.2 + 0.2 * index}
+            >
+              {menu.children ? (
+                <SidebarDropdown
+                  key={index}
+                  menu={menu}
+                  openDropdown={openDropdown}
+                  isActive={isActive}
+                  onClickParent={() => toggleDropdown(menu.titleDropDown)}
+                  onClickChild={(childTitle) =>
+                    handleMenuClick(childTitle, menu.titleDropDown)
+                  }
+                />
+              ) : (
+                <li>
+                  <div
+                    onClick={() => handleMenuClick(menu.title)}
+                    className={clsx(
+                      "flex items-center gap-3 hover:bg-[#261FB3] p-2 rounded capitalize cursor-pointer",
+                      isActive.toLowerCase() === menu.title.toLowerCase() &&
+                        "bg-[#261FB3]"
+                    )}
+                  >
+                    {menu.icon}
+                    {menu.title}
+                  </div>
+                </li>
+              )}
+            </AppearOnScroll>
           ))}
-          <Link
-            to="/guru"
-            className="items-center flex gap-3 hover:bg-blue-600 p-2 rounded"
-          >
-            <Logout />
-            logout
-          </Link>
         </ul>
       </div>
     </div>

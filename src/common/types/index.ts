@@ -1,7 +1,7 @@
 import { JSX } from "@emotion/react/jsx-runtime";
 
 export type FilterParams = {
-  params: Record<string, string | number>; // Lebih ringkas dari [key: string]: string | number
+  params: Record<string, string | number>;
 };
 
 export type APIResponse<T = void> = {
@@ -42,10 +42,17 @@ export type APIFieldError = {
 
 export type AppType =
   | "home"
-  | "penugasan"
-  | "jadwal"
   | "manage jurusan"
-  | "setting";
+  | "ruang kelas"
+  | "karyawan"
+  | "jadwal"
+  | "penugasan"
+  | "siswa"
+  | "settings"
+  | "mata pelajaran"
+  | "agenda upacara"
+  | "durasi pembelajar";
+
 export type AppTypeUser = "home" | "schedule";
 
 export type AppList = {

@@ -1,4 +1,11 @@
-const JadwalPage = () => {
-  return <>jadwal Pages</>;
+import { JadwalpageProvider } from "./context";
+import SchenduleBody from "./partials/SchenduleBody";
+
+const SchenduleDashboardPage = () => {
+  return (
+    <JadwalpageProvider>
+      <SchenduleBody />
+    </JadwalpageProvider>
+  );
 };
-export default JadwalPage;
+export default SchenduleDashboardPage;

@@ -13,11 +13,12 @@ export default class JurusanService {
 
   async fetchJurusanRequest(
     params: string,
-    callback: FetchCallback<JurusanResponse>
+    callback: FetchCallback<JurusanResponse[]>
   ) {
     const targetPath = `${this.basePath}?${params}`;
-    const res: APIResponse<JurusanResponse> = await this.api.GET(targetPath);
+    const res: APIResponse<JurusanResponse[]> = await this.api.GET(targetPath);
 
+    console.log("data api=" + res?.data);
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
     } else {
@@ -44,10 +45,10 @@ export default class JurusanService {
 
   async fetchProgramJurusanById(
     id: string,
-    callback: FetchCallback<JurusanModel>
+    callback: FetchCallback<JurusanModel[]>
   ) {
     const targetPath = `${this.basePath}/${id}`;
-    const res: APIResponse<JurusanModel> = await this.api.GET(targetPath);
+    const res: APIResponse<JurusanModel[]> = await this.api.GET(targetPath);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

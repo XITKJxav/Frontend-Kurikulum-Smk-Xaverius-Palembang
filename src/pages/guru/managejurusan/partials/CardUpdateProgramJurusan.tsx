@@ -5,6 +5,7 @@ import useUpdateProgramJurusan from "../Update/hook/useUpdateProgramJurusan";
 import { useEffect, useRef } from "react";
 import { usejurusanpageContext } from "../context";
 import { useFormContext, Controller } from "react-hook-form";
+import InputAutocomplete from "@components/Input/InputAutoComplate";
 
 interface Props {
   isOpen: boolean;
@@ -17,11 +18,7 @@ const CardUpdateProgramJurusan = (props: Props) => {
   const { state, setState } = usejurusanpageContext();
   const { handleSubmitForm, fetchJurusanById } = useUpdateProgramJurusan();
   const { jurusanByIdRequest } = state;
-  const { control, setValue } = useFormContext();
-
-  useEffect(() => {
-    fetchJurusan();
-  }, [kd_jurusan, jurusanByIdRequest, fetchJurusanById]);
+  const { control, setValue, getValues } = useFormContext();
 
   const fetchStatus = useRef<{ [key: string]: boolean }>({});
 
@@ -29,7 +26,6 @@ const CardUpdateProgramJurusan = (props: Props) => {
     if (fetchStatus.current[kd_jurusan] || jurusanByIdRequest.length !== 0) {
       return;
     }
-
     fetchJurusanById(kd_jurusan);
     fetchStatus.current[kd_jurusan] = true;
   };
@@ -43,65 +39,48 @@ const CardUpdateProgramJurusan = (props: Props) => {
     onClose();
   };
 
-  const status = jurusanByIdRequest[0]?.status;
-
-  if (status === undefined) {
-    return <LoadingDialog open={isOpen} onClose={onClose} />;
-  }
-
-  const defaultStatus = status ? true : false;
+  const data = jurusanByIdRequest[0];
 
   useEffect(() => {
-    if (status !== undefined) {
-      setValue("status", defaultStatus);
-    }
-  }, [status, setValue, defaultStatus]);
+    fetchJurusan();
+    setValue("status", jurusanByIdRequest[0]?.status);
+  }, [kd_jurusan, jurusanByIdRequest, fetchJurusanById]);
+
+  if (data === undefined) {
+    return <LoadingDialog open={isOpen} onClose={onClose} />;
+  }
 
   return (
     <BaseDialog
       open={isOpen}
       onClose={handleCloseDialog}
       title="Pengaturan Program Jurusan"
-      message={"Pengaturan Program Jurusan"}
+      message={kd_jurusan}
     >
       <DialogContent>
-        <div className="flex flex-col gap-3 mt-3 mb-3">
-          <label className="text-md font-semibold">Kode Jurusan</label>
-          {kd_jurusan}
-        </div>
-        <div className="flex flex-col gap-3 mt-3 mb-3">
-          <label className="text-md font-semibold">Nama Jurusan</label>
+        <div className="flex flex-col gap-3 mt-3 mb-6 ">
+          <label className="font-semibold text-md">Nama Jurusan</label>
           {jurusanByIdRequest[0]?.nama_jurusan}
         </div>
-        <div className="flex flex-col gap-3 mt-3 mb-3">
-          <label htmlFor="status" className="text-md font-semibold">
-            Status Jurusan
-          </label>
-
+        <div className="flex flex-col gap-3 mt-3 mb-3 ">
           <Controller
             name="status"
             control={control}
-            defaultValue={defaultStatus}
+            defaultValue={0}
             render={({ field, fieldState }) => (
-              <>
-                <select
-                  {...field}
-                  id="status"
-                  className="border p-2 rounded-md"
-                  value={field.value ? "1" : "0"}
-                  onChange={(e) => {
-                    field.onChange(e.target.value === "1" ? true : false);
-                  }}
-                >
-                  <option value="0">Disable</option>
-                  <option value="1">Active</option>
-                </select>
-                {fieldState?.error && (
-                  <span className="text-red-500 text-sm">
-                    {fieldState?.error?.message}
-                  </span>
-                )}
-              </>
+              <InputAutocomplete
+                field={field}
+                fieldState={fieldState}
+                label="status"
+                id="status"
+                allowClear={false}
+                onSearch={false}
+                data={[
+                  { id: 1, label: "Active" },
+                  { id: 0, label: "Disable" },
+                ]}
+                size="small"
+              />
             )}
           />
         </div>

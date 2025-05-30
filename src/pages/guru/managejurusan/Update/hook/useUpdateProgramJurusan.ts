@@ -16,12 +16,13 @@ const useUpdateProgramJurusan = (): HookReturn => {
   const jurusanService = new JurusanService();
   const { handleSubmit } = useFormContext();
   const { fetchJurusan } = useManageJurusan();
-  const fetchJurusanById = (kdJurusan: string) => {
-    jurusanService.fetchProgramJurusanById(kdJurusan, {
+
+  const fetchJurusanById = async (kdJurusan: string) => {
+    await jurusanService.fetchProgramJurusanById(kdJurusan, {
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
-          jurusanByIdRequest: [data],
+          jurusanByIdRequest: data,
         }));
       },
       onError: (errMessage) => {
@@ -31,12 +32,10 @@ const useUpdateProgramJurusan = (): HookReturn => {
   };
 
   const handleSubmitForm = (kdJurusan: string, onClose: () => void) => {
-    console.log("1");
     return handleSubmit((values) => {
       const data: JurusanUpdateModel = {
         status: values.status,
       };
-      console.log("2");
 
       setState((prev) => ({
         ...prev,

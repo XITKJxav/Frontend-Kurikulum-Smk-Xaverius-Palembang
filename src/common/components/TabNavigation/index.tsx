@@ -8,10 +8,11 @@ export type tabMenuModel = {
 
 export type Props = {
   listMenu: tabMenuModel[];
+  className?: string;
 };
 
 const TabNavigation = (props: Props) => {
-  const { listMenu } = props;
+  const { listMenu, className } = props;
   const [active, setActive] = useState<number>(0);
   return (
     <div>
@@ -19,9 +20,10 @@ const TabNavigation = (props: Props) => {
         {listMenu?.map((data, index) => (
           <div
             className={clsx(
-              "cursor-pointer px-4 py-2 text-center text-black w-full",
+              `cursor-pointer px-4 py-2 text-center w-full`,
+              className,
               active === index &&
-                "bg-blue-700 text-white  border-b-2 border-blue-600 rounded-3xl"
+                "bg-blue-700 text-white border-b-2 border-blue-600 rounded-3xl"
             )}
             onClick={() => setActive(index)}
             key={index}
