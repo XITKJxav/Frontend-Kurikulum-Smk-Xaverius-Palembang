@@ -41,7 +41,7 @@ export default class SchenduleService {
   ) {
     const targetPath = `${this.basePathTimeUpacara}?id_hari=${params}`;
     const res: APIResponse<JamUpacaraModel> = await this.api.GET(targetPath);
-    console.log(res);
+
     if (res?.status_code == 401) {
       return;
     }
@@ -107,19 +107,18 @@ export default class SchenduleService {
   }
 
   async updateJadwalRequest(
-    data: JadwalUpdateModel,
+    formData: JadwalUpdateModel,
     callback: FetchCallback<JadwalUpdateModel>
   ) {
     const targetPath = this.basePathJadwal;
     const res: APIResponse<JadwalUpdateModel> = await this.api.PUT(
       targetPath,
-      data
+      formData
     );
 
     if (res?.status_code == 401) {
       return;
     }
-    console.log("data102:", res);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

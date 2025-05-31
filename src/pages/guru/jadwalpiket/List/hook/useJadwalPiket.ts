@@ -1,19 +1,43 @@
 import SchenduleService from "@api/jadwal";
 import { snackbar } from "@utils/snackbar";
-import { useSchedulePageContext } from "../context";
+import { useJadwalPiketpageContext } from "../../context";
+import HealthOptionService from "@api/HealthOption";
 
 interface HookReturn {
-  fetchTimeRegulerRequest: (params: string) => void;
   fetchDayRequest: () => void;
-  fetchByIdJadwal: (params: string) => void;
-  fetchJamUpacara: (hari: string | number) => void;
+  fetchTimeRequest: (params: string) => void;
+  fetchJadwalRequest: (params: string) => void;
+  fetchClassRoom: () => void;
 }
-
-const useSchendule = (): HookReturn => {
+const useJadwalPiket = (): HookReturn => {
   const schenduleService = new SchenduleService();
-  const { setState } = useSchedulePageContext();
+  const { setState } = useJadwalPiketpageContext();
+  const healthOption = new HealthOptionService();
 
-  const fetchTimeRegulerRequest = (params: string) => {
+  const fetchDayRequest = () => {
+    setState((prev) => ({
+      ...prev,
+      jadwalPiketLoading: true,
+    }));
+    schenduleService.fetchDayRequest({
+      onSuccess: (data) => {
+        setState((prev) => ({
+          ...prev,
+          jadwalPiketLoading: false,
+          dayReq: data[0],
+        }));
+      },
+      onError: (err) => {
+        snackbar.error(err);
+        setState((prev) => ({
+          ...prev,
+          jadwalPiketLoading: false,
+        }));
+      },
+    });
+  };
+
+  const fetchTimeRequest = (params: string) => {
     setState((prev) => ({
       ...prev,
       schendulePageLoading: true,
@@ -23,7 +47,7 @@ const useSchendule = (): HookReturn => {
         setState((prev) => ({
           ...prev,
           schendulePageLoading: false,
-          schenduleTimeRegulerReq: data,
+          timeReq: data,
         }));
       },
       onError: (err) => {
@@ -35,32 +59,7 @@ const useSchendule = (): HookReturn => {
       },
     });
   };
-
-  const fetchDayRequest = () => {
-    setState((prev) => ({
-      ...prev,
-      schendulePageLoading: true,
-    }));
-    schenduleService.fetchDayRequest({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          schendulePageLoading: false,
-          schenduleDayReq: data[0],
-        }));
-      },
-
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          schendulePageLoading: false,
-        }));
-      },
-    });
-  };
-
-  const fetchByIdJadwal = async (params: string) => {
+  const fetchJadwalRequest = (params: string) => {
     setState((prev) => ({
       ...prev,
       SchedulePageLoading: true,
@@ -70,8 +69,9 @@ const useSchendule = (): HookReturn => {
         setState((prev) => ({
           ...prev,
           SchedulePageLoading: false,
-          schenduleIdreq: data[0],
+          jadwalPiketReq: data[0],
         }));
+        console.log("sumber", data);
       },
       onError: (err) => {
         snackbar.error(err);
@@ -83,24 +83,35 @@ const useSchendule = (): HookReturn => {
     });
   };
 
-  const fetchJamUpacara = async (hari: string | number) => {
-    await schenduleService.fetchRegulerTimeUpacaraRequest(Number(hari), {
+  const fetchClassRoom = async () => {
+    setState((prev) => ({
+      ...prev,
+      schendulePageLoading: true,
+    }));
+
+    await healthOption.fetchClassRoomRequestOptions({
       onSuccess: (data) => {
         setState((prev) => ({
           ...prev,
-          schenduleTimeUpacaraReq: data,
+          classRoomRequest: data[0],
+          schendulePageLoading: false,
         }));
       },
       onError: (err) => {
         snackbar.error(err);
+        setState((prev) => ({
+          ...prev,
+          schendulePageLoading: false,
+        }));
       },
     });
   };
+
   return {
-    fetchTimeRegulerRequest,
     fetchDayRequest,
-    fetchByIdJadwal,
-    fetchJamUpacara,
+    fetchTimeRequest,
+    fetchJadwalRequest,
+    fetchClassRoom,
   };
 };
-export default useSchendule;
+export default useJadwalPiket;

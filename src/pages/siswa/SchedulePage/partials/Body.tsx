@@ -58,7 +58,7 @@ const Body = () => {
         onDay: day,
       })
     );
-    fetchJamUpacara(Number(day));
+    fetchJamUpacara(day);
     fetchDayRequest();
     fetchByIdJadwal("");
   }, [fetchDayRequest, fetchTimeRegulerRequest]);

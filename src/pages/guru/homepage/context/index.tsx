@@ -1,8 +1,18 @@
+import { AgendaUpacaraModel } from "@api/agendaupacara/model";
+import { StatistikModel } from "@api/statistika/model";
 import { createContext, useContext, useState } from "react";
 
-type StateType = {};
+type StateType = {
+  homeLoading: boolean;
+  statisticReq: StatistikModel[];
+  agendaUpacaraReq: AgendaUpacaraModel[];
+};
 
-export const initialState: StateType = {};
+export const initialState: StateType = {
+  homeLoading: false,
+  statisticReq: [],
+  agendaUpacaraReq: [],
+};
 
 type ContextType = {
   state: StateType;

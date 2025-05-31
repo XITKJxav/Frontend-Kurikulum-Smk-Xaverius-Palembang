@@ -32,7 +32,6 @@ const useAgendaUpacara = (): HookReturn => {
             agendaUpacaraRequest: data[0],
             agendaUpacaraLoading: false,
           }));
-          console.log(data[0].data[0].kd_agendaupacara);
         },
         onError: (errMessage) => {
           setState((prev) => ({

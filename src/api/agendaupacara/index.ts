@@ -28,6 +28,27 @@ export default class AgendaUpacaraService {
     const res: APIResponse<AgendaUpacaraResponseModel[]> = await this.api.GET(
       targetPath
     );
+    console.log(res);
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(navigate);
+      return;
+    }
+
+    if (!res?.status) {
+      callback.onError(res?.message || "Unknown error");
+    } else {
+      callback.onSuccess(res?.data);
+    }
+  }
+  async fetchAgendaUpacaraOptionRequest(
+    params: string,
+    callback: FetchCallback<AgendaUpacaraModel[][]>,
+    navigate: ReturnType<typeof useNavigate>
+  ) {
+    const targetPath = `${this.basePath}?${params}`;
+    const res: APIResponse<AgendaUpacaraModel[][]> = await this.api.GET(
+      targetPath
+    );
 
     if (res?.status_code === 401) {
       this.handleUnauthorized(navigate);
@@ -40,7 +61,6 @@ export default class AgendaUpacaraService {
       callback.onSuccess(res?.data);
     }
   }
-
   async fetchAgendaUpacaraByidRequest(
     id: string,
     callback: FetchCallback<AgendaUpacaraModel[]>,

@@ -30,7 +30,7 @@ export default class DurasiPembelajaranService {
   ) {
     const target = this.basePathDurasiPembelajaran;
     const res: APIResponse<DurasiPembelajaranModel> =
-      await this.api.POST<DurasiPembelajaranModel>(target, data);
+      await this.api.PUT<DurasiPembelajaranModel>(target, data);
 
     if (res?.status_code == 401) {
       return;
