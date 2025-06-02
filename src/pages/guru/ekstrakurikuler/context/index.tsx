@@ -1,6 +1,9 @@
+import { ClassRoomModel } from "@api/classcoordinator/model";
 import {
   CreateEkstrakurikulerRequestModel,
+  EkstrakurikulerModel,
   EkstrakurikulerResponseModel,
+  UpdateEkstrakurikulerRequestModel,
 } from "@api/ekstrakurikuler/model";
 import { DayModel } from "@api/jadwal/model";
 import { createContext, useContext, useState } from "react";
@@ -8,18 +11,26 @@ import { createContext, useContext, useState } from "react";
 type StateType = {
   ekstrakurikulerLoading: boolean;
   ekstrakurikulerRequest: EkstrakurikulerResponseModel;
+  ekstrakurikulerByIdRequest: EkstrakurikulerModel[];
+
   dayRequest: DayModel[];
+  classRoomRequest: ClassRoomModel[];
+
   filters: {
     page: number;
     orderBy: boolean;
   };
 
   ekstrakurikulerreqDetails: CreateEkstrakurikulerRequestModel;
+  ekstrakurikulerUpdatereqDetails: UpdateEkstrakurikulerRequestModel;
 };
 
 export const initialState: StateType = {
   ekstrakurikulerLoading: false,
   dayRequest: [],
+  classRoomRequest: [],
+  ekstrakurikulerByIdRequest: [],
+
   ekstrakurikulerRequest: {
     total: 0,
     current_page: 2,
@@ -33,7 +44,7 @@ export const initialState: StateType = {
     page: 0,
     orderBy: false,
   },
-
+  ekstrakurikulerUpdatereqDetails: {} as UpdateEkstrakurikulerRequestModel,
   ekstrakurikulerreqDetails: {} as CreateEkstrakurikulerRequestModel,
 };
 

@@ -20,10 +20,12 @@ export type KaryawanOptionModel = {
   created_at: string;
   updated_at: string;
 };
+
 export type RoleModel = {
   id_role: string;
   name: string;
 };
+
 export type RoleOptionModel = {
   id_role: string;
   name: string;

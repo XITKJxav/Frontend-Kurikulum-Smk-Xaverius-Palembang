@@ -16,12 +16,13 @@ export type Filters = {
 const TabelEkstrakurikuler = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
-
-  const { fetchEkstrakurikulerRequest, fetchDayRequest } = useEkstrakurikuler();
+  const { fetchEkstrakurikulerRequest, fetchDayRequest, fetchClassRoom } =
+    useEkstrakurikuler();
   const { state, setState } = useEkstrakurikulerpageContext();
   const { ekstrakurikulerRequest, ekstrakurikulerLoading, filters } = state;
-  const handleDelete = () => {};
-  const columns = ekstrakurikulerColumn(handleDelete);
+  const { deleteEkstrakurikulerRequest } = useEkstrakurikuler();
+  const columns = ekstrakurikulerColumn(deleteEkstrakurikulerRequest);
+
   const onSearch = useCallback((trem: string) => {
     setSearch(trem);
   }, []);
@@ -44,6 +45,7 @@ const TabelEkstrakurikuler = () => {
         onSearch: search,
       })
     );
+    fetchClassRoom();
     fetchDayRequest();
   }, []);
 

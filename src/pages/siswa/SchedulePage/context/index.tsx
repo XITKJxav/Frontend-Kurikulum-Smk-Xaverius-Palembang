@@ -1,3 +1,4 @@
+import { EkstrakurikulerModel } from "@api/ekstrakurikuler/model";
 import {
   DayModel,
   JadwalModel,
@@ -12,6 +13,7 @@ type StateType = {
   schenduleTimeUpacaraReq: JamUpacaraModel;
   schenduleDayReq: DayModel[];
   schenduleIdreq: JadwalModel[];
+  ekstraReq: EkstrakurikulerModel[];
 };
 
 export const initialState: StateType = {
@@ -19,7 +21,7 @@ export const initialState: StateType = {
   schenduleTimeRegulerReq: [],
   schenduleDayReq: [],
   schenduleIdreq: [],
-
+  ekstraReq: [],
   schenduleTimeUpacaraReq: {} as JamUpacaraModel,
 };
 

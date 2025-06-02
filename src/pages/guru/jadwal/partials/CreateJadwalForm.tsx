@@ -14,15 +14,14 @@ const CreateJadwalForm = (props: Props) => {
     setValue("id_ruangan_kelas", id_ruangan_kelas);
     await handleSubmitForm();
   }, []);
+
   return (
-    <>
-      <ActionButton
-        label="Create Jadwal"
-        color="primary"
-        className="font-medium text-white me-auto"
-        onClick={handleSubmit}
-      />
-    </>
+    <ActionButton
+      label="Open Class"
+      color="primary"
+      className="font-medium text-white me-auto"
+      onClick={handleSubmit}
+    />
   );
 };
 export default CreateJadwalForm;

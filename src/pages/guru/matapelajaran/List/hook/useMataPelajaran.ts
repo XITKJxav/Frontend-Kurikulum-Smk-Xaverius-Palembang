@@ -16,7 +16,7 @@ const useMataPelajaran = (): HookReturn => {
   const fetchMataPelajaran = async (params: string) => {
     setState((prev) => ({
       ...prev,
-      manageJurusanLoading: true,
+      mataPelajaranLoading: true,
     }));
 
     await mataPelajaranService.fetchMataPelajaranRequest(

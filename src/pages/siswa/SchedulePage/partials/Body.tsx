@@ -9,6 +9,7 @@ import TableJadwalReguler from "./TableJadwalReguler";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useSchedulePageContext } from "../context";
 import TableJadwalUpacara from "./TableJadwalUpacara";
+import TableJadwalEkstrakurikuler from "./TableJadwalEkstrakulikuler";
 
 const Body = () => {
   const {
@@ -45,6 +46,10 @@ const Body = () => {
     {
       label: "Jadwal Reguler",
       partial: <TableJadwalReguler onDay={day} onUser={dataUser} />,
+    },
+    {
+      label: "Kegiatan Ekstrakurikuler",
+      partial: <TableJadwalEkstrakurikuler />,
     },
     {
       label: "Jadwal Upacara",

@@ -1,6 +1,8 @@
 import SchenduleService from "@api/jadwal";
 import { snackbar } from "@utils/snackbar";
 import { useSchedulePageContext } from "../context";
+import EkstrakurikulerService from "@api/ekstrakurikuler";
+import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchTimeRegulerRequest: (params: string) => void;
@@ -11,8 +13,9 @@ interface HookReturn {
 
 const useSchendule = (): HookReturn => {
   const schenduleService = new SchenduleService();
+  const ekstraSevices = new EkstrakurikulerService();
   const { setState } = useSchedulePageContext();
-
+  const navigate = useNavigate();
   const fetchTimeRegulerRequest = (params: string) => {
     setState((prev) => ({
       ...prev,
@@ -95,6 +98,21 @@ const useSchendule = (): HookReturn => {
         snackbar.error(err);
       },
     });
+  };
+
+  const fetchEkstrakurikuler = async (params: string) => {
+    setState((prev) => ({
+      ...prev,
+      SchedulePageLoading: true,
+    }));
+    ekstraSevices.fetchEkstrakurikulerRequest(
+      params,
+      {
+        onSuccess: () => {},
+        onError: () => {},
+      },
+      navigate
+    );
   };
   return {
     fetchTimeRegulerRequest,

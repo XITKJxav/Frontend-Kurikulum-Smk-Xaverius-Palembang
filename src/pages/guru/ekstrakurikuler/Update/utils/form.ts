@@ -1,8 +1,8 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CreateEkstrakurikulerRequestModel } from "@api/ekstrakurikuler/model";
+import { UpdateEkstrakurikulerRequestModel } from "@api/ekstrakurikuler/model";
 
-export const ekstrakurikulerreqDefaultValues: CreateEkstrakurikulerRequestModel =
+export const ekstrakurikulerreqDefaultValues: UpdateEkstrakurikulerRequestModel =
   {
     id_hari: 0,
     id_ruangan_kelas: 0,
@@ -10,7 +10,6 @@ export const ekstrakurikulerreqDefaultValues: CreateEkstrakurikulerRequestModel 
     jam_mulai_selesai: "",
     deskripsi: "",
   };
-
 export const ekstrakurikulerValidations = yupResolver(
   yup.object().shape({
     id_hari: yup
@@ -56,8 +55,8 @@ export const ekstrakurikulerValidations = yupResolver(
 );
 
 export const ekstrakurikulerDetailsFormatter = (
-  data: CreateEkstrakurikulerRequestModel
-): CreateEkstrakurikulerRequestModel => {
+  data: UpdateEkstrakurikulerRequestModel
+): UpdateEkstrakurikulerRequestModel => {
   return {
     id_hari: data.id_hari,
     id_ruangan_kelas: data.id_ruangan_kelas,

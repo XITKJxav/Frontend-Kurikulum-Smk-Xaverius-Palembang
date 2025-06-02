@@ -16,7 +16,8 @@ const CreateEkstrakurikuler = () => {
   const { control } = useFormContext();
   const { handleSubmitForm } = useCreateEkstrakurikuler();
   const { state } = useEkstrakurikulerpageContext();
-  const { dayRequest } = state;
+  const { dayRequest, classRoomRequest } = state;
+
   return (
     <div className="flex flex-col items-center justify-center">
       {state.ekstrakurikulerLoading && (
@@ -43,7 +44,38 @@ const CreateEkstrakurikuler = () => {
                     size="medium"
                   >
                     {dayRequest.map((item) => (
-                      <MenuItem value={item.id}>{item.nama}</MenuItem>
+                      <MenuItem value={item.id} key={item.id}>
+                        {item.nama}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {fieldState.error && (
+                    <FormHelperText>{fieldState.error.message}</FormHelperText>
+                  )}
+                </FormControl>
+              )}
+            />
+            <Controller
+              name="id_ruangan_kelas"
+              control={control}
+              defaultValue={1}
+              render={({ field, fieldState }) => (
+                <FormControl
+                  fullWidth
+                  error={!!fieldState.error}
+                  variant="outlined"
+                >
+                  <InputLabel id="kelas">Ruangan Kelas</InputLabel>
+                  <Select
+                    {...field}
+                    labelId="kelas"
+                    label="Kelas"
+                    size="medium"
+                  >
+                    {classRoomRequest.map((item) => (
+                      <MenuItem value={item.id} key={item.id}>
+                        {item.nama_ruangan}
+                      </MenuItem>
                     ))}
                   </Select>
                   {fieldState.error && (
@@ -61,6 +93,7 @@ const CreateEkstrakurikuler = () => {
                 <InputTextField
                   field={field}
                   fieldState={fieldState}
+                  placeholder="HH:mm:ss"
                   label="Jam Mulai Ekstra"
                   id="jam_mulai_ekstra"
                   type="time"

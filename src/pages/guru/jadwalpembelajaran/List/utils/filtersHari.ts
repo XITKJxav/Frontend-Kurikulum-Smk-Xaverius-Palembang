@@ -6,7 +6,5 @@ interface PropsJam {
 
 export const FiltersHari = (props: PropsJam) => {
   const { onDay, idRuanganKelas, kdJamPembelajaran } = props;
-  return `id_hari=${onDay || 1}&id_ruangan_kelas=${
-    idRuanganKelas || 1
-  }&kd_jam_pembelajaran=${kdJamPembelajaran || 1}`;
+  return `id_hari=${onDay}`;
 };

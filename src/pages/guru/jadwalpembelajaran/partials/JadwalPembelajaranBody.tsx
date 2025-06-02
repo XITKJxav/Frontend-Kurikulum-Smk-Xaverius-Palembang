@@ -33,10 +33,10 @@ const JadwalPembelajaranBody = () => {
         FiltersJadwal({
           kdGuru: karyawanData[0].kd_karyawan,
           kdKelas: kelas,
+          day: Number(day),
         })
       ),
       fetchClassRoom();
-    fetchTimeRequest(FiltersHari({ onDay: Number(day) }));
   }, []);
   const menuProps = {
     PaperProps: {
@@ -56,6 +56,8 @@ const JadwalPembelajaranBody = () => {
 
   useEffect(() => {
     fetchData();
+
+    fetchTimeRequest(FiltersHari({ onDay: Number(day) }));
   }, [day, kelas]);
 
   return (

@@ -6,6 +6,7 @@ import {
   CreateEkstrakurikulerRequestModel,
   EkstrakurikulerModel,
   EkstrakurikulerResponseModel,
+  UpdateEkstrakurikulerRequestModel,
 } from "./model";
 
 export default class EkstrakurikulerService {
@@ -27,7 +28,7 @@ export default class EkstrakurikulerService {
     const res: APIResponse<EkstrakurikulerResponseModel[]> = await this.api.GET(
       targetPath
     );
-    console.log(res);
+
     if (res?.status_code === 401) {
       this.handleUnauthorized(navigate);
       return;
@@ -41,7 +42,7 @@ export default class EkstrakurikulerService {
   }
 
   async fetchEkstrakurikulerByidRequest(
-    id: string,
+    id: number,
     callback: FetchCallback<EkstrakurikulerModel[]>,
     navigate: ReturnType<typeof useNavigate>
   ) {
@@ -69,6 +70,47 @@ export default class EkstrakurikulerService {
     const targetPath = this.basePath;
     const res: APIResponse<CreateEkstrakurikulerRequestModel> =
       await this.api.POST(targetPath, data);
+
+    if (!res?.status) {
+      callback.onError(res?.message || "Unknown error");
+    } else {
+      callback.onSuccess(res?.data);
+    }
+  }
+
+  async deleteEkstrakurikulerRequest(
+    id: number,
+    callback: FetchCallback<{}>,
+    navigate: ReturnType<typeof useNavigate>
+  ) {
+    const targetPath = `${this.basePath}/${id}`;
+    const res: APIResponse<{}> = await this.api.DELETE(targetPath);
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(navigate);
+      return;
+    }
+
+    if (!res?.status) {
+      callback.onError(res?.message || "Unknown error");
+    } else {
+      callback.onSuccess(res?.data);
+    }
+  }
+
+  async updateEkstrakurikulerRequest(
+    id: number,
+    data: UpdateEkstrakurikulerRequestModel,
+    callback: FetchCallback<UpdateEkstrakurikulerRequestModel>,
+    navigate: ReturnType<typeof useNavigate>
+  ) {
+    const targetPath = `${this.basePath}/${id}`;
+
+    const res: APIResponse<UpdateEkstrakurikulerRequestModel> =
+      await this.api.PUT(targetPath, data);
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(navigate);
+      return;
+    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

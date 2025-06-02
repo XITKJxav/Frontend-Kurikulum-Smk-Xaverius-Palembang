@@ -16,7 +16,9 @@ const useCreateEkstrakurikulerForm = (): HookReturn => {
 
   const ekstrakurikulerareqForm = useForm<CreateEkstrakurikulerRequestModel>({
     defaultValues: ekstrakurikulerreqDefaultValues,
-    values: ekstrakurikulerDetailsFormatter(state.ekstrakurikulerreqDetails),
+    values: ekstrakurikulerDetailsFormatter(
+      state.ekstrakurikulerUpdatereqDetails
+    ),
     resolver:
       ekstrakurikulerValidations as Resolver<CreateEkstrakurikulerRequestModel>,
   });

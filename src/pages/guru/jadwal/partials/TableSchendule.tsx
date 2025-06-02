@@ -36,13 +36,20 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
+  const { fetchByIdJadwal } = useSchendule();
   const handleOpenDialog = (id_jam: number, id_hari: string) => {
     setSelectedSchedule({
       id_jam,
       id_hari,
       id_kelas: onKelas,
     });
+    fetchByIdJadwal(
+      FiltersHari({
+        onDay: Number(id_hari),
+        idRuanganKelas: Number(onKelas),
+        kdJamPembelajaran: Number(id_jam),
+      })
+    );
     setIsOpen(true);
   };
 
@@ -80,7 +87,7 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
                     item.type
                   ) : (
                     <div className="flex items-center gap-2">
-                      <div className="flex flex-col gap-3 flex-wrap">
+                      <div className="flex flex-col flex-wrap gap-3">
                         <span>
                           <strong>Mata Pelajaran:</strong>{" "}
                           {matchedSchedule?.mata_pelajaran?.nama ?? "-"}

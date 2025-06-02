@@ -47,19 +47,20 @@ const JadwalPiketBody = () => {
   }, []);
 
   const fetchData = useCallback(() => {
+    fetchClassRoom();
     fetchDayRequest();
+
     fetchJadwalRequest(
       FiltersJadwal({
         kdGuruPiket: karyawanData[0].kd_karyawan,
         kdKelas: kelas,
       })
     );
-    fetchClassRoom();
-    fetchTimeRequest(FiltersHari({ onDay: Number(day) }));
   }, []);
 
   useEffect(() => {
     fetchData();
+    fetchTimeRequest(FiltersHari({ onDay: Number(day) }));
   }, [day, kelas]);
 
   return (

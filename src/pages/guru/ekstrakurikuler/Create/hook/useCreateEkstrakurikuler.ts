@@ -22,9 +22,10 @@ const useCreateEkstrakurikuler = (): HookReturn => {
 
       const EkstrakurikulerData: CreateEkstrakurikulerRequestModel = {
         id_hari: values?.id_hari,
+        id_ruangan_kelas: values?.id_ruangan_kelas,
         jam_mulai_ekstra: values?.jam_mulai_ekstra,
         jam_mulai_selesai: values?.jam_mulai_selesai,
-        deskripsi: values?.jam_mulai_selesai,
+        deskripsi: values?.deskripsi,
       };
 
       trigger();
