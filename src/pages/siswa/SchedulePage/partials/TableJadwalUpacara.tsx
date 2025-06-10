@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSchedulePageContext } from "../context";
 import { siswaSignInResponseRequestModel } from "@api/authentication/model";
+import useSchendule from "../hooks/useSchendule";
 
 interface Props {
   onUser: siswaSignInResponseRequestModel;
@@ -11,12 +12,17 @@ const TableJadwalUpacara = (props: Props) => {
   const { onUser, onDay } = props;
   const { state } = useSchedulePageContext();
   const { schenduleTimeUpacaraReq, schenduleIdreq } = state;
+  const { fetchJamUpacara } = useSchendule();
+
+  useEffect(() => {
+    fetchJamUpacara(onDay);
+  }, [onDay]);
 
   return (
-    <table className="w-full rounded table-auto border-collapse w-full">
+    <table className="w-full border-collapse rounded table-auto ">
       <thead className="bg-[#261FB3] text-white">
         <tr>
-          <td colSpan={2} className="text-center font-semibold py-2">
+          <td colSpan={2} className="py-2 font-semibold text-center">
             {schenduleTimeUpacaraReq?.tanggal_upacara ?? "Tidak ada upacara"}
           </td>
         </tr>
@@ -31,11 +37,11 @@ const TableJadwalUpacara = (props: Props) => {
             const jamMulai = item?.jam_mulai ?? "-";
             const jamSelesai = item?.jam_selesai ?? "-";
 
-            const matchedSchedule = schenduleIdreq?.find(
+            const matchedSchedule = schenduleIdreq.find(
               (s) =>
-                s?.kd_jam_pembelajaran === item?.id_jam &&
-                s?.id_ruangan_kelas === Number(onUser?.id_ruang_kelas) &&
-                s?.id_hari === schenduleTimeUpacaraReq?.id_hari
+                s.kd_jam_pembelajaran === item.id_jam &&
+                s.id_ruangan_kelas === Number(onUser.id_ruang_kelas) &&
+                s.id_hari === Number(onDay)
             );
 
             return (

@@ -1,14 +1,14 @@
-import { LoginClassCoordinatorModel } from "@api/classcoordinator/model";
+import { SignInRequestModel } from "@api/authentication/model";
 import { createContext, useContext, useState } from "react";
 
 type StateType = {
   signInLoading: boolean;
-  signinreqDetails: LoginClassCoordinatorModel;
+  signinreqDetails: SignInRequestModel;
 };
 
 export const initialState: StateType = {
   signInLoading: false,
-  signinreqDetails: {} as LoginClassCoordinatorModel,
+  signinreqDetails: {} as SignInRequestModel,
 };
 
 type ContextType = {

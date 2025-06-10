@@ -23,7 +23,7 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
     id_kelas: string;
   } | null>(null);
 
-  const { updateJadwalreqForm } = useSchenduleUpdateReqForm();
+  const { updateTahunAjaranreqForm } = useSchenduleUpdateReqForm();
   const { fetchTimeRegulerRequest, fetchKaryawan, fetchMataPelajaran } =
     useSchendule();
 
@@ -104,7 +104,7 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
 
                       <button
                         className="p-2 font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600"
-                        onClick={() => handleOpenDialog(item.id_jam, onDay)}
+                        onClick={() => handleOpenDialog(item?.id_jam, onDay)}
                       >
                         <Edit />
                       </button>
@@ -118,7 +118,7 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
       </table>
 
       {isOpen && selectedSchedule && (
-        <FormProvider {...updateJadwalreqForm}>
+        <FormProvider {...updateTahunAjaranreqForm}>
           <CardUpdateJadwal
             isOpen={isOpen}
             onClose={handleCloseDialog}

@@ -2,6 +2,9 @@ import SchenduleService from "@api/jadwal";
 import { snackbar } from "@utils/snackbar";
 import { useJadwalPembelajaranpageContext } from "../../context";
 import HealthOptionService from "@api/HealthOption";
+import { useNavigate } from "react-router-dom";
+import { LocalStorage } from "@utils/localStorage";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 
 interface HookReturn {
   fetchDayRequest: () => void;
@@ -13,28 +16,37 @@ const useJadwalPembelajaran = (): HookReturn => {
   const schenduleService = new SchenduleService();
   const { setState } = useJadwalPembelajaranpageContext();
   const healthOption = new HealthOptionService();
+  const navigate = useNavigate();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchDayRequest = () => {
     setState((prev) => ({
       ...prev,
       jadwalPembelajaranLoading: true,
     }));
-    schenduleService.fetchDayRequest({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          jadwalPembelajaranLoading: false,
-          dayReq: data[0],
-        }));
+    schenduleService.fetchDayRequest(
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            jadwalPembelajaranLoading: false,
+            dayReq: data[0],
+          }));
+        },
+        onError: (err) => {
+          snackbar.error(err);
+          setState((prev) => ({
+            ...prev,
+            jadwalPembelajaranLoading: false,
+          }));
+        },
       },
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          jadwalPembelajaranLoading: false,
-        }));
-      },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
+    );
   };
 
   const fetchTimeRequest = (params: string) => {
@@ -42,22 +54,28 @@ const useJadwalPembelajaran = (): HookReturn => {
       ...prev,
       jadwalPembelajaranLoading: true,
     }));
-    schenduleService.fetchRegulerTimeRequest(params, {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          jadwalPembelajaranLoading: false,
-          timeReq: data,
-        }));
+    schenduleService.fetchRegulerTimeRequest(
+      params,
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            jadwalPembelajaranLoading: false,
+            timeReq: data,
+          }));
+        },
+        onError: (err) => {
+          snackbar.error(err);
+          setState((prev) => ({
+            ...prev,
+            jadwalPembelajaranLoading: false,
+          }));
+        },
       },
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          jadwalPembelajaranLoading: false,
-        }));
-      },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
+    );
   };
 
   const fetchJadwalRequest = (params: string) => {
@@ -65,22 +83,28 @@ const useJadwalPembelajaran = (): HookReturn => {
       ...prev,
       jadwalPembelajaranLoading: true,
     }));
-    schenduleService.fetchJadwalRequest(params, {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          jadwalPembelajaranLoading: false,
-          jadwalPembelajaranReq: data[0],
-        }));
+    schenduleService.fetchJadwalRequest(
+      params,
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            jadwalPembelajaranLoading: false,
+            jadwalPembelajaranReq: data[0],
+          }));
+        },
+        onError: (err) => {
+          snackbar.error(err);
+          setState((prev) => ({
+            ...prev,
+            jadwalPembelajaranLoading: false,
+          }));
+        },
       },
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          jadwalPembelajaranLoading: false,
-        }));
-      },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
+    );
   };
   const fetchClassRoom = async () => {
     setState((prev) => ({
@@ -88,22 +112,27 @@ const useJadwalPembelajaran = (): HookReturn => {
       schendulePageLoading: true,
     }));
 
-    await healthOption.fetchClassRoomRequestOptions({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          classRoomRequest: data[0],
-          schendulePageLoading: false,
-        }));
+    await healthOption.fetchClassRoomRequestOptions(
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            classRoomRequest: data[0],
+            schendulePageLoading: false,
+          }));
+        },
+        onError: (err) => {
+          snackbar.error(err);
+          setState((prev) => ({
+            ...prev,
+            schendulePageLoading: false,
+          }));
+        },
       },
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          schendulePageLoading: false,
-        }));
-      },
-    });
+      "karyawan",
+      navigate,
+      userData[0]?.access_token
+    );
   };
   return {
     fetchDayRequest,

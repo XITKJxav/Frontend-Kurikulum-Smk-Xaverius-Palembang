@@ -18,7 +18,7 @@ const CardUpdateProgramJurusan = (props: Props) => {
   const { state, setState } = usejurusanpageContext();
   const { handleSubmitForm, fetchJurusanById } = useUpdateProgramJurusan();
   const { jurusanByIdRequest } = state;
-  const { control, setValue, getValues } = useFormContext();
+  const { control, setValue } = useFormContext();
 
   const fetchStatus = useRef<{ [key: string]: boolean }>({});
 

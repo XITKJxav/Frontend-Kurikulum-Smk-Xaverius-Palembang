@@ -7,11 +7,21 @@ import { FiltersHari } from "../List/utils/filtersJadwal";
 import useSchendule from "../List/hook/useSchendule";
 import CreateJadwalForm from "./CreateJadwalForm";
 import TableSchendule from "./TableSchendule";
+import { LoadingDialog } from "@components/Dialog";
+import TahunAjaranForm from "./TahunAjaranForm";
+import useTahunAjaranUpdateReqForm from "../UpdateTahunAjaran/hook/useUpdateTahunAjaranForm";
+import useDownloadJadwalPembelajaranForm from "../ExportPDF/hook/useExportPembelajarranPDF";
+import ButtonExportPDF from "./ButtonExportPDF";
 
 const SchenduleBody = () => {
   const { state } = useJadwalpageContext();
   const { createJadwalreqForm } = useSchenduleForm();
-  const { schenduleDayReq, classRoomRequest, schendulereq } = state;
+  const {
+    schendulePageLoading,
+    schenduleDayReq,
+    classRoomRequest,
+    schendulereq,
+  } = state;
 
   const {
     fetchJadwal,
@@ -22,10 +32,12 @@ const SchenduleBody = () => {
 
   const [day, setDay] = useState<string>("1");
   const [kelas, setKelas] = useState<string>("1");
-
+  const { updateTahunAjaranreqForm } = useTahunAjaranUpdateReqForm();
   const handleChangeDay = useCallback((event: SelectChangeEvent<string>) => {
     setDay(event.target.value);
   }, []);
+  const { downloadJadwalPembelajaranreqForm } =
+    useDownloadJadwalPembelajaranForm();
 
   const handleChangeClass = useCallback((event: SelectChangeEvent<string>) => {
     setKelas(event.target.value);
@@ -60,8 +72,19 @@ const SchenduleBody = () => {
 
   return (
     <>
+      {schendulePageLoading && <LoadingDialog open={true} onClose={() => {}} />}
+      <h1>Rancang Jadwal</h1>
+
+      <FormProvider {...updateTahunAjaranreqForm}>
+        <TahunAjaranForm />
+      </FormProvider>
+      <div className="w-full">
+        <FormProvider {...downloadJadwalPembelajaranreqForm}>
+          <ButtonExportPDF id_kelas={Number(kelas)} />
+        </FormProvider>
+      </div>
+
       <div className="flex w-full gap-3 mb-4">
-        <h1>Rancang Jadwal</h1>
         <div className="flex items-center gap-2">
           <label>Kelas</label>
           {classRoomRequest.length > 0 && (
@@ -108,6 +131,7 @@ const SchenduleBody = () => {
           )}
         </div>
       </div>
+
       {jadwalSudahAda ? (
         <TableSchendule onDay={day} onKelas={kelas} />
       ) : (

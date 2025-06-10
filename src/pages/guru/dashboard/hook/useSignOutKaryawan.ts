@@ -36,6 +36,8 @@ const useSignOutKaryawan = (): HookReturn => {
           ...prev,
           isLoading: false,
         }));
+        deleteItem("karyawanData");
+        navigate("/sign-in");
       },
     });
   };

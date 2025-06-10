@@ -47,7 +47,7 @@ export default class AuthtenticationService {
     );
 
     if (res?.status_code == 401) {
-      deleteItem("userData");
+      deleteItem("karyawanData");
     }
 
     if (!res?.status) {

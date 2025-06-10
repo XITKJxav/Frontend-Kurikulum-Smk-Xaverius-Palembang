@@ -9,19 +9,19 @@ import {
 } from "../utils/from";
 
 interface HookReturn {
-  updateJadwalreqForm: UseFormReturn<JadwalUpdateModel>;
+  updateTahunAjaranreqForm: UseFormReturn<JadwalUpdateModel>;
 }
 const useSchenduleUpdateReqForm = (): HookReturn => {
   const { state } = useJadwalpageContext();
 
-  const updateJadwalreqForm = useForm<JadwalUpdateModel>({
+  const updateTahunAjaranreqForm = useForm<JadwalUpdateModel>({
     defaultValues: updateJadwalreqDefaultValues,
     values: updateJadwalFormatter(state.jadwalUpdateReqForm),
     resolver: updateJadwalValidations as Resolver<JadwalUpdateModel>,
   });
 
   return {
-    updateJadwalreqForm,
+    updateTahunAjaranreqForm,
   };
 };
 export default useSchenduleUpdateReqForm;

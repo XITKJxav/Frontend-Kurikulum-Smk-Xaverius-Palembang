@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { UpdateClassCoordinatorModel } from "@api/classcoordinator/model";
 
 export const classcoordinatorreqDefaultValues: UpdateClassCoordinatorModel = {
+  nisn: "",
   name: "",
   email: "",
   password: "",
@@ -13,6 +14,7 @@ export const classcoordinatorreqDefaultValues: UpdateClassCoordinatorModel = {
 
 export const classCoordinatorValidations = yupResolver(
   yup.object().shape({
+    nisn: yup.string().max(10).required("NISN is required"),
     name: yup.string().required("Name is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
     password: yup.string(),
@@ -33,6 +35,7 @@ export const classCoordinatorDetailsFormatter = (
   data: UpdateClassCoordinatorModel
 ): UpdateClassCoordinatorModel => {
   return {
+    nisn: data.nisn,
     name: data.name,
     email: data.email,
     password: data.password,

@@ -13,24 +13,62 @@ export default class EkstrakurikulerService {
   basePath: string = "/ektrakurikuler";
   api = new API();
 
-  private async handleUnauthorized(navigate: ReturnType<typeof useNavigate>) {
-    const { deleteItem } = LocalStorage();
-    deleteItem("userData");
-    navigate(0);
-  }
-
-  async fetchEkstrakurikulerRequest(
-    params: string,
-    callback: FetchCallback<EkstrakurikulerResponseModel[]>,
+  private async handleUnauthorized(
+    guard: string,
     navigate: ReturnType<typeof useNavigate>
   ) {
-    const targetPath = `${this.basePath}?${params}`;
-    const res: APIResponse<EkstrakurikulerResponseModel[]> = await this.api.GET(
-      targetPath
+    const { deleteItem } = LocalStorage();
+
+    if (guard == "karyawan") {
+      navigate("/sign-in");
+      deleteItem("karyawanData");
+      return;
+    } else if (guard == "siswa") {
+      navigate("/");
+      deleteItem("userData");
+      return;
+    }
+  }
+
+  async fetchEkstrakurikulerOptionsRequest(
+    params: string,
+    callback: FetchCallback<EkstrakurikulerModel[][]>,
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
+  ) {
+    const targetPath = `${this.basePath}?${params}&offLimit=true`;
+    const res: APIResponse<EkstrakurikulerModel[][]> = await this.api.GET(
+      targetPath,
+      accessToken ?? ""
     );
 
     if (res?.status_code === 401) {
-      this.handleUnauthorized(navigate);
+      this.handleUnauthorized(guard, navigate);
+      return;
+    }
+
+    if (!res?.status) {
+      callback.onError(res?.message || "Unknown error");
+    } else {
+      callback.onSuccess(res?.data);
+    }
+  }
+  async fetchEkstrakurikulerRequest(
+    params: string,
+    callback: FetchCallback<EkstrakurikulerResponseModel[]>,
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
+  ) {
+    const targetPath = `${this.basePath}?${params}`;
+    const res: APIResponse<EkstrakurikulerResponseModel[]> = await this.api.GET(
+      targetPath,
+      accessToken ?? ""
+    );
+
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(guard, navigate);
       return;
     }
 
@@ -44,15 +82,18 @@ export default class EkstrakurikulerService {
   async fetchEkstrakurikulerByidRequest(
     id: number,
     callback: FetchCallback<EkstrakurikulerModel[]>,
-    navigate: ReturnType<typeof useNavigate>
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = `${this.basePath}/${id}`;
     const res: APIResponse<EkstrakurikulerModel[]> = await this.api.GET(
-      targetPath
+      targetPath,
+      accessToken ?? ""
     );
 
     if (res?.status_code === 401) {
-      this.handleUnauthorized(navigate);
+      this.handleUnauthorized(guard, navigate);
       return;
     }
 
@@ -65,11 +106,19 @@ export default class EkstrakurikulerService {
 
   async createEkstrakurikulerRequest(
     data: CreateEkstrakurikulerRequestModel,
-    callback: FetchCallback<CreateEkstrakurikulerRequestModel>
+    callback: FetchCallback<CreateEkstrakurikulerRequestModel>,
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = this.basePath;
     const res: APIResponse<CreateEkstrakurikulerRequestModel> =
-      await this.api.POST(targetPath, data);
+      await this.api.POST(targetPath, data, accessToken ?? "");
+
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(guard, navigate);
+      return;
+    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -81,12 +130,18 @@ export default class EkstrakurikulerService {
   async deleteEkstrakurikulerRequest(
     id: number,
     callback: FetchCallback<{}>,
-    navigate: ReturnType<typeof useNavigate>
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = `${this.basePath}/${id}`;
-    const res: APIResponse<{}> = await this.api.DELETE(targetPath);
+    const res: APIResponse<{}> = await this.api.DELETE(
+      targetPath,
+      accessToken ?? ""
+    );
+
     if (res?.status_code === 401) {
-      this.handleUnauthorized(navigate);
+      this.handleUnauthorized(guard, navigate);
       return;
     }
 
@@ -101,14 +156,16 @@ export default class EkstrakurikulerService {
     id: number,
     data: UpdateEkstrakurikulerRequestModel,
     callback: FetchCallback<UpdateEkstrakurikulerRequestModel>,
-    navigate: ReturnType<typeof useNavigate>
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = `${this.basePath}/${id}`;
 
     const res: APIResponse<UpdateEkstrakurikulerRequestModel> =
-      await this.api.PUT(targetPath, data);
+      await this.api.PUT(targetPath, data, accessToken ?? "");
     if (res?.status_code === 401) {
-      this.handleUnauthorized(navigate);
+      this.handleUnauthorized(guard, navigate);
       return;
     }
 

@@ -1,4 +1,3 @@
-import { RoleOptionModel } from "@api/HealthOption/model";
 import {
   CreateMataPelajaranRequestModel,
   MataPelajaranModel,

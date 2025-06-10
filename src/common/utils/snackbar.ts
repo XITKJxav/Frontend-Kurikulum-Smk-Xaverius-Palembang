@@ -11,7 +11,8 @@ export function errMessage(err: APIResponse<object>): string {
 const commonSnackbarStyle = {
   borderRadius: "10px",
   boxShadow: "0 0 10px rgba(0, 0, 0, 0.4)",
-  color: "rgba(255, 255, 255, 0.9)",
+  color: "#ffffff",
+  fontWeight: 600,
 };
 
 export const snackbar = {
@@ -19,8 +20,8 @@ export const snackbar = {
     enqueueSnackbar(message, {
       variant: "error",
       style: {
-        backgroundColor: "rgba(255, 0, 0, 0.4)",
-        border: "1px solid rgba(255, 0, 0, 0.9)",
+        backgroundColor: "#e53935",
+        border: "1px solid #b71c1c",
         ...commonSnackbarStyle,
       },
     });
@@ -29,8 +30,8 @@ export const snackbar = {
     enqueueSnackbar(message, {
       variant: "success",
       style: {
-        backgroundColor: "rgba(0, 255, 0, 0.4)",
-        border: "1px solid rgba(0, 255, 0, 0.5)",
+        backgroundColor: "#43a047",
+        border: "1px solid #1b5e20",
         ...commonSnackbarStyle,
       },
     });
@@ -39,8 +40,8 @@ export const snackbar = {
     enqueueSnackbar(message, {
       variant: "info",
       style: {
-        backgroundColor: "rgba(0, 251, 255, 0.4)",
-        border: "1px solid rgba(0, 251, 255, 0.5)",
+        backgroundColor: "#039be5",
+        border: "1px solid #01579b",
         ...commonSnackbarStyle,
       },
     });
@@ -49,9 +50,12 @@ export const snackbar = {
     enqueueSnackbar(message, {
       variant: "warning",
       style: {
-        backgroundColor: "rgba(255, 255, 0, 0.4)",
-        border: "1px solid rgba(255, 255, 0, 0.5)",
-        ...commonSnackbarStyle,
+        backgroundColor: "#fdd835",
+        border: "1px solid #f9a825",
+        color: "#000000",
+        fontWeight: 600,
+        borderRadius: "10px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.4)",
       },
     });
   },

@@ -4,8 +4,9 @@ import { snackbar } from "@utils/snackbar";
 import { useNavigate } from "react-router-dom";
 import { useFormContext } from "react-hook-form";
 import { JadwalUpdateModel } from "@api/jadwal/model";
-import useJadwalPiket from "@pages/guru/jadwalpiket/List/hook/useJadwalPiket";
 import useSchendule from "../../List/hook/useSchendule";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface HookReturn {
   updateSchendule: (onCloseDialog: () => void) => void;
@@ -16,6 +17,10 @@ const useSchenduleUpdate = (): HookReturn => {
   const { handleSubmit, trigger } = useFormContext();
   const navigate = useNavigate();
   const { fetchJadwal } = useSchendule();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
+
   const updateSchendule = async (onCloseDialog: () => void) => {
     return handleSubmit(async (values) => {
       setState((prev) => ({
@@ -35,24 +40,30 @@ const useSchenduleUpdate = (): HookReturn => {
       };
 
       trigger();
-      schenduleService.updateJadwalRequest(data, {
-        onSuccess: () => {
-          snackbar.success("Jadwal berhasil disimpan");
+      schenduleService.updateJadwalRequest(
+        data,
+        {
+          onSuccess: () => {
+            snackbar.success("Jadwal berhasil disimpan");
 
-          setState((prev) => ({
-            ...prev,
-            schendulePageLoading: false,
-          }));
-          fetchJadwal();
+            setState((prev) => ({
+              ...prev,
+              schendulePageLoading: false,
+            }));
+            fetchJadwal();
+          },
+          onError: (errMessage) => {
+            snackbar.error(errMessage);
+            setState((prev) => ({
+              ...prev,
+              schendulePageLoading: false,
+            }));
+          },
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
-          setState((prev) => ({
-            ...prev,
-            schendulePageLoading: false,
-          }));
-        },
-      });
+        navigate,
+        "karyawan",
+        userData[0]?.access_token
+      );
     })();
   };
 

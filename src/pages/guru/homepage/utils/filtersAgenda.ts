@@ -5,5 +5,5 @@ interface Props {
 }
 const FiltersAGendaUpacara = (props: Props) => {
   const { onPage, onOrder, onSearch } = props;
-  return `?page=${onPage} & orderBy=${onOrder} & search=${onSearch}`;
+  return `?status=${onPage} & orderBy=${onOrder} & search=${onSearch}`;
 };

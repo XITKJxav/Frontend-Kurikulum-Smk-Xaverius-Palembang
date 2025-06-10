@@ -47,10 +47,6 @@ const CardUpdateEkstrakurikuler = ({ isOpen, idEkstra, onClose }: Props) => {
     fetchEkstrakurikulerByidRequest,
   ]);
 
-  const handleSubmitForm = (id: number, onCloseDialog: () => void) => {
-    updateEkstrakurikulerRequest(id, onCloseDialog);
-  };
-
   const handleCloseDialog = () => {
     setState((prevState) => ({
       ...prevState,

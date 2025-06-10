@@ -4,6 +4,9 @@ import MataPelajaranService from "@api/matapelajaran";
 import { UpdateMataPelajaranRequestModel } from "@api/matapelajaran/model";
 import { useMataPelajaranpageContext } from "../../context";
 import useMataPelajaran from "../../List/hook/useMataPelajaran";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchMataPelajaranById: (id_mata_pelajaran: string) => void;
@@ -16,6 +19,10 @@ const useUpdateMataPelajaran = (): HookReturn => {
   const mataPelajaranService = new MataPelajaranService();
   const { handleSubmit } = useFormContext();
   const { fetchMataPelajaran } = useMataPelajaran();
+  const { getItem } = LocalStorage();
+  const navigate = useNavigate();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchMataPelajaranById = async (id_mata_pelajaran: string) => {
     await mataPelajaranService.fetchMataPelajaranByIdRequest(
@@ -30,7 +37,10 @@ const useUpdateMataPelajaran = (): HookReturn => {
         onError: (errMessage) => {
           snackbar.error(errMessage);
         },
-      }
+      },
+      navigate,
+      "karyawan",
+      userData[0]?.access_token || ""
     );
   };
 
@@ -46,25 +56,34 @@ const useUpdateMataPelajaran = (): HookReturn => {
         mataPelajaranLoading: true,
       }));
 
-      mataPelajaranService.updateMataPelajaranRequest(id_mata_pelajaran, data, {
-        onSuccess: () => {
-          snackbar.success("Successfully Updated Mata Pelajaran");
-          setState((prev) => ({
-            ...prev,
-            mataPelajaranLoading: false,
-          }));
+      mataPelajaranService.updateMataPelajaranRequest(
+        id_mata_pelajaran,
+        data,
+        {
+          onSuccess: () => {
+            snackbar.success("Successfully Updated Mata Pelajaran");
+            setState((prev) => ({
+              ...prev,
+              mataPelajaranLoading: false,
+            }));
 
-          fetchMataPelajaran(`?page=${filters?.page}&desc=${filters?.orderBy}`);
-          onClose();
+            fetchMataPelajaran(
+              `?page=${filters?.page}&desc=${filters?.orderBy}`
+            );
+            onClose();
+          },
+          onError: (errMessage) => {
+            snackbar.error(errMessage);
+            setState((prev) => ({
+              ...prev,
+              mataPelajaranLoading: false,
+            }));
+          },
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
-          setState((prev) => ({
-            ...prev,
-            mataPelajaranLoading: false,
-          }));
-        },
-      });
+        navigate,
+        "karyawan",
+        userData[0]?.access_token || ""
+      );
     })();
   };
 

@@ -3,12 +3,15 @@ import { snackbar } from "@utils/snackbar";
 import { useSchedulePageContext } from "../context";
 import EkstrakurikulerService from "@api/ekstrakurikuler";
 import { useNavigate } from "react-router-dom";
+import { LocalStorage } from "@utils/localStorage";
+import { siswaSignInResponseRequestModel } from "@api/authentication/model";
 
 interface HookReturn {
   fetchTimeRegulerRequest: (params: string) => void;
   fetchDayRequest: () => void;
   fetchByIdJadwal: (params: string) => void;
   fetchJamUpacara: (hari: string | number) => void;
+  fetchEkstrakurikuler: (params: string) => void;
 }
 
 const useSchendule = (): HookReturn => {
@@ -16,27 +19,36 @@ const useSchendule = (): HookReturn => {
   const ekstraSevices = new EkstrakurikulerService();
   const { setState } = useSchedulePageContext();
   const navigate = useNavigate();
+  const { getItem } = LocalStorage();
+  const userData: siswaSignInResponseRequestModel[] = getItem("userData") || [];
+
   const fetchTimeRegulerRequest = (params: string) => {
     setState((prev) => ({
       ...prev,
       schendulePageLoading: true,
     }));
-    schenduleService.fetchRegulerTimeRequest(params, {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          schendulePageLoading: false,
-          schenduleTimeRegulerReq: data,
-        }));
+    schenduleService.fetchRegulerTimeRequest(
+      params,
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            schendulePageLoading: false,
+            schenduleTimeRegulerReq: data,
+          }));
+        },
+        onError: (err) => {
+          snackbar.error(err);
+          setState((prev) => ({
+            ...prev,
+            schendulePageLoading: false,
+          }));
+        },
       },
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          schendulePageLoading: false,
-        }));
-      },
-    });
+      navigate,
+      "siswa",
+      userData[0]?.access_token
+    );
   };
 
   const fetchDayRequest = () => {
@@ -44,23 +56,28 @@ const useSchendule = (): HookReturn => {
       ...prev,
       schendulePageLoading: true,
     }));
-    schenduleService.fetchDayRequest({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          schendulePageLoading: false,
-          schenduleDayReq: data[0],
-        }));
-      },
+    schenduleService.fetchDayRequest(
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            schendulePageLoading: false,
+            schenduleDayReq: data[0],
+          }));
+        },
 
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          schendulePageLoading: false,
-        }));
+        onError: (err) => {
+          snackbar.error(err);
+          setState((prev) => ({
+            ...prev,
+            schendulePageLoading: false,
+          }));
+        },
       },
-    });
+      navigate,
+      "siswa",
+      userData[0]?.access_token
+    );
   };
 
   const fetchByIdJadwal = async (params: string) => {
@@ -68,36 +85,48 @@ const useSchendule = (): HookReturn => {
       ...prev,
       SchedulePageLoading: true,
     }));
-    schenduleService.fetchJadwalRequest(params, {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          SchedulePageLoading: false,
-          schenduleIdreq: data[0],
-        }));
+    schenduleService.fetchJadwalRequest(
+      params,
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            SchedulePageLoading: false,
+            schenduleIdreq: data[0],
+          }));
+        },
+        onError: (err) => {
+          snackbar.error(err);
+          setState((prev) => ({
+            ...prev,
+            SchedulePageLoading: false,
+          }));
+        },
       },
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          SchedulePageLoading: false,
-        }));
-      },
-    });
+      navigate,
+      "siswa",
+      userData[0]?.access_token
+    );
   };
 
   const fetchJamUpacara = async (hari: string | number) => {
-    await schenduleService.fetchRegulerTimeUpacaraRequest(Number(hari), {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          schenduleTimeUpacaraReq: data,
-        }));
+    await schenduleService.fetchRegulerTimeUpacaraRequest(
+      Number(hari),
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            schenduleTimeUpacaraReq: data,
+          }));
+        },
+        onError: (err) => {
+          snackbar.error(err);
+        },
       },
-      onError: (err) => {
-        snackbar.error(err);
-      },
-    });
+      navigate,
+      "siswa",
+      userData[0]?.access_token
+    );
   };
 
   const fetchEkstrakurikuler = async (params: string) => {
@@ -105,17 +134,32 @@ const useSchendule = (): HookReturn => {
       ...prev,
       SchedulePageLoading: true,
     }));
-    ekstraSevices.fetchEkstrakurikulerRequest(
+    ekstraSevices.fetchEkstrakurikulerOptionsRequest(
       params,
       {
-        onSuccess: () => {},
-        onError: () => {},
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            SchedulePageLoading: false,
+            ekstraReq: data[0],
+          }));
+        },
+        onError: (err) => {
+          setState((prev) => ({
+            ...prev,
+            SchedulePageLoading: false,
+          }));
+          snackbar.error(err);
+        },
       },
-      navigate
+      navigate,
+      "siswa",
+      userData[0]?.access_token
     );
   };
   return {
     fetchTimeRegulerRequest,
+    fetchEkstrakurikuler,
     fetchDayRequest,
     fetchByIdJadwal,
     fetchJamUpacara,

@@ -3,6 +3,9 @@ import { useFormContext } from "react-hook-form";
 import { CreateEkstrakurikulerRequestModel } from "@api/ekstrakurikuler/model";
 import { useEkstrakurikulerpageContext } from "../../context";
 import EkstrakurikulerService from "@api/ekstrakurikuler";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   handleSubmitForm: () => void;
@@ -12,6 +15,10 @@ const useCreateEkstrakurikuler = (): HookReturn => {
   const { trigger, handleSubmit } = useFormContext();
   const ekstrakurikulerService = new EkstrakurikulerService();
   const { setState } = useEkstrakurikulerpageContext();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
+  const navigate = useNavigate();
 
   const handleSubmitForm = () => {
     return handleSubmit(async (values) => {
@@ -29,22 +36,28 @@ const useCreateEkstrakurikuler = (): HookReturn => {
       };
 
       trigger();
-      ekstrakurikulerService.createEkstrakurikulerRequest(EkstrakurikulerData, {
-        onSuccess: () => {
-          snackbar.success("Successfully Create data Ekstrakurikuler");
-          setState((prev) => ({
-            ...prev,
-            ekstrakurikulerLoading: false,
-          }));
+      ekstrakurikulerService.createEkstrakurikulerRequest(
+        EkstrakurikulerData,
+        {
+          onSuccess: () => {
+            snackbar.success("Successfully Create data Ekstrakurikuler");
+            setState((prev) => ({
+              ...prev,
+              ekstrakurikulerLoading: false,
+            }));
+          },
+          onError: (errMessage) => {
+            snackbar.error(errMessage);
+            setState((prev) => ({
+              ...prev,
+              ekstrakurikulerLoading: false,
+            }));
+          },
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
-          setState((prev) => ({
-            ...prev,
-            ekstrakurikulerLoading: false,
-          }));
-        },
-      });
+        navigate,
+        "karyawan",
+        userData[0]?.access_token
+      );
     })();
   };
   return { handleSubmitForm };

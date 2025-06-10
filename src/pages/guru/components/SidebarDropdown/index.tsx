@@ -3,11 +3,13 @@ import AppearOnScroll from "@components/Animation/AppearOnScroll";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 interface DropdownMenu {
-  titleDropDown: string;
+  titleDropDown: string; // WAJIB kalau menu dropdown
   icon: React.ReactNode;
   children: {
     title: string;
     icon: React.ReactNode;
+    part: React.ReactNode;
+    role: string[];
   }[];
 }
 
@@ -27,6 +29,7 @@ const SidebarDropdown = ({
   onClickChild,
 }: Props) => {
   const isOpen = openDropdown === menu.titleDropDown;
+  const hasChildren = Array.isArray(menu.children) && menu.children.length > 0;
 
   return (
     <li>
@@ -40,7 +43,8 @@ const SidebarDropdown = ({
           {isOpen ? <ExpandLess /> : <ExpandMore />}
         </div>
       </div>
-      {isOpen && (
+
+      {isOpen && hasChildren && (
         <ul className="p-3 rounded-md mt-2 space-y-2 bg-[#0C0950]">
           {menu.children.map((child, index) => (
             <AppearOnScroll key={index} duration={0.3 + 0.3 * index}>

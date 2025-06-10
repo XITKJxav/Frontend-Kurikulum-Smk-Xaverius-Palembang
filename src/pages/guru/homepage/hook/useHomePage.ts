@@ -3,6 +3,8 @@ import { snackbar } from "@utils/snackbar";
 import { useNavigate } from "react-router-dom";
 import { useHomepageContext } from "../context";
 import AgendaUpacaraService from "@api/agendaupacara";
+import { LocalStorage } from "@utils/localStorage";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 interface HookReturn {
   fetchDataStatistik: () => void;
   fetchAgendaUpacara: (params: string) => void;
@@ -10,7 +12,9 @@ interface HookReturn {
 const useHomePage = (): HookReturn => {
   const serviceStatis = new StatistikService();
   const serviceAgenda = new AgendaUpacaraService();
-
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
   const navigate = useNavigate();
   const { setState } = useHomepageContext();
 
@@ -36,7 +40,9 @@ const useHomePage = (): HookReturn => {
           }));
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token || ""
     );
   };
   const fetchAgendaUpacara = (params: string) => {
@@ -54,7 +60,9 @@ const useHomePage = (): HookReturn => {
           snackbar.error(err);
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token || ""
     );
   };
   return { fetchDataStatistik, fetchAgendaUpacara };

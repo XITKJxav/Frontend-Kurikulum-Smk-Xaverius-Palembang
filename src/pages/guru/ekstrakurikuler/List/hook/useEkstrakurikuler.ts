@@ -5,6 +5,8 @@ import { useEkstrakurikulerpageContext } from "../../context";
 import EkstrakurikulerService from "@api/ekstrakurikuler";
 import HealthOptionService from "@api/HealthOption";
 import SchenduleService from "@api/jadwal";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface HookReturn {
   fetchEkstrakurikulerRequest: (params: string) => void;
@@ -19,28 +21,36 @@ const useEkstrakurikuler = (): HookReturn => {
   const option = new HealthOptionService();
   const dayService = new SchenduleService();
   const { setState } = useEkstrakurikulerpageContext();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchClassRoom = async () => {
     setState((prev) => ({
       ...prev,
       ekstrakurikulerLoading: true,
     }));
-    option.fetchClassRoomRequestOptions({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          ekstrakurikulerLoading: false,
-          classRoomRequest: data[0],
-        }));
+    option.fetchClassRoomRequestOptions(
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            ekstrakurikulerLoading: false,
+            classRoomRequest: data[0],
+          }));
+        },
+        onError: (err) => {
+          snackbar.error(err);
+          setState((prev) => ({
+            ...prev,
+            ekstrakurikulerLoading: false,
+          }));
+        },
       },
-      onError: (err) => {
-        snackbar.error(err);
-        setState((prev) => ({
-          ...prev,
-          ekstrakurikulerLoading: false,
-        }));
-      },
-    });
+      "karyawan",
+      navigate,
+      userData[0]?.access_token
+    );
   };
 
   const fetchDayRequest = async () => {
@@ -49,22 +59,27 @@ const useEkstrakurikuler = (): HookReturn => {
       ekstrakurikulerLoading: true,
     }));
 
-    dayService.fetchDayRequest({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          dayRequest: data[0],
-          ekstrakurikulerLoading: false,
-        }));
+    dayService.fetchDayRequest(
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            dayRequest: data[0],
+            ekstrakurikulerLoading: false,
+          }));
+        },
+        onError: (errMessage) => {
+          snackbar.error(errMessage);
+          setState((prev) => ({
+            ...prev,
+            ekstrakurikulerLoading: false,
+          }));
+        },
       },
-      onError: (errMessage) => {
-        snackbar.error(errMessage);
-        setState((prev) => ({
-          ...prev,
-          ekstrakurikulerLoading: false,
-        }));
-      },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
+    );
   };
 
   const fetchEkstrakurikulerRequest = async (params: string) => {
@@ -83,6 +98,7 @@ const useEkstrakurikuler = (): HookReturn => {
             ekstrakurikulerRequest: data[0],
             ekstrakurikulerLoading: false,
           }));
+          console.log("adat=", data[0]);
         },
         onError: (errMessage) => {
           setState((prev) => ({
@@ -92,7 +108,9 @@ const useEkstrakurikuler = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
     );
   };
 
@@ -121,7 +139,9 @@ const useEkstrakurikuler = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token || ""
     );
     return;
   };

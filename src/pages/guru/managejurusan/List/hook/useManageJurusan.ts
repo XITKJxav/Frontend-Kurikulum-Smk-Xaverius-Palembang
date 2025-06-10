@@ -1,6 +1,9 @@
 import JurusanService from "@api/jurusan";
 import { snackbar } from "@utils/snackbar";
 import { usejurusanpageContext } from "../../context";
+import { useNavigate } from "react-router-dom";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface HookReturn {
   fetchJurusan: (params: string) => void;
@@ -9,30 +12,39 @@ interface HookReturn {
 const useManageJurusan = (): HookReturn => {
   const jurusanService = new JurusanService();
   const { setState } = usejurusanpageContext();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
+  const navigate = useNavigate();
 
   const fetchJurusan = async (params: string) => {
     setState((prev) => ({
       ...prev,
       manageJurusanLoading: true,
     }));
-    await jurusanService.fetchJurusanRequest(params, {
-      onSuccess: (res) => {
-        setState((prev) => ({
-          ...prev,
-          jurusanRequest: res[0],
-          manageJurusanLoading: false,
-        }));
-        console.log(res[0]);
-      },
-      onError: (errMessage) => {
-        setState((prev) => ({
-          ...prev,
-          manageJurusanLoading: false,
-        }));
+    await jurusanService.fetchJurusanRequest(
+      params,
+      {
+        onSuccess: (res) => {
+          setState((prev) => ({
+            ...prev,
+            jurusanRequest: res[0],
+            manageJurusanLoading: false,
+          }));
+        },
+        onError: (errMessage) => {
+          setState((prev) => ({
+            ...prev,
+            manageJurusanLoading: false,
+          }));
 
-        snackbar.error(errMessage);
+          snackbar.error(errMessage);
+        },
       },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
+    );
   };
 
   return {

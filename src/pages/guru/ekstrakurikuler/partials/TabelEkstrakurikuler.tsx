@@ -72,6 +72,7 @@ const TabelEkstrakurikuler = () => {
           pageSize={ekstrakurikulerRequest?.last_page}
           data={ekstrakurikulerRequest?.data}
         />
+        {ekstrakurikulerRequest?.last_page}
       </AppearFadeIn>
     </>
   );

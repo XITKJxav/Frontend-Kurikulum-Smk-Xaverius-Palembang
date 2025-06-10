@@ -5,6 +5,6 @@ interface PropsJam {
 }
 
 export const FiltersHari = (props: PropsJam) => {
-  const { onDay, idRuanganKelas, kdJamPembelajaran } = props;
+  const { onDay } = props;
   return `id_hari=${onDay}`;
 };

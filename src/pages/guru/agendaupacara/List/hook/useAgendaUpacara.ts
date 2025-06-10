@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import AgendaUpacaraService from "@api/agendaupacara";
 import { useAgendaUpacarapageContext } from "../../context";
 import HealthOptionService from "@api/HealthOption";
+import { LocalStorage } from "@utils/localStorage";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 
 interface HookReturn {
   fetchAgendaUpacara: (params: string) => void;
@@ -14,8 +16,10 @@ const useAgendaUpacara = (): HookReturn => {
   const navigate = useNavigate();
   const agendaUpacaraService = new AgendaUpacaraService();
   const optionService = new HealthOptionService();
-
   const { setState } = useAgendaUpacarapageContext();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchAgendaUpacara = async (params: string) => {
     setState((prev) => ({
@@ -41,7 +45,9 @@ const useAgendaUpacara = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token || ""
     );
   };
 
@@ -50,22 +56,27 @@ const useAgendaUpacara = (): HookReturn => {
       ...prev,
       AgendaUpacaraLoading: true,
     }));
-    optionService.fetchStatusAgendaUpacaraRequestOptions({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          statusAgendaUpacaraRequest: data[0],
-          AgendaUpacaraLoading: false,
-        }));
+    optionService.fetchStatusAgendaUpacaraRequestOptions(
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            statusAgendaUpacaraRequest: data[0],
+            AgendaUpacaraLoading: false,
+          }));
+        },
+        onError: (err) => {
+          setState((prev) => ({
+            ...prev,
+            AgendaUpacaraLoading: false,
+          }));
+          snackbar.error(err);
+        },
       },
-      onError: (err) => {
-        setState((prev) => ({
-          ...prev,
-          AgendaUpacaraLoading: false,
-        }));
-        snackbar.error(err);
-      },
-    });
+      "karyawan",
+      navigate,
+      userData[0]?.access_token || ""
+    );
   };
 
   return {

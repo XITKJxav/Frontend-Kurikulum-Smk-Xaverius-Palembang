@@ -21,6 +21,7 @@ const CreateMataPelajaran = () => {
           <div className="flex flex-col gap-3 mt-3 mb-3">
             <Controller
               name="nama"
+              defaultValue=""
               control={control}
               render={({ field, fieldState }) => (
                 <InputTextField

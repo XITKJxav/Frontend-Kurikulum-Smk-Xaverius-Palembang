@@ -1,7 +1,7 @@
 import { ActionButton } from "@components/Button";
 import { BaseDialog, LoadingDialog } from "@components/Dialog";
 import { Autocomplete, DialogContent, TextField } from "@mui/material";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import InputAutocomplete from "@components/Input/InputAutoComplate";
 import { useJadwalpageContext } from "../context";
@@ -64,21 +64,14 @@ const CardUpdateJadwal = ({
       open={isOpen}
       onClose={handleCloseDialog}
       title="Pengaturan Jadwal Pelajaran"
-      message={
-        "kode hari = " +
-        id_hari +
-        "kode jam = " +
-        id_jam +
-        "kode kelas = " +
-        id_kelas
-      }
+      message=""
     >
       <DialogContent>
         <form className="flex flex-col gap-3 mt-3 mb-3">
           <Controller
             name="id_mata_pelajaran"
             control={control}
-            defaultValue={data?.id_mata_pelajaran}
+            defaultValue={data?.id_mata_pelajaran || 1}
             render={({ field, fieldState }) => (
               <InputAutocomplete
                 field={field}

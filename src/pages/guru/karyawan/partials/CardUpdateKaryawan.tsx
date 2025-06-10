@@ -63,6 +63,21 @@ const CardUpdateKaryawan = ({ isOpen, kd_karyawan, onClose }: Props) => {
       <DialogContent>
         <form className="flex flex-col gap-3 mt-3 mb-3">
           <Controller
+            name="niy"
+            control={control}
+            defaultValue={data?.niy || ""}
+            render={({ field, fieldState }) => (
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="NIY"
+                id="NIY"
+                type="text"
+                autoComplete="off"
+              />
+            )}
+          />
+          <Controller
             name="name"
             control={control}
             defaultValue={data?.name || ""}

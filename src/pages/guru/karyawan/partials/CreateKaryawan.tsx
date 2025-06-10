@@ -4,7 +4,6 @@ import InputTextField from "@components/Input/InputText";
 import useCreateKaryawan from "../Create/hook/useCreateKaryawan";
 import InputSelect from "@components/Input/InputSelect";
 import { usekaryawanpageContext } from "../context";
-import { LoadingDialog } from "@components/Dialog";
 
 const CreateKaryawan = () => {
   const { control } = useFormContext();
@@ -18,8 +17,24 @@ const CreateKaryawan = () => {
         <form>
           <div className="flex flex-col gap-3 mt-3 mb-3">
             <Controller
+              name="niy"
+              control={control}
+              defaultValue=""
+              render={({ field, fieldState }) => (
+                <InputTextField
+                  field={field}
+                  fieldState={fieldState}
+                  label="NIY"
+                  id="NIY"
+                  type="text"
+                  autoComplete="off"
+                />
+              )}
+            />
+            <Controller
               name="name"
               control={control}
+              defaultValue=""
               render={({ field, fieldState }) => (
                 <InputTextField
                   field={field}
@@ -33,6 +48,7 @@ const CreateKaryawan = () => {
             />
             <Controller
               name="email"
+              defaultValue=""
               control={control}
               render={({ field, fieldState }) => (
                 <InputTextField
@@ -47,6 +63,7 @@ const CreateKaryawan = () => {
             />
             <Controller
               name="password"
+              defaultValue=""
               control={control}
               render={({ field, fieldState }) => (
                 <InputTextField
@@ -61,6 +78,7 @@ const CreateKaryawan = () => {
             />
             <Controller
               name="password_confirmation"
+              defaultValue=""
               control={control}
               render={({ field, fieldState }) => (
                 <InputTextField
@@ -76,6 +94,7 @@ const CreateKaryawan = () => {
             <Controller
               name="no_telp"
               control={control}
+              defaultValue=""
               render={({ field, fieldState }) => (
                 <InputTextField
                   field={field}
@@ -90,6 +109,7 @@ const CreateKaryawan = () => {
             <Controller
               name="id_role"
               control={control}
+              defaultValue=""
               render={({ field, fieldState }) => (
                 <InputSelect
                   field={field}

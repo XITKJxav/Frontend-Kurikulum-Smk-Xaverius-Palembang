@@ -5,6 +5,8 @@ import { useFormContext } from "react-hook-form";
 import { UpdateEkstrakurikulerRequestModel } from "@api/ekstrakurikuler/model";
 import { snackbar } from "@utils/snackbar";
 import useEkstrakurikuler from "../../List/hook/useEkstrakurikuler";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 interface HookReturn {
   updateEkstrakurikulerRequest: (id: number, onClose: () => void) => void;
   fetchEkstrakurikulerByidRequest: (id: number) => void;
@@ -15,6 +17,9 @@ const useUpdateEkstrakurikuler = (): HookReturn => {
   const navigate = useNavigate();
   const { fetchEkstrakurikulerRequest } = useEkstrakurikuler();
   const { handleSubmit } = useFormContext();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchEkstrakurikulerByidRequest = (id: number) => {
     ekstrakurikulerService.fetchEkstrakurikulerByidRequest(
@@ -30,7 +35,9 @@ const useUpdateEkstrakurikuler = (): HookReturn => {
           snackbar.error(err);
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
     );
   };
 
@@ -70,7 +77,9 @@ const useUpdateEkstrakurikuler = (): HookReturn => {
             snackbar.error(err);
           },
         },
-        navigate
+        navigate,
+        "karyawan",
+        userData[0]?.access_token
       );
     })();
   };

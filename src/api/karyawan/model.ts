@@ -14,6 +14,7 @@ export type KaryawanResponseRequestModel = {
 
 export type KaryawanModel = {
   kd_karyawan: string;
+  niy: string;
   name: string;
   email: string;
   no_telp: string;
@@ -31,6 +32,7 @@ export type RoleModel = {
 };
 
 export type UpdateKaryawanRequestModel = {
+  niy: string;
   name: string;
   email: string;
   no_telp: string;
@@ -40,6 +42,7 @@ export type UpdateKaryawanRequestModel = {
 };
 
 export type CreateKaryawanRequestModel = {
+  niy: string;
   name: string;
   email: string;
   password: string;

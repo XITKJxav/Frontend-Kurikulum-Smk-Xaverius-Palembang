@@ -29,8 +29,9 @@ export default class API {
     try {
       const headers = {
         ...this.headers,
-        ...(access_token && { Authorization: `Bearer ${access_token}` }),
+        Authorization: `Bearer ${access_token?.trim() || ""}`,
       };
+
       const res = await this.api.get(path, { headers: headers });
       return res.data;
     } catch (err: AxiosError | any) {
@@ -51,6 +52,69 @@ export default class API {
     }
   }
 
+  async POSTDOWNLOADBLOB(
+    path: string,
+    data: any,
+    access_token?: string
+  ): Promise<Blob | APIResponse<null>> {
+    try {
+      const headers = {
+        ...this.headers,
+        Authorization: `Bearer ${access_token || ""}`,
+        Accept: "application/pdf",
+      };
+
+      const res = await this.api.post(path, data, {
+        headers,
+        responseType: "blob",
+      });
+
+      const contentType = res.headers["content-type"];
+
+      if (contentType && contentType.includes("application/json")) {
+        const text = await res.data.text();
+        const json = JSON.parse(text);
+        return {
+          status: false,
+          status_code: json.status_code || 500,
+          message: json.message || "Unknown error",
+          data: null,
+        };
+      }
+
+      return res.data as Blob;
+    } catch (err: AxiosError | any) {
+      if (isAxiosError(err)) {
+        const responseData = err?.response?.data;
+
+        let message = "Unknown error";
+        if (responseData instanceof Blob) {
+          try {
+            const text = await responseData.text();
+            const json = JSON.parse(text);
+            message = json.message || message;
+          } catch (_) {}
+        } else if (typeof responseData === "object") {
+          message = responseData?.message || message;
+        }
+
+        return {
+          status: false,
+          status_code: err?.response?.status || 500,
+          message,
+          data: null,
+        };
+      }
+
+      return {
+        status: false,
+        status_code: 500,
+        message: "Internal Server Error",
+        data: null,
+      };
+    }
+  }
+
   async POST<T, U = T>(
     path: string,
     data: any,
@@ -59,9 +123,7 @@ export default class API {
     try {
       const headers = {
         ...this.headers,
-        ...(access_token?.trim()
-          ? { Authorization: `Bearer ${access_token}` }
-          : {}),
+        Authorization: `Bearer ${access_token}`,
       };
 
       const res = await this.api.post(path, data, { headers: headers });
@@ -84,15 +146,10 @@ export default class API {
     }
   }
 
-  async POSTFORM<T, U = T>(
-    path: string,
-    data: any,
-    access_token?: string
-  ): Promise<APIResponse<U>> {
+  async POSTFORM<T, U = T>(path: string, data: any): Promise<APIResponse<U>> {
     try {
       const headers: Headers = {
         "Content-type": "multipart/form-data",
-        ...(access_token && { Authorization: `Bearer ${access_token}` }),
       };
 
       const res = await this.api.post(path, data, { headers });
@@ -123,8 +180,9 @@ export default class API {
     try {
       const headers = {
         ...this.headers,
-        ...(access_token && { Authorization: `Bearer ${access_token}` }),
+        Authorization: `Bearer ${access_token}`,
       };
+
       const res = await this.api.put(path, data, { headers: headers });
       return res.data;
     } catch (err: AxiosError | any) {
@@ -151,7 +209,7 @@ export default class API {
   ): Promise<APIResponse<U>> {
     try {
       const headers = {
-        ...(access_token && { Authorization: `Bearer ${access_token}` }),
+        Authorization: `Bearer ${access_token}`,
       };
       const res = await this.api.delete(path, { headers: headers });
       return res.data;

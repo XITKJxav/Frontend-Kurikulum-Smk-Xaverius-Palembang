@@ -6,6 +6,8 @@ import DashboardBody from "./partials/DashboardBody";
 import { AppType } from "@types";
 import { LocalStorage } from "@utils/localStorage";
 import useSignOutKaryawan from "./hook/useSignOutKaryawan";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { useNavigate } from "react-router-dom";
 
 const DashboardGuru = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -31,7 +33,7 @@ const DashboardGuru = () => {
 
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  const navigate = useNavigate();
   useEffect(() => {
     setState((prev) => ({
       ...prev,
@@ -41,29 +43,39 @@ const DashboardGuru = () => {
   const handleProfileDropDown = () => {
     setActiveDropDownProfile(!activeDropDownProfile);
   };
+
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
+
   return (
-    <div className="flex flex-col h-screen overflow-x-hidden border-red-100 ">
-      <Navbar
-        toggleSidebar={toggleSidebar}
-        onLogout={() => handleSignOut()}
-        onClickProfile={handleProfileDropDown}
-        activeDropDownProfile={activeDropDownProfile}
-      />
-      <div className="flex flex-1">
-        <Sidebar
-          isOpen={isSidebarOpen}
-          isClose={handleClose}
-          onChangeApp={handleChangeApp}
-          isActive={state.app}
-        />
-        <div className="flex-1 w-full p-3 bg-gray-100">
-          <DashboardBody />
-          <footer className="py-3 mt-2 text-center">
-            <p>&copy; 2025 SMK XAVERIUS powered by Multi Data Palembang</p>
-          </footer>
+    <>
+      {userData.length ? (
+        <div className="flex flex-col h-screen overflow-x-hidden border-red-100 ">
+          <Navbar
+            toggleSidebar={toggleSidebar}
+            onLogout={() => handleSignOut()}
+            onClickProfile={handleProfileDropDown}
+            activeDropDownProfile={activeDropDownProfile}
+          />
+          <div className="flex flex-1">
+            <Sidebar
+              isOpen={isSidebarOpen}
+              isClose={handleClose}
+              onChangeApp={handleChangeApp}
+              isActive={state.app}
+            />
+            <div className="flex-1 w-full p-3 bg-gray-100">
+              <DashboardBody />
+              <footer className="py-3 mt-2 text-center">
+                <p>&copy; 2025 SMK XAVERIUS powered by Multi Data Palembang</p>
+              </footer>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        navigate("/sign-in")
+      )}
+    </>
   );
 };
 export default DashboardGuru;

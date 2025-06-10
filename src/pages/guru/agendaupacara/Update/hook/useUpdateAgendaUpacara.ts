@@ -5,7 +5,8 @@ import useAgendaUpacara from "../../List/hook/useAgendaUpacara";
 import AgendaUpacaraService from "@api/agendaupacara";
 import { useNavigate } from "react-router-dom";
 import { UpdateAgendaUpacaraModel } from "@api/agendaupacara/model";
-import HealthOptionService from "@api/HealthOption";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface HookReturn {
   fetchAgendaUpacaraById: (kd_agendaupacara: string) => void;
@@ -16,10 +17,13 @@ const useUpdateAgendaUpacara = (): HookReturn => {
   const { setState, state } = useAgendaUpacarapageContext();
   const { filters } = state;
   const agendaUpacaraService = new AgendaUpacaraService();
-  const healthOption = new HealthOptionService();
+
   const { handleSubmit } = useFormContext();
   const { fetchAgendaUpacara } = useAgendaUpacara();
   const navigate = useNavigate();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchAgendaUpacaraById = async (kd_agendaupacara: string) => {
     await agendaUpacaraService.fetchAgendaUpacaraByidRequest(
@@ -35,7 +39,9 @@ const useUpdateAgendaUpacara = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token || ""
     );
   };
 
@@ -50,25 +56,34 @@ const useUpdateAgendaUpacara = (): HookReturn => {
         agendaUpacaraLoading: true,
       }));
 
-      agendaUpacaraService.updateAgendaUpacaraRequest(kd_agendaupacara, data, {
-        onSuccess: () => {
-          snackbar.success("Successfully Updated Agenda Upacara");
-          setState((prev) => ({
-            ...prev,
-            agendaUpacaraLoading: false,
-          }));
+      agendaUpacaraService.updateAgendaUpacaraRequest(
+        kd_agendaupacara,
+        data,
+        {
+          onSuccess: () => {
+            snackbar.success("Successfully Updated Agenda Upacara");
+            setState((prev) => ({
+              ...prev,
+              agendaUpacaraLoading: false,
+            }));
 
-          fetchAgendaUpacara(`?page=${filters?.page}&desc=${filters?.orderBy}`);
-          onClose();
+            fetchAgendaUpacara(
+              `?page=${filters?.page}&desc=${filters?.orderBy}`
+            );
+            onClose();
+          },
+          onError: (errMessage) => {
+            snackbar.error(errMessage);
+            setState((prev) => ({
+              ...prev,
+              agendaUpacaraLoading: false,
+            }));
+          },
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
-          setState((prev) => ({
-            ...prev,
-            agendaUpacaraLoading: false,
-          }));
-        },
-      });
+        navigate,
+        "karyawan",
+        userData[0]?.access_token || ""
+      );
     })();
   };
 
