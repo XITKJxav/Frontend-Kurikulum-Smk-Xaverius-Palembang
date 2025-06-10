@@ -23,7 +23,7 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
     id_kelas: string;
   } | null>(null);
 
-  const { updateJadwalreqForm } = useSchenduleUpdateReqForm();
+  const { updateTahunAjaranreqForm } = useSchenduleUpdateReqForm();
   const { fetchTimeRegulerRequest, fetchKaryawan, fetchMataPelajaran } =
     useSchendule();
 
@@ -36,13 +36,20 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
+  const { fetchByIdJadwal } = useSchendule();
   const handleOpenDialog = (id_jam: number, id_hari: string) => {
     setSelectedSchedule({
       id_jam,
       id_hari,
       id_kelas: onKelas,
     });
+    fetchByIdJadwal(
+      FiltersHari({
+        onDay: Number(id_hari),
+        idRuanganKelas: Number(onKelas),
+        kdJamPembelajaran: Number(id_jam),
+      })
+    );
     setIsOpen(true);
   };
 
@@ -80,7 +87,7 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
                     item.type
                   ) : (
                     <div className="flex items-center gap-2">
-                      <div className="flex flex-col gap-3 flex-wrap">
+                      <div className="flex flex-col flex-wrap gap-3">
                         <span>
                           <strong>Mata Pelajaran:</strong>{" "}
                           {matchedSchedule?.mata_pelajaran?.nama ?? "-"}
@@ -97,7 +104,7 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
 
                       <button
                         className="p-2 font-semibold text-white bg-yellow-500 rounded-lg hover:bg-yellow-600"
-                        onClick={() => handleOpenDialog(item.id_jam, onDay)}
+                        onClick={() => handleOpenDialog(item?.id_jam, onDay)}
                       >
                         <Edit />
                       </button>
@@ -111,7 +118,7 @@ const TableSchendule = ({ onDay, onKelas }: Props) => {
       </table>
 
       {isOpen && selectedSchedule && (
-        <FormProvider {...updateJadwalreqForm}>
+        <FormProvider {...updateTahunAjaranreqForm}>
           <CardUpdateJadwal
             isOpen={isOpen}
             onClose={handleCloseDialog}

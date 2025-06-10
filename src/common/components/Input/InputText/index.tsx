@@ -20,6 +20,7 @@ interface InputTextProps<T extends FieldValues = FieldValues> {
       message?: string;
     };
   };
+  placeholder?: string;
   type?: string;
   size?: "small" | "medium";
   autoComplete?: string;
@@ -42,6 +43,7 @@ const InputTextField = (props: InputTextProps) => {
     size = "medium",
     sx,
     color,
+    placeholder,
   } = props;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -51,13 +53,13 @@ const InputTextField = (props: InputTextProps) => {
     setShowPassword((prev) => !prev);
   };
 
-  if (type == "date") {
+  if (type === "date" || type === "time") {
     return (
       <TextField
         {...field}
         id={id}
         label={label}
-        type="date"
+        type={type}
         autoComplete={autoComplete}
         error={!!fieldState.error}
         helperText={fieldState.error?.message}
@@ -71,6 +73,7 @@ const InputTextField = (props: InputTextProps) => {
       />
     );
   }
+
   return (
     <FormControl
       fullWidth
@@ -88,6 +91,7 @@ const InputTextField = (props: InputTextProps) => {
         type={isPassword && showPassword ? "text" : type}
         autoComplete={autoComplete}
         label={label}
+        placeholder={placeholder}
         value={field.value}
         size={size}
         className={className}

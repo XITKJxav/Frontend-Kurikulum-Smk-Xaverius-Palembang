@@ -18,23 +18,36 @@ export default class ClassCoordinatorService {
 
   private api: API = new API();
 
-  private async handleUnauthorized(navigate: ReturnType<typeof useNavigate>) {
+  private async handleUnauthorized(
+    guard: string,
+    navigate: ReturnType<typeof useNavigate>
+  ) {
     const { deleteItem } = LocalStorage();
-    deleteItem("userData");
-    navigate(0);
+
+    if (guard == "karyawan") {
+      navigate("/sign-in");
+      deleteItem("karyawanData");
+      return;
+    } else if (guard == "siswa") {
+      navigate("/");
+      deleteItem("userData");
+      return;
+    }
   }
 
   async fetchClassCoordinatorRequest(
     params: string,
     callback: FetchCallback<ClassCoordinatorResponseModel[]>,
-    navigate: ReturnType<typeof useNavigate>
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = `${this.basePath}?${params}`;
     const res: APIResponse<ClassCoordinatorResponseModel[]> =
-      await this.api.GET(targetPath);
+      await this.api.GET(targetPath, accessToken);
 
     if (res?.status_code === 401) {
-      this.handleUnauthorized(navigate);
+      this.handleUnauthorized(guard, navigate);
       return;
     }
 
@@ -48,15 +61,18 @@ export default class ClassCoordinatorService {
   async fetchClassCoordinatorByidRequest(
     id: string,
     callback: FetchCallback<ClassCoordinatorModel[]>,
-    navigate: ReturnType<typeof useNavigate>
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = `${this.basePath}/${id}`;
     const res: APIResponse<ClassCoordinatorModel[]> = await this.api.GET(
-      targetPath
+      targetPath,
+      accessToken
     );
 
     if (res?.status_code === 401) {
-      this.handleUnauthorized(navigate);
+      this.handleUnauthorized(guard, navigate);
       return;
     }
 
@@ -68,11 +84,22 @@ export default class ClassCoordinatorService {
   }
 
   async fetchClassRoomRequestOptions(
-    callback: FetchCallback<ClassRoomModel[][]>
+    callback: FetchCallback<ClassRoomModel[][]>,
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = `${this.basePathClassRoom}??offLimit=true`;
 
-    const res: APIResponse<ClassRoomModel[][]> = await this.api.GET(targetPath);
+    const res: APIResponse<ClassRoomModel[][]> = await this.api.GET(
+      targetPath,
+      accessToken ?? ""
+    );
+
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(guard, navigate);
+      return;
+    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -83,13 +110,22 @@ export default class ClassCoordinatorService {
 
   async createClassCoordinatorRequest(
     data: CreateClassCoordinatorModel,
-    callback: FetchCallback<CreateClassCoordinatorModel>
+    callback: FetchCallback<CreateClassCoordinatorModel>,
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = this.basePath;
     const res: APIResponse<CreateClassCoordinatorModel> = await this.api.POST(
       targetPath,
-      data
+      data,
+      accessToken
     );
+
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(guard, navigate);
+      return;
+    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -101,13 +137,22 @@ export default class ClassCoordinatorService {
   async updateClassCoordinatorRequest(
     kdPengurusKelas: string,
     data: UpdateClassCoordinatorModel,
-    callback: FetchCallback<UpdateClassCoordinatorModel>
+    callback: FetchCallback<UpdateClassCoordinatorModel>,
+    navigate: ReturnType<typeof useNavigate>,
+    guard: string,
+    accessToken: string
   ) {
     const targetPath = `${this.basePath}/${kdPengurusKelas}`;
     const res: APIResponse<UpdateClassCoordinatorModel> = await this.api.PUT(
       targetPath,
-      data
+      data,
+      accessToken
     );
+
+    if (res?.status_code === 401) {
+      this.handleUnauthorized(guard, navigate);
+      return;
+    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

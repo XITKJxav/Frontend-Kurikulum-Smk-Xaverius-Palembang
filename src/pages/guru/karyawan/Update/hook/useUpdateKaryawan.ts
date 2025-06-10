@@ -4,6 +4,9 @@ import { useFormContext } from "react-hook-form";
 import KaryawanService from "@api/karyawan";
 import { UpdateKaryawanRequestModel } from "@api/karyawan/model";
 import useKaryawan from "../../List/hook/useKaryawan";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchKaryawanById: (kdKaryawan: string) => void;
@@ -16,24 +19,35 @@ const useUpdateKaryawan = (): HookReturn => {
   const karyawanService = new KaryawanService();
   const { handleSubmit } = useFormContext();
   const { fetchKaryawan } = useKaryawan();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
+  const navigate = useNavigate();
 
   const fetchKaryawanById = async (kdKaryawan: string) => {
-    await karyawanService.fetchKaryawanByIdRequest(kdKaryawan, {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          karyawanByIdRequest: data,
-        }));
+    await karyawanService.fetchKaryawanByIdRequest(
+      kdKaryawan,
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            karyawanByIdRequest: data,
+          }));
+        },
+        onError: (errMessage) => {
+          snackbar.error(errMessage);
+        },
       },
-      onError: (errMessage) => {
-        snackbar.error(errMessage);
-      },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
+    );
   };
 
   const handleSubmitForm = (kdKaryawan: string, onClose: () => void) => {
     return handleSubmit((values) => {
       const data: UpdateKaryawanRequestModel = {
+        niy: values?.niy,
         name: values?.name,
         email: values?.email,
         no_telp: values?.no_telp,
@@ -44,28 +58,35 @@ const useUpdateKaryawan = (): HookReturn => {
 
       setState((prev) => ({
         ...prev,
-        manageKaryawanLoading: true,
+        KaryawanLoading: true,
       }));
 
-      karyawanService.updateKaryawanRequest(kdKaryawan, data, {
-        onSuccess: () => {
-          snackbar.success("Successfully Updated Karyawan");
-          setState((prev) => ({
-            ...prev,
-            karyawanLoading: false,
-          }));
+      karyawanService.updateKaryawanRequest(
+        kdKaryawan,
+        data,
+        {
+          onSuccess: () => {
+            snackbar.success("Successfully Updated Karyawan");
+            setState((prev) => ({
+              ...prev,
+              karyawanLoading: false,
+            }));
 
-          fetchKaryawan(`?page=${filters?.page}&desc=${filters?.orderBy}`);
-          onClose();
+            fetchKaryawan(`?page=${filters?.page}&desc=${filters?.orderBy}`);
+            onClose();
+          },
+          onError: (errMessage) => {
+            snackbar.error(errMessage);
+            setState((prev) => ({
+              ...prev,
+              karyawanLoading: false,
+            }));
+          },
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
-          setState((prev) => ({
-            ...prev,
-            karyawanLoading: false,
-          }));
-        },
-      });
+        navigate,
+        "karyawan",
+        userData[0]?.access_token
+      );
     })();
   };
 

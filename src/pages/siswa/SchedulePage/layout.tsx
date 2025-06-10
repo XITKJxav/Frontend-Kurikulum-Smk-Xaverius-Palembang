@@ -1,10 +1,7 @@
 import AppearFadeIn from "@components/Animation/AppearFadeIn";
-import { useSchedulePageContext } from "./context";
 import SchedulePage from ".";
 
 const PayedKasLayout = () => {
-  const { state } = useSchedulePageContext();
-
   return (
     <AppearFadeIn
       direction="bottom"
@@ -12,7 +9,7 @@ const PayedKasLayout = () => {
       className="md:h-[60vh] h-[75vh]"
     >
       <div>Schedule</div>
-      
+
       <SchedulePage />
     </AppearFadeIn>
   );

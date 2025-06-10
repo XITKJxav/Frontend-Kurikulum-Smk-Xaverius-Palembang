@@ -24,6 +24,10 @@ const ClassCoordinatorColumn = () => {
       header: "kd Siswa",
     },
     {
+      accessorKey: "nisn",
+      header: "NISN",
+    },
+    {
       accessorKey: "name",
       header: "Nama Lengkap",
     },

@@ -15,6 +15,20 @@ const CreateClassCoordinator = () => {
     <div className="flex flex-col items-center justify-center">
       <form className="w-[60%] space-y-4 mt-4">
         <Controller
+          name="nisn"
+          control={control}
+          defaultValue=""
+          render={({ field, fieldState }) => (
+            <InputTextField
+              field={field}
+              fieldState={fieldState}
+              label="nisn"
+              id="nisn"
+              autoComplete="nisn"
+            />
+          )}
+        />
+        <Controller
           name="name"
           control={control}
           defaultValue=""

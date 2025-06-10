@@ -3,13 +3,13 @@ import { createContext, useContext, useState } from "react";
 
 type StateType = {
   durasiPembelajaranLoading: boolean;
-  durasiPembelajaranRequest: DurasiPembelajaranModel;
+  durasiPembelajaranRequest: number;
   durasiUpdatereqDetails: DurasiPembelajaranModel;
 };
 
 export const initialState: StateType = {
   durasiPembelajaranLoading: false,
-  durasiPembelajaranRequest: {} as DurasiPembelajaranModel,
+  durasiPembelajaranRequest: 0,
   durasiUpdatereqDetails: {} as DurasiPembelajaranModel,
 };
 

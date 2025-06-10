@@ -4,6 +4,7 @@ import LayoutGuru from "@pages/guru/LayoutGuru";
 import DashboardGuru from "@pages/guru/dashboard";
 import Homepage from "@pages/siswa/Homepage";
 import KaryawanSigninPage from "@pages/guru/login";
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
           vertical: "top",
           horizontal: "right",
         }}
+        maxSnack={3}
+        style={{ marginTop: "70px" }}
       >
         <Routes>
           <Route path="/akademik" element={<LayoutGuru />}>

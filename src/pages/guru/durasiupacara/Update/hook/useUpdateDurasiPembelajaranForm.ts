@@ -1,24 +1,29 @@
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Resolver, useForm, UseFormReturn } from "react-hook-form";
+import {
+  durasiPembelajaranDetailsFormatter,
+  durasiPembelajaranreqDefaultValues,
+  durasiPembelajaranValidations,
+} from "../utils/form";
 import { DurasiPembelajaranModel } from "@api/durasipembelajaran/model";
+import { useDurasiPembelajaranpageContext } from "../../context";
 
-export const durasiPembelajaranreqDefaultValues: DurasiPembelajaranModel = {
-  duration_time_study: 0,
-};
+interface HookReturn {
+  durasipembelajaranUpdatereqForm: UseFormReturn<DurasiPembelajaranModel>;
+}
 
-export const durasiPembelajaranValidations = yupResolver(
-  yup.object().shape({
-    duration_time_study: yup
-      .string()
-      .required("durasi pembelajaran tidak boleh kosong")
-      .min(20, "durasi pmbelajaran tidak boleh kurang dari 20 menit"),
-  })
-);
+const useUpdateDurasiPembelajaranForm = (): HookReturn => {
+  const { state } = useDurasiPembelajaranpageContext();
 
-export const durasiPembelajaranDetailsFormatter = (
-  data: DurasiPembelajaranModel
-): DurasiPembelajaranModel => {
+  const durasipembelajaranUpdatereqForm = useForm<DurasiPembelajaranModel>({
+    defaultValues: durasiPembelajaranreqDefaultValues,
+    values: durasiPembelajaranDetailsFormatter(state.durasiUpdatereqDetails),
+    resolver:
+      durasiPembelajaranValidations as Resolver<DurasiPembelajaranModel>,
+  });
+
   return {
-    duration_time_study: data.duration_time_study,
+    durasipembelajaranUpdatereqForm,
   };
 };
+
+export default useUpdateDurasiPembelajaranForm;

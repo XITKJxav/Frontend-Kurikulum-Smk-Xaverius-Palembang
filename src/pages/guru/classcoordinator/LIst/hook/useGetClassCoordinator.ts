@@ -2,6 +2,8 @@ import { useClassCoordinatorPageContext } from "../../context";
 import { snackbar } from "@utils/snackbar";
 import ClassCoordinatorService from "@api/classcoordinator";
 import { useNavigate } from "react-router-dom";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface HookReturn {
   fetchClassCoordinator: (params: string) => void;
@@ -12,6 +14,9 @@ const useGetClassCoordinator = (): HookReturn => {
   const classCoordinatorService = new ClassCoordinatorService();
   const { setState } = useClassCoordinatorPageContext();
   const navigate = useNavigate();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchClassCoordinator = async (params: string) => {
     setState((prev) => ({
@@ -36,7 +41,9 @@ const useGetClassCoordinator = (): HookReturn => {
           }));
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token || ""
     );
   };
 
@@ -46,22 +53,27 @@ const useGetClassCoordinator = (): HookReturn => {
       classCoordinatorLoading: true,
     }));
 
-    await classCoordinatorService.fetchClassRoomRequestOptions({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          classRoomRequest: data[0],
-          classCoordinatorLoading: false,
-        }));
+    await classCoordinatorService.fetchClassRoomRequestOptions(
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            classRoomRequest: data[0],
+            classCoordinatorLoading: false,
+          }));
+        },
+        onError: (errMessage) => {
+          snackbar.error(errMessage);
+          setState((prev) => ({
+            ...prev,
+            classCoordinatorLoading: false,
+          }));
+        },
       },
-      onError: (errMessage) => {
-        snackbar.error(errMessage);
-        setState((prev) => ({
-          ...prev,
-          classCoordinatorLoading: false,
-        }));
-      },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token || ""
+    );
   };
 
   return { fetchClassCoordinator, fetchClassRoom };

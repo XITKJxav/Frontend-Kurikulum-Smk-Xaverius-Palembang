@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateKaryawanRequestModel } from "@api/karyawan/model";
 
 export const karyawanreqDefaultValues: CreateKaryawanRequestModel = {
+  niy: "",
   name: "",
   email: "",
   password: "",
@@ -13,6 +14,7 @@ export const karyawanreqDefaultValues: CreateKaryawanRequestModel = {
 
 export const karyawanValidations = yupResolver(
   yup.object().shape({
+    niy: yup.string().max(10).required("NIY is required"),
     name: yup.string().required("Name is required"),
     email: yup
       .string()
@@ -39,6 +41,7 @@ export const KaryawanDetailsFormatter = (
   data: CreateKaryawanRequestModel
 ): CreateKaryawanRequestModel => {
   return {
+    niy: data.niy,
     name: data.name,
     email: data.email,
     password: data.password,

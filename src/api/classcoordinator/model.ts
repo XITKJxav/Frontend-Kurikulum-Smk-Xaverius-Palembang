@@ -23,6 +23,7 @@ export type ClassRoomModel = {
 
 export type ClassCoordinatorModel = {
   kd_siswa: string;
+  nisn: string;
   name: string;
   email: string;
   no_telp: string;
@@ -34,6 +35,7 @@ export type ClassCoordinatorModel = {
 };
 
 export type CreateClassCoordinatorModel = {
+  nisn: string;
   name: string;
   email: string;
   password: string;
@@ -43,6 +45,7 @@ export type CreateClassCoordinatorModel = {
 };
 
 export type UpdateClassCoordinatorModel = {
+  nisn: string;
   name: string;
   email: string;
   password: string;

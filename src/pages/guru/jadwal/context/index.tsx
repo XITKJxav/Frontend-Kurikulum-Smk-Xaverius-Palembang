@@ -1,3 +1,4 @@
+import { DownloadJadwalPembelajaranModel } from "@api/exportPDF/model";
 import {
   ClassRoomOptionModel,
   MataPelajaranModel,
@@ -8,6 +9,7 @@ import {
   JadwalModel,
   JadwalUpdateModel,
   RegulerTimeModel,
+  UpdateTahunAjaranModel,
 } from "@api/jadwal/model";
 import { KaryawanModel } from "@api/karyawan/model";
 import { createContext, useContext, useState } from "react";
@@ -25,11 +27,15 @@ type StateType = {
 
   jadwalUpdateReqForm: JadwalUpdateModel;
   jadwalCreateReqForm: CreateJadwalModel;
+  tahunAjaranUpdateReqForm: UpdateTahunAjaranModel;
+  tahunAjaranReq: UpdateTahunAjaranModel[];
+  exportPDFJadwalPembelajaranReq: DownloadJadwalPembelajaranModel;
 };
 
 export const initialState: StateType = {
   schendulePageLoading: true,
   schenduleTimeRegulerReq: [],
+  tahunAjaranReq: [],
   schenduleIdreq: [],
   schenduleTimeRegulerByIdReq: [],
   schenduleDayReq: [],
@@ -37,9 +43,10 @@ export const initialState: StateType = {
   mataPelajaranreq: [],
   schendulereq: [],
   karyawanreq: [],
-
+  tahunAjaranUpdateReqForm: {} as UpdateTahunAjaranModel,
   jadwalUpdateReqForm: {} as JadwalUpdateModel,
   jadwalCreateReqForm: {} as CreateJadwalModel,
+  exportPDFJadwalPembelajaranReq: {} as DownloadJadwalPembelajaranModel,
 };
 
 type ContextType = {

@@ -65,3 +65,8 @@ export type JadwalUpdateModel = {
   id_pengajar: string;
   kd_guru_piket: string;
 };
+
+export type UpdateTahunAjaranModel = {
+  tahun_ajaran_awal: string;
+  tahun_ajaran_akhir: string;
+};

@@ -9,6 +9,7 @@ export type KaryawanSignInResponseRequestModel = {
 export type siswaSignInResponseRequestModel = {
   kd_siswa: string;
   name: string;
+  role: string;
   id_ruang_kelas: string;
   access_token: string;
   refresh_token: string;

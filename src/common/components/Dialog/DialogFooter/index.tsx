@@ -1,4 +1,5 @@
 import { ActionButton } from "@components/Button";
+import { JSX } from "@emotion/react/jsx-runtime";
 import { DialogActions } from "@mui/material";
 import clsx from "clsx";
 
@@ -15,7 +16,7 @@ function DialogFooter(props: Props): JSX.Element {
     <DialogActions
       sx={{
         backgroundColor: "#323232",
-        borderTop: "1px solid #55555590"
+        borderTop: "1px solid #55555590",
       }}
     >
       <div className={clsx("flex gap-2", className)}>

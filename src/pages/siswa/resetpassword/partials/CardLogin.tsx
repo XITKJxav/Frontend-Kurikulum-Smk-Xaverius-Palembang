@@ -1,29 +1,23 @@
 import AppearFadeIn from "@components/Animation/AppearFadeIn";
 import { ActionButton } from "@components/Button";
 import CardAutosize from "@components/Card/CardAutosize";
-import useLoginAdministratorClassForm from "@pages/siswa/login/loginUser/hook/useSignInCoordinatorClassForm";
 import clsx from "clsx";
-import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 const CardLogin = () => {
-  const { control } = useFormContext();
-  const { handleSubmitForm } = useLoginAdministratorClassForm();
-
-  // const handleSubmitForm = () => {};
   return (
     <CardAutosize
-      className="mx-auto backdrop-blur-lg  bg-stone-500/30 shadow-lg rounded-lg"
+      className="mx-auto rounded-lg shadow-lg backdrop-blur-lg bg-stone-500/30"
       initialSize={{ width: "40.3rem" }}
       trigger={true}
       animateSize={{ width: "100rem" }}
     >
-      <AppearFadeIn direction="left" className="drop-shadow-xl p-5">
-        <div className=" flex flex-col justify-center items-center">
+      <AppearFadeIn direction="left" className="p-5 drop-shadow-xl">
+        <div className="flex flex-col items-center justify-center ">
           <div className="mt-3 mb-3">
             <label
               htmlFor="email"
-              className="block mb-2 text-white font-medium"
+              className="block mb-2 font-medium text-white"
             >
               Email
             </label>
@@ -44,7 +38,7 @@ const CardLogin = () => {
           <div className="mt-3 mb-2">
             <label
               htmlFor="password"
-              className="block mb-2 text-white font-medium"
+              className="block mb-2 font-medium text-white"
             >
               Password
             </label>
@@ -64,18 +58,13 @@ const CardLogin = () => {
           <div className="w-full mb-3">
             <Link
               to="/reset-password"
-              className="mb-3 text-sm text-white/80 hover:text-white underline transition-all duration-200 ease-in-out"
+              className="mb-3 text-sm underline transition-all duration-200 ease-in-out text-white/80 hover:text-white"
             >
               Forgot your password?
             </Link>
           </div>
 
-          <ActionButton
-            label="Sign In"
-            onClick={handleSubmitForm}
-            color="primary"
-            className="w-full"
-          />
+          <ActionButton label="Sign In" color="primary" className="w-full" />
         </div>
       </AppearFadeIn>
     </CardAutosize>

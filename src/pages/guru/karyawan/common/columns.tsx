@@ -1,10 +1,8 @@
 import { Edit } from "@mui/icons-material";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import CardUpdateProgramJurusan from "../partials/CardUpdateKaryawan";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
-
 import { KaryawanModel } from "@api/karyawan/model";
 import useUpdateKaryawanForm from "../Update/hook/useUpdateKaryawanForm";
 import CardUpdateKaryawan from "../partials/CardUpdateKaryawan";
@@ -31,6 +29,18 @@ const KaryawanColumn = () => {
     {
       accessorKey: "kd_karyawan",
       header: "Kd Karyawan",
+    },
+    {
+      accessorKey: "niy",
+      header: "NIY",
+    },
+    {
+      accessorKey: "email",
+      header: "Email",
+    },
+    {
+      accessorKey: "role.name",
+      header: "Role",
     },
     {
       accessorKey: "name",

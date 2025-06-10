@@ -4,6 +4,9 @@ import { usejurusanpageContext } from "../../context";
 import { useFormContext } from "react-hook-form";
 import { JurusanUpdateModel } from "@api/jurusan/model";
 import useManageJurusan from "../../List/hook/useManageJurusan";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchJurusanById: (kdJurusan: string) => void;
@@ -16,19 +19,29 @@ const useUpdateProgramJurusan = (): HookReturn => {
   const jurusanService = new JurusanService();
   const { handleSubmit } = useFormContext();
   const { fetchJurusan } = useManageJurusan();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
+  const navigate = useNavigate();
 
   const fetchJurusanById = async (kdJurusan: string) => {
-    await jurusanService.fetchProgramJurusanById(kdJurusan, {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          jurusanByIdRequest: data,
-        }));
+    await jurusanService.fetchProgramJurusanById(
+      kdJurusan,
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            jurusanByIdRequest: data,
+          }));
+        },
+        onError: (errMessage) => {
+          snackbar.error(errMessage);
+        },
       },
-      onError: (errMessage) => {
-        snackbar.error(errMessage);
-      },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
+    );
   };
 
   const handleSubmitForm = (kdJurusan: string, onClose: () => void) => {
@@ -42,25 +55,32 @@ const useUpdateProgramJurusan = (): HookReturn => {
         manageJurusanLoading: true,
       }));
 
-      jurusanService.updateStatusJurusanRequest(kdJurusan, data, {
-        onSuccess: () => {
-          snackbar.success("Successfully Updated Status Program Jurusan");
-          setState((prev) => ({
-            ...prev,
-            manageJurusanLoading: false,
-          }));
+      jurusanService.updateStatusJurusanRequest(
+        kdJurusan,
+        data,
+        {
+          onSuccess: () => {
+            snackbar.success("Successfully Updated Status Program Jurusan");
+            setState((prev) => ({
+              ...prev,
+              manageJurusanLoading: false,
+            }));
 
-          fetchJurusan(`?page=${filters?.page}&desc=${filters?.orderBy}`);
-          onClose();
+            fetchJurusan(`?page=${filters?.page}&desc=${filters?.orderBy}`);
+            onClose();
+          },
+          onError: (errMessage) => {
+            snackbar.error(errMessage);
+            setState((prev) => ({
+              ...prev,
+              manageJurusanLoading: false,
+            }));
+          },
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
-          setState((prev) => ({
-            ...prev,
-            manageJurusanLoading: false,
-          }));
-        },
-      });
+        navigate,
+        "karyawan",
+        userData[0]?.access_token
+      );
     })();
   };
 

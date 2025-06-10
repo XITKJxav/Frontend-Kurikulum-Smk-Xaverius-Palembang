@@ -6,6 +6,8 @@ import useGetClassCoordinator from "../../LIst/hook/useGetClassCoordinator";
 import { UpdateClassCoordinatorModel } from "@api/classcoordinator/model";
 import ClassCoordinatorService from "@api/classcoordinator";
 import { useNavigate } from "react-router-dom";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface HookReturn {
   fetchClassCoordinatorById: (id: string) => void;
@@ -19,6 +21,9 @@ const useUpdateClassCoordinator = (): HookReturn => {
   const { handleSubmit } = useFormContext();
   const { fetchClassCoordinator } = useGetClassCoordinator();
   const navigate = useNavigate();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchClassCoordinatorById = (id: string) => {
     classCoordinatorService.fetchClassCoordinatorByidRequest(
@@ -34,13 +39,16 @@ const useUpdateClassCoordinator = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
     );
   };
 
   const handleUpdateForm = (id: string, onClose: () => void) => {
     return handleSubmit((values) => {
       const data: UpdateClassCoordinatorModel = {
+        nisn: values.nisn,
         name: values.name,
         email: values.email,
         password: values.password,
@@ -54,30 +62,37 @@ const useUpdateClassCoordinator = (): HookReturn => {
         classCoordinatorLoading: true,
       }));
 
-      classCoordinatorService.updateClassCoordinatorRequest(id, data, {
-        onSuccess: (data) => {
-          snackbar.success("Successfully Updated Class Coordinator");
-          setState((prev) => ({
-            ...prev,
-            classrCoordinatorLoading: false,
-          }));
-          console.log(data);
-          fetchClassCoordinator(
-            Filters({
-              onPage: filtersClassCoordinator?.page,
-              onOrder: filtersClassCoordinator?.orderBy,
-            })
-          );
-          onClose();
+      classCoordinatorService.updateClassCoordinatorRequest(
+        id,
+        data,
+        {
+          onSuccess: () => {
+            snackbar.success("Successfully Updated Class Coordinator");
+            setState((prev) => ({
+              ...prev,
+              classrCoordinatorLoading: false,
+            }));
+
+            fetchClassCoordinator(
+              Filters({
+                onPage: filtersClassCoordinator?.page,
+                onOrder: filtersClassCoordinator?.orderBy,
+              })
+            );
+            onClose();
+          },
+          onError: (errMessage) => {
+            snackbar.error(errMessage);
+            setState((prev) => ({
+              ...prev,
+              classrCoordinatorLoading: false,
+            }));
+          },
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
-          setState((prev) => ({
-            ...prev,
-            classrCoordinatorLoading: false,
-          }));
-        },
-      });
+        navigate,
+        "karyawan",
+        userData[0]?.access_token
+      );
     })();
   };
 

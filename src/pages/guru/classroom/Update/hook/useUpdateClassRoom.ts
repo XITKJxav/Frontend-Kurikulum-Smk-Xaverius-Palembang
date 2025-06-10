@@ -5,6 +5,9 @@ import useGetClassRoom from "../../LIst/hook/useGetClassRoom";
 import { Filters } from "../../LIst/utils/Filters";
 import ClassRoomService from "@api/classroom";
 import { ClassRoomUpdateModel } from "@api/classroom/model";
+import { useNavigate } from "react-router-dom";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface HookReturn {
   fetchClassRoomById: (id: number) => void;
@@ -17,19 +20,28 @@ const useUpdateClassRoom = (): HookReturn => {
   const classRoomService = new ClassRoomService();
   const { handleSubmit } = useFormContext();
   const { fetchClassRoom } = useGetClassRoom();
-
+  const navigate = useNavigate();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
   const fetchClassRoomById = async (id: number) => {
-    await classRoomService.fetchClassRoomByIdRequest(id, {
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          classroomByIdRequest: data,
-        }));
+    await classRoomService.fetchClassRoomByIdRequest(
+      id,
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            classroomByIdRequest: data,
+          }));
+        },
+        onError: (errMessage) => {
+          snackbar.error(errMessage);
+        },
       },
-      onError: (errMessage) => {
-        snackbar.error(errMessage);
-      },
-    });
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
+    );
   };
 
   const handleUpdateForm = (id: number, onClose: () => void) => {
@@ -37,6 +49,7 @@ const useUpdateClassRoom = (): HookReturn => {
       const data: ClassRoomUpdateModel = {
         nomor_ruangan: values.nomor_ruangan,
         kd_jurusan: values.kd_jurusan,
+        kd_wali_kelas: values.kd_wali_kelas,
         status: values.status,
       };
 
@@ -45,29 +58,36 @@ const useUpdateClassRoom = (): HookReturn => {
         classRoomLoading: true,
       }));
 
-      classRoomService.updateClassRoomRequest(id, data, {
-        onSuccess: () => {
-          snackbar.success("Successfully Updated Class Room");
-          setState((prev) => ({
-            ...prev,
-            classRoomLoading: false,
-          }));
-          fetchClassRoom(
-            Filters({
-              onPage: filtersClassRoom?.page,
-              onOrder: filtersClassRoom?.orderBy,
-            })
-          );
-          onClose();
+      classRoomService.updateClassRoomRequest(
+        id,
+        data,
+        {
+          onSuccess: () => {
+            snackbar.success("Successfully Updated Class Room");
+            setState((prev) => ({
+              ...prev,
+              classRoomLoading: false,
+            }));
+            fetchClassRoom(
+              Filters({
+                onPage: filtersClassRoom?.page,
+                onOrder: filtersClassRoom?.orderBy,
+              })
+            );
+            onClose();
+          },
+          onError: (errMessage) => {
+            snackbar.error(errMessage);
+            setState((prev) => ({
+              ...prev,
+              classRoomLoading: false,
+            }));
+          },
         },
-        onError: (errMessage) => {
-          snackbar.error(errMessage);
-          setState((prev) => ({
-            ...prev,
-            classRoomLoading: false,
-          }));
-        },
-      });
+        navigate,
+        "karyawan",
+        userData[0]?.access_token
+      );
     })();
   };
 

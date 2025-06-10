@@ -1,3 +1,4 @@
+import { JSX } from "@emotion/react/jsx-runtime";
 import { Check, Download } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
 import { downloadImage } from "@utils/imageDownloader";
@@ -30,7 +31,7 @@ function DownloadButton(props: Props): JSX.Element {
         <CircularProgress
           size={10}
           style={{
-            color: "gray"
+            color: "gray",
           }}
         />
       ) : (

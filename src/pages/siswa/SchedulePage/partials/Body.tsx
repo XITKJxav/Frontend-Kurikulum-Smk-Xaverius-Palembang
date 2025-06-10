@@ -9,6 +9,8 @@ import TableJadwalReguler from "./TableJadwalReguler";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useSchedulePageContext } from "../context";
 import TableJadwalUpacara from "./TableJadwalUpacara";
+import TableJadwalEkstrakurikuler from "./TableJadwalEkstrakulikuler";
+import { LoadingDialog } from "@components/Dialog";
 
 const Body = () => {
   const {
@@ -17,14 +19,15 @@ const Body = () => {
     fetchByIdJadwal,
     fetchJamUpacara,
   } = useSchendule();
-  const { state } = useSchedulePageContext();
-  const { schenduleDayReq } = state;
 
+  const { state } = useSchedulePageContext();
+  const { schenduleDayReq, SchedulePageLoading } = state;
   const [day, setDay] = useState<number | string>(1);
   const handleChangeDay = (event: SelectChangeEvent<string | number>) => {
     const selectedValue = Number(event.target.value);
     setDay(selectedValue);
   };
+
   const menuProps = {
     PaperProps: {
       sx: {
@@ -37,6 +40,7 @@ const Body = () => {
       },
     },
   };
+
   const { getItem } = LocalStorage();
   const user: siswaSignInResponseRequestModel[] = getItem("userData") ?? [];
   const dataUser = user[0];
@@ -45,6 +49,15 @@ const Body = () => {
     {
       label: "Jadwal Reguler",
       partial: <TableJadwalReguler onDay={day} onUser={dataUser} />,
+    },
+    {
+      label: "Kegiatan Ekstrakurikuler",
+      partial: (
+        <TableJadwalEkstrakurikuler
+          onDay={day}
+          idRuanganKelas={dataUser?.id_ruang_kelas}
+        />
+      ),
     },
     {
       label: "Jadwal Upacara",
@@ -58,7 +71,7 @@ const Body = () => {
         onDay: day,
       })
     );
-    fetchJamUpacara(Number(day));
+    fetchJamUpacara(day);
     fetchDayRequest();
     fetchByIdJadwal("");
   }, [fetchDayRequest, fetchTimeRegulerRequest]);
@@ -70,11 +83,12 @@ const Body = () => {
   return (
     <div className="flex flex-col items-center justify-center p-6">
       <div className="w-full mb-4">
+        <LoadingDialog open={SchedulePageLoading} onClose={() => {}} />
         <Select
           labelId="day-select-label"
           displayEmpty
           fullWidth
-          value={day ? day.toString() : ""}
+          value={day}
           onChange={handleChangeDay}
           variant="outlined"
           sx={{

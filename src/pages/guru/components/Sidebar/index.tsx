@@ -4,6 +4,8 @@ import { listMenuGuru } from "@config/menu";
 import { AppType } from "@types";
 import SidebarDropdown from "../SidebarDropdown";
 import AppearOnScroll from "@components/Animation/AppearOnScroll";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface Props {
   isOpen: boolean;
@@ -25,6 +27,11 @@ const Sidebar = ({ isOpen, isActive, isClose, onChangeApp }: Props) => {
     setOpenDropdown((prev) => (prev === dropdownTitle ? null : dropdownTitle));
   };
 
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
+  const role = userData[0]?.role.toLowerCase();
+
   return (
     <div className="z-10">
       <div
@@ -42,40 +49,49 @@ const Sidebar = ({ isOpen, isActive, isClose, onChangeApp }: Props) => {
         )}
       >
         <ul className="space-y-4">
-          {listMenuGuru.map((menu, index) => (
-            <AppearOnScroll
-              key={index}
-              className="space-y-4"
-              duration={0.2 + 0.2 * index}
-            >
-              {menu.children ? (
-                <SidebarDropdown
-                  key={index}
-                  menu={menu}
-                  openDropdown={openDropdown}
-                  isActive={isActive}
-                  onClickParent={() => toggleDropdown(menu.titleDropDown)}
-                  onClickChild={(childTitle) =>
-                    handleMenuClick(childTitle, menu.titleDropDown)
-                  }
-                />
-              ) : (
-                <li>
-                  <div
-                    onClick={() => handleMenuClick(menu.title)}
-                    className={clsx(
-                      "flex items-center gap-3 hover:bg-[#261FB3] p-2 rounded capitalize cursor-pointer",
-                      isActive.toLowerCase() === menu.title.toLowerCase() &&
-                        "bg-[#261FB3]"
-                    )}
-                  >
-                    {menu.icon}
-                    {menu.title}
-                  </div>
-                </li>
-              )}
-            </AppearOnScroll>
-          ))}
+          {listMenuGuru.map((menu, index) => {
+            if (!menu.role.includes(role)) return null;
+
+            const filteredChildren = menu.children?.filter((child) =>
+              child.role.includes(role)
+            );
+
+            const isDropdown = filteredChildren && menu.titleDropDown;
+
+            return (
+              <AppearOnScroll
+                key={index}
+                className="space-y-4"
+                duration={0.2 + 0.2 * index}
+              >
+                {isDropdown ? (
+                  <SidebarDropdown
+                    menu={{ ...menu, children: filteredChildren }}
+                    openDropdown={openDropdown}
+                    isActive={isActive}
+                    onClickParent={() => toggleDropdown(menu.titleDropDown!)}
+                    onClickChild={(childTitle) =>
+                      handleMenuClick(childTitle, menu.titleDropDown)
+                    }
+                  />
+                ) : (
+                  <li>
+                    <div
+                      onClick={() => handleMenuClick(menu?.title ?? "")}
+                      className={clsx(
+                        "flex items-center gap-3 hover:bg-[#261FB3] p-2 rounded capitalize cursor-pointer",
+                        isActive.toLowerCase() === menu?.title?.toLowerCase() &&
+                          "bg-[#261FB3]"
+                      )}
+                    >
+                      {menu.icon}
+                      {menu.title}
+                    </div>
+                  </li>
+                )}
+              </AppearOnScroll>
+            );
+          })}
         </ul>
       </div>
     </div>

@@ -22,8 +22,7 @@ const useUserSiswa = (): HookReturn => {
       isLoading: true,
     }));
     classCoordinatorService.fetchClassCoordinatorByidRequest(
-      userData[0]?.kd_siswa || "",
-      userData[0]?.access_token || "",
+      userData[0]?.kd_siswa,
       {
         onSuccess: (data) => {
           setState((prev) => ({
@@ -40,7 +39,9 @@ const useUserSiswa = (): HookReturn => {
           }));
         },
       },
-      navigate
+      navigate,
+      "siswa",
+      userData[0]?.access_token || ""
     );
   };
   return { fetchUserSiswa };

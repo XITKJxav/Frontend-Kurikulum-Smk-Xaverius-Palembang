@@ -3,6 +3,8 @@ import { usekaryawanpageContext } from "../../context";
 import KaryawanService from "@api/karyawan";
 import { useNavigate } from "react-router-dom";
 import HealthOptionService from "@api/HealthOption";
+import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import { LocalStorage } from "@utils/localStorage";
 
 interface HookReturn {
   fetchKaryawan: (params: string) => void;
@@ -14,11 +16,14 @@ const useKaryawan = (): HookReturn => {
   const karyawanService = new KaryawanService();
   const roleService = new HealthOptionService();
   const { setState } = usekaryawanpageContext();
+  const { getItem } = LocalStorage();
+  const userData: KaryawanSignInResponseRequestModel[] =
+    getItem("karyawanData") || [];
 
   const fetchKaryawan = async (params: string) => {
     setState((prev) => ({
       ...prev,
-      manageJurusanLoading: true,
+      KaryawanLoading: true,
     }));
     await karyawanService.fetchKaryawanRequest(
       params,
@@ -27,34 +32,41 @@ const useKaryawan = (): HookReturn => {
           setState((prev) => ({
             ...prev,
             karyawanRequest: data[0],
-            karyawanLoading: false,
+            KaryawanLoading: false,
           }));
           console.log(data);
         },
         onError: (errMessage) => {
           setState((prev) => ({
             ...prev,
-            karyawanLoading: false,
+            KaryawanLoading: false,
           }));
           snackbar.error(errMessage);
         },
       },
-      navigate
+      navigate,
+      "karyawan",
+      userData[0]?.access_token
     );
   };
   const fetchRole = async () => {
-    await roleService.fetchRoleRequestOptions({
-      onSuccess: (data) => {
-        setState((prev) => ({
-          ...prev,
-          roleRequest: data[0],
-        }));
-        console.log(data);
+    await roleService.fetchRoleRequestOptions(
+      {
+        onSuccess: (data) => {
+          setState((prev) => ({
+            ...prev,
+            roleRequest: data[0],
+          }));
+          console.log(data);
+        },
+        onError: (errMessage) => {
+          snackbar.error(errMessage);
+        },
       },
-      onError: (errMessage) => {
-        snackbar.error(errMessage);
-      },
-    });
+      "karyawan",
+      navigate,
+      userData[0]?.access_token
+    );
   };
 
   return {

@@ -3,7 +3,6 @@ import { LoadingDialog } from "@components/Dialog";
 import { DataTable } from "@components/Table";
 import { useCallback, useEffect, useState } from "react";
 import KaryawanColumn from "../common/columns";
-import useMataPelajaran from "../List/hook/useAgendaUpacara";
 import { useAgendaUpacarapageContext } from "../context";
 import useAgendaUpacara from "../List/hook/useAgendaUpacara";
 import { FiltersAgendaUpacara } from "../List/utils/filtersAgendaUpacara";

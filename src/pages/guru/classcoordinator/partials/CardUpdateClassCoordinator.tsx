@@ -75,6 +75,20 @@ const CardUpdateClassCoordinator = ({
       <DialogContent>
         <form className="flex flex-col items-center justify-center gap-4 mt-3 ">
           <Controller
+            name="nisn"
+            control={control}
+            defaultValue={data.nisn || ""}
+            render={({ field, fieldState }) => (
+              <InputTextField
+                field={field}
+                fieldState={fieldState}
+                label="nisn"
+                id="nisn"
+                autoComplete="nisn"
+              />
+            )}
+          />
+          <Controller
             name="name"
             control={control}
             defaultValue={data.name || ""}
