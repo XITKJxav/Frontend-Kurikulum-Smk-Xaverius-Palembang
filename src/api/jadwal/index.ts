@@ -20,6 +20,7 @@ export default class SchenduleService {
   basePathJadwal = "/jadwal";
   basePathTahunAjaran = "/tahun-ajaran";
   basePathBlukSchendule = "/bulk-update-schendule";
+  private api: API = new API();
 
   private async handleUnauthorized(
     guard: string,
@@ -37,7 +38,6 @@ export default class SchenduleService {
       return;
     }
   }
-  private api: API = new API();
 
   async generateJadwalUpdateRequest(
     data: GenerateJadwalModel,
@@ -64,6 +64,7 @@ export default class SchenduleService {
       callback.onSuccess(res?.data);
     }
   }
+
   async fetchRegulerTimeRequest(
     params: string,
     callback: FetchCallback<RegulerTimeModel[]>,
