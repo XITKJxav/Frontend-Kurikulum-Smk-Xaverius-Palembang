@@ -40,9 +40,6 @@ const SchenduleBody = () => {
   const { downloadJadwalPembelajaranreqForm } =
     useDownloadJadwalPembelajaranForm();
   const { generateJadwalreqForm } = useGenerateJadwalUpdateReqForm();
-  const handleChangeClass = useCallback((event: SelectChangeEvent<string>) => {
-    setKelas(event.target.value);
-  }, []);
 
   const menuProps = {
     PaperProps: {
