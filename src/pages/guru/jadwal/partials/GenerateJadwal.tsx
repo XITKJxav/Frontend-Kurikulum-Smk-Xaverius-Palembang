@@ -10,12 +10,11 @@ interface Props {
   id_hari: number;
 }
 
-const GenerateJadwal = ({ id_kelas, id_hari }: Props) => {
+const GenerateJadwal = ({ id_hari }: Props) => {
   const { updateGenerateJadwalRequest } = useGenerateJadwal();
   const { control } = useFormContext();
   const { state } = useJadwalpageContext();
-  const { schendulePageLoading, mataPelajaranreq, schenduleTimeRegulerReq } =
-    state;
+  const { schendulePageLoading, mataPelajaranreq } = state;
   return (
     <>
       {schendulePageLoading && <LoadingDialog open={true} onClose={() => {}} />}

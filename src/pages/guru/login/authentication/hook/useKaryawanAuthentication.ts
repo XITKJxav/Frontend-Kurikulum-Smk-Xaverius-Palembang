@@ -39,10 +39,8 @@ const useKaryawanAuthentication = (): HookReturn => {
             signInLoading: false,
           }));
         },
-
         onError: (err) => {
           snackbar.error("Invalid Username and Password");
-          console.log(err);
           setState((prev) => ({
             ...prev,
             signInLoading: false,

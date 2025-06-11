@@ -37,6 +37,9 @@ const SchenduleBody = () => {
   const handleChangeDay = useCallback((event: SelectChangeEvent<string>) => {
     setDay(event.target.value);
   }, []);
+  const handleChangeClass = useCallback((event: SelectChangeEvent<string>) => {
+    setKelas(event.target.value);
+  }, []);
   const { downloadJadwalPembelajaranreqForm } =
     useDownloadJadwalPembelajaranForm();
   const { generateJadwalreqForm } = useGenerateJadwalUpdateReqForm();
