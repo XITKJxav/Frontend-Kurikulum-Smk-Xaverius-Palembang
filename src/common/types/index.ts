@@ -1,16 +1,15 @@
+import { JSX } from "@emotion/react/jsx-runtime";
+
 export type FilterParams = {
-  params: {
-    [key: string]: string | number;
-  };
+  params: Record<string, string | number>;
 };
 
 export type APIResponse<T = void> = {
   status: boolean;
   status_code: number;
-  message: string;
-  errors: APIFieldError[];
+  message?: string;
+  errors?: APIFieldError[];
   data: T;
-  pagination?: PaginationType;
 } | null;
 
 export type CommonOptions = {
@@ -27,14 +26,13 @@ export type FilterType = {
 export type FetchCallback<T> = {
   onSuccess: (data: T) => void;
   onError: (errMessage: string) => void;
-  onFullfilled?: () => void;
 };
 
 export type PaginationType = {
-  page: number;
-  limit: number;
-  total_items: number;
-  total_pages: number;
+  total: number;
+  current_page: number;
+  last_page: number;
+  per_page: number;
 };
 
 export type APIFieldError = {
@@ -43,10 +41,22 @@ export type APIFieldError = {
 };
 
 export type AppType =
-  | "dashboard";
+  | "home"
+  | "manage jurusan"
+  | "ruang kelas"
+  | "karyawan"
+  | "jadwal"
+  | "penugasan"
+  | "siswa"
+  | "settings"
+  | "mata pelajaran"
+  | "agenda upacara"
+  | "durasi pembelajar";
+
+export type AppTypeUser = "home" | "schedule";
 
 export type AppList = {
   displayName: string;
   icon: JSX.Element;
-  appName: AppType;
+  appName: AppTypeUser;
 };

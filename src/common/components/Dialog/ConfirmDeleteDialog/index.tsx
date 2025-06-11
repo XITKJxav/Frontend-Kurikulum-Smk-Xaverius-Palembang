@@ -3,10 +3,11 @@ import {
   DialogActions,
   DialogContent,
   Icon,
-  Typography
+  Typography,
 } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
 import ActionButton from "../../Button/ActionButton";
+import { JSX } from "@emotion/react/jsx-runtime";
 
 interface Props {
   className?: string;
@@ -26,8 +27,8 @@ function ConfirmDeleteDialog(props: Props): JSX.Element {
           borderRadius: 20,
           backgroundColor: "#373737",
           color: "white",
-          opacity: 0.9
-        }
+          opacity: 0.9,
+        },
       }}
       disableRestoreFocus={true}
     >
@@ -39,7 +40,7 @@ function ConfirmDeleteDialog(props: Props): JSX.Element {
           Are you sure deleting this?
         </Typography>
       </DialogContent>
-      <DialogActions className="justify-center my-2 mx-auto">
+      <DialogActions className="justify-center mx-auto my-2">
         <ActionButton
           label="Cancel"
           onClick={props.onClose}

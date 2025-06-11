@@ -1,29 +1,32 @@
-import { BrowserRouter,  Routes, Route } from "react-router-dom"
-import ViewGuru from "./layouts/viewGuru"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
+import LayoutGuru from "@pages/guru/LayoutGuru";
+import DashboardGuru from "@pages/guru/dashboard";
+import Homepage from "@pages/siswa/Homepage";
+import KaryawanSigninPage from "@pages/guru/login";
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
-
-
   return (
-   <BrowserRouter>
-    <SnackbarProvider
+    <BrowserRouter>
+      <SnackbarProvider
         anchorOrigin={{
           vertical: "top",
           horizontal: "right",
         }}
+        maxSnack={3}
+        style={{ marginTop: "70px" }}
       >
-      <Routes>
-        <Route path="/" element={<ViewGuru />}>
-          <Route index element="hellow"/>
-        </Route>
-        <Route path="/guru" element={<ViewGuru />}>
-          <Route index element="hellow"/>
-        </Route>
-      </Routes>
+        <Routes>
+          <Route path="/akademik" element={<LayoutGuru />}>
+            <Route index element={<DashboardGuru />} />
+          </Route>
+          <Route path="/sign-in" element={<KaryawanSigninPage />} />
+          <Route index element={<Homepage />} />
+        </Routes>
       </SnackbarProvider>
-   </BrowserRouter>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
