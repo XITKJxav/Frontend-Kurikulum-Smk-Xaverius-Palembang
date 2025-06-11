@@ -19,7 +19,7 @@ export default class SchenduleService {
   basePathDayReguler = "/hari";
   basePathJadwal = "/jadwal";
   basePathTahunAjaran = "/tahun-ajaran";
-  basePathAddJadwal = "/add-jadwal";
+  basePathBlukSchendule = "/bulk-update-schendule";
 
   private async handleUnauthorized(
     guard: string,
@@ -46,7 +46,7 @@ export default class SchenduleService {
     guard: string,
     accessToken: string
   ) {
-    const targetPath = this.basePathAddJadwal;
+    const targetPath = this.basePathBlukSchendule;
     const res: APIResponse<GenerateJadwalModel> = await this.api.PUT(
       targetPath,
       data,
@@ -214,6 +214,7 @@ export default class SchenduleService {
       callback.onSuccess(res?.data);
     }
   }
+
   async fetchTahunAjaranRequest(
     callback: FetchCallback<UpdateTahunAjaranModel[]>,
     navigate: ReturnType<typeof useNavigate>,
