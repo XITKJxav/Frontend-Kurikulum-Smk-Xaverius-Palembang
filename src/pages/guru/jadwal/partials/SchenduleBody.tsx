@@ -13,6 +13,7 @@ import useTahunAjaranUpdateReqForm from "../UpdateTahunAjaran/hook/useUpdateTahu
 import useDownloadJadwalPembelajaranForm from "../ExportPDF/hook/useExportPembelajarranPDF";
 import ButtonExportPDF from "./ButtonExportPDF";
 import useGenerateJadwalUpdateReqForm from "../GenerateJadwal/hook/useGenerateJadwalForm";
+import GenerateJadwal from "./GenerateJadwal";
 
 const SchenduleBody = () => {
   const { state } = useJadwalpageContext();
@@ -135,11 +136,13 @@ const SchenduleBody = () => {
           )}
         </div>
       </div>
+
       {schenduleDayReq.length > 0 && (
         <FormProvider {...generateJadwalreqForm}>
-          <ButtonExportPDF id_kelas={Number(kelas)} />
+          <GenerateJadwal onDay={Number(day)} onClass={Number(kelas)} />
         </FormProvider>
       )}
+
       {jadwalSudahAda ? (
         <TableSchendule onDay={day} onKelas={kelas} />
       ) : (

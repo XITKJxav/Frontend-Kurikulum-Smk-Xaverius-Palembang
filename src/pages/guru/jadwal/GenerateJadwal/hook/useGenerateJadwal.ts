@@ -13,7 +13,7 @@ interface HookReturn {
 
 const useGenerateJadwal = (): HookReturn => {
   const schenduleService = new SchenduleService();
-  const { handleSubmit } = useFormContext();
+  const { handleSubmit, trigger } = useFormContext();
   const navigate = useNavigate();
   const { setState } = useJadwalpageContext();
   const { getItem } = LocalStorage();
@@ -29,14 +29,14 @@ const useGenerateJadwal = (): HookReturn => {
         id_jam_akhir: values?.id_jam_akhir,
         id_mata_pelajaran: values?.id_pengajar,
         id_pengajar: values?.id_pengajar,
-        id_guru_piket: values?.id_guru_piket,
+        kd_guru_piket: values?.kd_guru_piket,
       };
 
       setState((prev) => ({
         ...prev,
         schendulePageLoading: true,
       }));
-
+      trigger();
       await schenduleService.generateJadwalUpdateRequest(
         data,
         {
@@ -58,7 +58,7 @@ const useGenerateJadwal = (): HookReturn => {
         "karyawan",
         userData[0]?.access_token
       );
-    });
+    })();
   };
 
   return {

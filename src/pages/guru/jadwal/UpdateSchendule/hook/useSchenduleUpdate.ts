@@ -27,16 +27,15 @@ const useSchenduleUpdate = (): HookReturn => {
         ...prev,
         schendulePageLoading: true,
       }));
-
       onCloseDialog();
 
       const data: JadwalUpdateModel = {
-        id_ruangan_kelas: values.id_ruangan_kelas,
-        id_hari: values.id_hari,
-        kd_jam_pembelajaran: values.kd_jam_pembelajaran,
-        id_mata_pelajaran: values.id_mata_pelajaran,
-        id_pengajar: values.id_pengajar,
-        kd_guru_piket: values.kd_guru_piket,
+        id_ruangan_kelas: values?.id_ruangan_kelas,
+        id_hari: values?.id_hari,
+        kd_jam_pembelajaran: values?.kd_jam_pembelajaran,
+        id_mata_pelajaran: values?.id_mata_pelajaran,
+        id_pengajar: values?.id_pengajar,
+        kd_guru_piket: values?.kd_guru_piket,
       };
 
       trigger();

@@ -76,7 +76,7 @@ export type GenerateJadwalModel = {
   id_ruangan_kelas: number;
   id_jam_awal: number;
   id_jam_akhir: number;
-  id_mata_pelajaran: number;
+  id_mata_pelajaran: string;
   id_pengajar: string;
-  id_guru_piket: string;
+  kd_guru_piket: string;
 };

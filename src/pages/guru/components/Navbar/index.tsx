@@ -34,7 +34,6 @@ const Navbar = (props: Props) => {
               style={{ backgroundImage: `url(${img})` }}
             ></div>
             <span className="text-lg font-medium">{listKaryawan?.name}</span>
-            {listKaryawan.access_token ?? "kosong"}
           </div>
 
           {activeDropDownProfile && (

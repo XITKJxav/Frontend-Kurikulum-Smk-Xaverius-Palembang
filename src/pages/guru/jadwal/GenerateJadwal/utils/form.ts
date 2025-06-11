@@ -7,20 +7,32 @@ export const generateJadwalreqDefaultValues: GenerateJadwalModel = {
   id_ruangan_kelas: 0,
   id_jam_awal: 0,
   id_jam_akhir: 0,
-  id_mata_pelajaran: 0,
+  id_mata_pelajaran: "",
   id_pengajar: "",
-  id_guru_piket: "",
+  kd_guru_piket: "",
 };
 
 export const generateJadwalValidations = yupResolver(
   yup.object().shape({
     id_hari: yup.number().required("Hari is Required"),
     id_ruangan_kelas: yup.number().required("Ruangan Kelas is Required"),
-    id_jam_awal: yup.number().required("Jam Awal is Required"),
-    id_jam_akhir: yup.number().required("Jam Akhir is Required"),
-    id_mata_pelajaran: yup.number().required("Mata Pelajaran is Required"),
+    id_jam_awal: yup
+      .number()
+      .typeError("Jam Awal is Required")
+      .moreThan(0, "Jam Awal is Required"),
+
+    id_jam_akhir: yup
+      .number()
+      .typeError("Jam Akhir is Required")
+      .moreThan(0, "Jam Akhir is Required")
+      .min(
+        yup.ref("id_jam_awal"),
+        "Jam Akhir harus lebih besar atau sama dengan Jam Awal"
+      ),
+
+    id_mata_pelajaran: yup.string().required("Mata Pelajaran is Required"),
     id_pengajar: yup.string().required("Pengajar is Required"),
-    id_guru_piket: yup.string().required("Guru Piket is Required"),
+    kd_guru_piket: yup.string().required("Guru Piket is Required"),
   })
 );
 
@@ -34,6 +46,6 @@ export const generateJadwalFormatter = (
     id_jam_akhir: values?.id_jam_akhir,
     id_mata_pelajaran: values?.id_mata_pelajaran,
     id_pengajar: values?.id_pengajar,
-    id_guru_piket: values?.id_guru_piket,
+    kd_guru_piket: values?.kd_guru_piket,
   };
 };
