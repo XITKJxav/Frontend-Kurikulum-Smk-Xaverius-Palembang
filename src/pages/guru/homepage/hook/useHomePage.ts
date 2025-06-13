@@ -1,6 +1,5 @@
 import StatistikService from "@api/statistika";
 import { snackbar } from "@utils/snackbar";
-import { useNavigate } from "react-router-dom";
 import { useHomepageContext } from "../context";
 import AgendaUpacaraService from "@api/agendaupacara";
 import { LocalStorage } from "@utils/localStorage";
@@ -15,7 +14,6 @@ const useHomePage = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
   const { setState } = useHomepageContext();
 
   const fetchDataStatistik = () => {

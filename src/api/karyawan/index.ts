@@ -1,5 +1,4 @@
 import { APIResponse, FetchCallback } from "@types";
-import API from "..";
 import {
   CreateKaryawanRequestModel,
   KaryawanModel,
@@ -10,7 +9,6 @@ import { apiInstance } from "@utils/authInterceptor";
 
 export default class KaryawanService {
   basePath: string = "/karyawan";
-  private api: API = new API();
 
   async fetchKaryawanRequest(
     params: string,

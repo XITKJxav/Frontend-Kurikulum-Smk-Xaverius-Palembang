@@ -1,6 +1,4 @@
 import { snackbar } from "@utils/snackbar";
-scrollX;
-import { useNavigate } from "react-router-dom";
 import { useEkstrakurikulerpageContext } from "../../context";
 import EkstrakurikulerService from "@api/ekstrakurikuler";
 import HealthOptionService from "@api/HealthOption";
@@ -16,7 +14,6 @@ interface HookReturn {
 }
 
 const useEkstrakurikuler = (): HookReturn => {
-  const navigate = useNavigate();
   const ekstrakurikulerService = new EkstrakurikulerService();
   const option = new HealthOptionService();
   const dayService = new SchenduleService();

@@ -5,7 +5,6 @@ import { Filters } from "../../LIst/utils/Filters";
 import useGetClassCoordinator from "../../LIst/hook/useGetClassCoordinator";
 import { UpdateClassCoordinatorModel } from "@api/classcoordinator/model";
 import ClassCoordinatorService from "@api/classcoordinator";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 
@@ -20,7 +19,6 @@ const useUpdateClassCoordinator = (): HookReturn => {
   const classCoordinatorService = new ClassCoordinatorService();
   const { handleSubmit } = useFormContext();
   const { fetchClassCoordinator } = useGetClassCoordinator();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];

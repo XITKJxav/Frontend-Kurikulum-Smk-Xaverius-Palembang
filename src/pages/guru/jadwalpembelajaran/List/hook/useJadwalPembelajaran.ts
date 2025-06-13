@@ -2,7 +2,6 @@ import SchenduleService from "@api/jadwal";
 import { snackbar } from "@utils/snackbar";
 import { useJadwalPembelajaranpageContext } from "../../context";
 import HealthOptionService from "@api/HealthOption";
-import { useNavigate } from "react-router-dom";
 import { LocalStorage } from "@utils/localStorage";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 
@@ -16,7 +15,6 @@ const useJadwalPembelajaran = (): HookReturn => {
   const schenduleService = new SchenduleService();
   const { setState } = useJadwalPembelajaranpageContext();
   const healthOption = new HealthOptionService();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];

@@ -7,7 +7,7 @@ import { AppType } from "@types";
 import { LocalStorage } from "@utils/localStorage";
 import useSignOutKaryawan from "./hook/useSignOutKaryawan";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const DashboardGuru = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -33,7 +33,7 @@ const DashboardGuru = () => {
 
     setIsSidebarOpen(!isSidebarOpen);
   };
-  const navigate = useNavigate();
+
   useEffect(() => {
     setState((prev) => ({
       ...prev,
@@ -49,7 +49,7 @@ const DashboardGuru = () => {
 
   return (
     <>
-      {!userData.length ? (
+      {userData.length > 0 ? (
         <div className="flex flex-col h-screen overflow-x-hidden border-red-100 ">
           <Navbar
             toggleSidebar={toggleSidebar}
@@ -73,7 +73,7 @@ const DashboardGuru = () => {
           </div>
         </div>
       ) : (
-        <>hellow</>
+        <Navigate to="/sign-in" />
       )}
     </>
   );

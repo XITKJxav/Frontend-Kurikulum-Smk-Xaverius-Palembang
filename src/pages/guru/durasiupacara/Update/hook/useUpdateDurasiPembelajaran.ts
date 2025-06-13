@@ -5,7 +5,6 @@ import { useFormContext } from "react-hook-form";
 import { DurasiPembelajaranModel } from "@api/durasipembelajaran/model";
 import { siswaSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchDurasiPembelajaran: () => void;
@@ -19,7 +18,6 @@ const useUpdateDurasiPembelajaran = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: siswaSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
 
   const fetchDurasiPembelajaran = async () => {
     setState((prev) => ({

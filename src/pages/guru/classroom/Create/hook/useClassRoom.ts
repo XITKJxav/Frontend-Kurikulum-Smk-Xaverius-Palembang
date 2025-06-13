@@ -3,7 +3,6 @@ import { useClassroompageContext } from "../../context";
 import ClassRoomService from "@api/classroom";
 import { ClassRoomCreateModel } from "@api/classroom/model";
 import { snackbar } from "@utils/snackbar";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 
@@ -15,7 +14,6 @@ const useClassRoom = (): HookReturn => {
   const { setState } = useClassroompageContext();
   const { handleSubmit, trigger } = useFormContext();
   const classRoomService = new ClassRoomService();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];

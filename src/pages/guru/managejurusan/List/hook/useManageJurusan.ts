@@ -1,7 +1,6 @@
 import JurusanService from "@api/jurusan";
 import { snackbar } from "@utils/snackbar";
 import { usejurusanpageContext } from "../../context";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 
@@ -15,7 +14,6 @@ const useManageJurusan = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
 
   const fetchJurusan = async (params: string) => {
     setState((prev) => ({
@@ -41,8 +39,6 @@ const useManageJurusan = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };

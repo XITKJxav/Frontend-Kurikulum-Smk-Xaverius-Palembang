@@ -4,9 +4,11 @@ import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 import { snackbar } from "@utils/snackbar";
 import { useNavigate } from "react-router-dom";
+
 interface HookReturn {
   handleSignOut: () => void;
 }
+
 const useSignOutKaryawan = (): HookReturn => {
   const { setState } = useDashboardpageContext();
   const authService = new AuthtenticationService();

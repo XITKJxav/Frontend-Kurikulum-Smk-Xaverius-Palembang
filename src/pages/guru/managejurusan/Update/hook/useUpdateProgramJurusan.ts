@@ -6,7 +6,6 @@ import { JurusanUpdateModel } from "@api/jurusan/model";
 import useManageJurusan from "../../List/hook/useManageJurusan";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchJurusanById: (kdJurusan: string) => void;
@@ -22,7 +21,6 @@ const useUpdateProgramJurusan = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
 
   const fetchJurusanById = async (kdJurusan: string) => {
     await jurusanService.fetchProgramJurusanById(
@@ -39,8 +37,7 @@ const useUpdateProgramJurusan = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
+
       userData[0]?.access_token
     );
   };
@@ -78,8 +75,7 @@ const useUpdateProgramJurusan = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
+
         userData[0]?.access_token
       );
     })();

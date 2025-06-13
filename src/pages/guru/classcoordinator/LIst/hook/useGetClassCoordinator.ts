@@ -1,7 +1,6 @@
 import { useClassCoordinatorPageContext } from "../../context";
 import { snackbar } from "@utils/snackbar";
 import ClassCoordinatorService from "@api/classcoordinator";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 
@@ -13,7 +12,6 @@ interface HookReturn {
 const useGetClassCoordinator = (): HookReturn => {
   const classCoordinatorService = new ClassCoordinatorService();
   const { setState } = useClassCoordinatorPageContext();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];

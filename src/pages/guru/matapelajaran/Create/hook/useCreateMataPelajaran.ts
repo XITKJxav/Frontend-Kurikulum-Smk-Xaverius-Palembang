@@ -3,7 +3,6 @@ import { useFormContext } from "react-hook-form";
 import { useMataPelajaranpageContext } from "../../context";
 import { CreateMataPelajaranRequestModel } from "@api/matapelajaran/model";
 import MataPelajaranService from "@api/matapelajaran";
-import { useNavigate } from "react-router-dom";
 import { LocalStorage } from "@utils/localStorage";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 
@@ -18,7 +17,6 @@ const useCreateMataPelajaran = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
 
   const handleSubmitForm = () => {
     return handleSubmit(async (values) => {
@@ -50,8 +48,6 @@ const useCreateMataPelajaran = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

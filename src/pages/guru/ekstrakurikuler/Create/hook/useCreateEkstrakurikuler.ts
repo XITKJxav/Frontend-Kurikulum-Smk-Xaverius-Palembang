@@ -5,7 +5,6 @@ import { useEkstrakurikulerpageContext } from "../../context";
 import EkstrakurikulerService from "@api/ekstrakurikuler";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   handleSubmitForm: () => void;
@@ -18,7 +17,6 @@ const useCreateEkstrakurikuler = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
 
   const handleSubmitForm = () => {
     return handleSubmit(async (values) => {

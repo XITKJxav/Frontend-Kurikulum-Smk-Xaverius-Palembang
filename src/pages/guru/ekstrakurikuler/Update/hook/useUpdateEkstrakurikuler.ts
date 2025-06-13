@@ -1,6 +1,5 @@
 import EkstrakurikulerService from "@api/ekstrakurikuler";
 import { useEkstrakurikulerpageContext } from "../../context";
-import { useNavigate } from "react-router-dom";
 import { useFormContext } from "react-hook-form";
 import { UpdateEkstrakurikulerRequestModel } from "@api/ekstrakurikuler/model";
 import { snackbar } from "@utils/snackbar";
@@ -14,7 +13,6 @@ interface HookReturn {
 const useUpdateEkstrakurikuler = (): HookReturn => {
   const { setState } = useEkstrakurikulerpageContext();
   const ekstrakurikulerService = new EkstrakurikulerService();
-  const navigate = useNavigate();
   const { fetchEkstrakurikulerRequest } = useEkstrakurikuler();
   const { handleSubmit } = useFormContext();
   const { getItem } = LocalStorage();

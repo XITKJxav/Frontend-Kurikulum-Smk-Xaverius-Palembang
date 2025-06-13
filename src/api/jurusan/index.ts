@@ -5,12 +5,10 @@ import {
   JurusanResponse,
   JurusanUpdateModel,
 } from "./model";
-import API from "..";
 import { apiInstance } from "@utils/authInterceptor";
 
 export default class JurusanService {
   basePath: string = "/jurusan";
-  private api: API = new API();
 
   async fetchJurusanRequest(
     params: string,

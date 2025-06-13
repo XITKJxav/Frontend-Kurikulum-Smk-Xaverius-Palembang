@@ -6,7 +6,6 @@ import { useMataPelajaranpageContext } from "../../context";
 import useMataPelajaran from "../../List/hook/useMataPelajaran";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchMataPelajaranById: (id_mata_pelajaran: string) => void;
@@ -20,7 +19,6 @@ const useUpdateMataPelajaran = (): HookReturn => {
   const { handleSubmit } = useFormContext();
   const { fetchMataPelajaran } = useMataPelajaran();
   const { getItem } = LocalStorage();
-  const navigate = useNavigate();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
 
@@ -38,8 +36,6 @@ const useUpdateMataPelajaran = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token || ""
     );
   };
@@ -80,9 +76,7 @@ const useUpdateMataPelajaran = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
-        userData[0]?.access_token || ""
+        userData[0]?.access_token
       );
     })();
   };

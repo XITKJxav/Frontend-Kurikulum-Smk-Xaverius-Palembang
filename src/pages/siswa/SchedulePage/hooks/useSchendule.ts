@@ -2,7 +2,6 @@ import SchenduleService from "@api/jadwal";
 import { snackbar } from "@utils/snackbar";
 import { useSchedulePageContext } from "../context";
 import EkstrakurikulerService from "@api/ekstrakurikuler";
-import { useNavigate } from "react-router-dom";
 import { LocalStorage } from "@utils/localStorage";
 import { siswaSignInResponseRequestModel } from "@api/authentication/model";
 
@@ -18,7 +17,6 @@ const useSchendule = (): HookReturn => {
   const schenduleService = new SchenduleService();
   const ekstraSevices = new EkstrakurikulerService();
   const { setState } = useSchedulePageContext();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: siswaSignInResponseRequestModel[] = getItem("userData") || [];
 
@@ -45,8 +43,7 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "siswa",
+
       userData[0]?.access_token
     );
   };
@@ -74,8 +71,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "siswa",
       userData[0]?.access_token
     );
   };
@@ -103,8 +98,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "siswa",
       userData[0]?.access_token
     );
   };
@@ -123,8 +116,6 @@ const useSchendule = (): HookReturn => {
           snackbar.error(err);
         },
       },
-      navigate,
-      "siswa",
       userData[0]?.access_token
     );
   };
@@ -152,8 +143,6 @@ const useSchendule = (): HookReturn => {
           snackbar.error(err);
         },
       },
-      navigate,
-      "siswa",
       userData[0]?.access_token
     );
   };

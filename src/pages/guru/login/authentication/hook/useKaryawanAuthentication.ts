@@ -33,6 +33,8 @@ const useKaryawanAuthentication = (): HookReturn => {
       await karyawanService.signinKaryawanRequest(userData, {
         onSuccess: (data) => {
           setItem("karyawanData", data);
+          setItem("access_token", data[0]?.access_token);
+          setItem("refresh_token", data[0]?.refresh_token);
           navigate("/akademik");
           setState((prev) => ({
             ...prev,

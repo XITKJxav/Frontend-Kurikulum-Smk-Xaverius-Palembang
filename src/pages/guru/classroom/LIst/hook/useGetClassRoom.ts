@@ -2,7 +2,6 @@ import ClassRoomService from "@api/classroom";
 import { useClassroompageContext } from "../../context";
 import { snackbar } from "@utils/snackbar";
 import HealthOptionService from "@api/HealthOption";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 
@@ -15,7 +14,6 @@ interface HookReturn {
 const useGetClassRoom = (): HookReturn => {
   const classRoomService = new ClassRoomService();
   const healthOptionService = new HealthOptionService();
-  const navigate = useNavigate();
   const { setState } = useClassroompageContext();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
@@ -39,7 +37,7 @@ const useGetClassRoom = (): HookReturn => {
           }));
         },
       },
-      userData[0]?.access_token || ""
+      userData[0]?.access_token
     );
   };
 
@@ -68,7 +66,7 @@ const useGetClassRoom = (): HookReturn => {
           }));
         },
       },
-      userData[0]?.access_token || ""
+      userData[0]?.access_token
     );
   };
 
@@ -95,7 +93,7 @@ const useGetClassRoom = (): HookReturn => {
           }));
         },
       },
-      userData[0]?.access_token || ""
+      userData[0]?.access_token
     );
   };
 

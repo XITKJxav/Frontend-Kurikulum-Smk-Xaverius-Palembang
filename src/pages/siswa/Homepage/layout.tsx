@@ -9,7 +9,6 @@ import { appDisplayName } from "@utils/consts";
 import AppearFadeIn from "@components/Animation/AppearFadeIn";
 import SchedulePage from "../SchedulePage";
 import bg1 from "@assets/bg-2.jpg";
-import LoginAdministratorClassPage from "../login";
 import { LocalStorage } from "@utils/localStorage";
 import { useEffect, useState } from "react";
 import Navbar from "./partials/Navbar";

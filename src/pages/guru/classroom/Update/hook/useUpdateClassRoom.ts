@@ -5,7 +5,6 @@ import useGetClassRoom from "../../LIst/hook/useGetClassRoom";
 import { Filters } from "../../LIst/utils/Filters";
 import ClassRoomService from "@api/classroom";
 import { ClassRoomUpdateModel } from "@api/classroom/model";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 
@@ -20,7 +19,6 @@ const useUpdateClassRoom = (): HookReturn => {
   const classRoomService = new ClassRoomService();
   const { handleSubmit } = useFormContext();
   const { fetchClassRoom } = useGetClassRoom();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];

@@ -1,5 +1,4 @@
 import { APIResponse, FetchCallback } from "@types";
-import API from "..";
 import {
   CreateMataPelajaranRequestModel,
   MataPelajaranModel,
@@ -10,7 +9,6 @@ import { apiInstance } from "@utils/authInterceptor";
 
 export default class MataPelajaranService {
   basePath: string = "/mata-pelajaran";
-  private api: API = new API();
 
   async fetchMataPelajaranRequest(
     params: string,

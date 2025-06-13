@@ -1,6 +1,4 @@
 import { snackbar } from "@utils/snackbar";
-scrollX;
-import { useNavigate } from "react-router-dom";
 import AgendaUpacaraService from "@api/agendaupacara";
 import { useAgendaUpacarapageContext } from "../../context";
 import HealthOptionService from "@api/HealthOption";
@@ -13,7 +11,6 @@ interface HookReturn {
 }
 
 const useAgendaUpacara = (): HookReturn => {
-  const navigate = useNavigate();
   const agendaUpacaraService = new AgendaUpacaraService();
   const optionService = new HealthOptionService();
   const { setState } = useAgendaUpacarapageContext();

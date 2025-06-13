@@ -5,7 +5,6 @@ import { useFormContext } from "react-hook-form";
 import { usejurusanpageContext } from "../../context";
 import { LocalStorage } from "@utils/localStorage";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   handleSubmitForm: () => void;
@@ -17,7 +16,6 @@ const useCreateProgramJurusanForm = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
 
   const handleSubmitForm = () => {
     return handleSubmit(async (values) => {
@@ -47,8 +45,6 @@ const useCreateProgramJurusanForm = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

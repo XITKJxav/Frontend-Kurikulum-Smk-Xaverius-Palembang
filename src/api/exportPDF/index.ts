@@ -1,10 +1,9 @@
-import API from "..";
 import { FetchCallback } from "@types";
 import { DownloadJadwalPembelajaranModel } from "./model";
+import { apiInstance } from "@utils/authInterceptor";
 
 export default class ExportPDFService {
   basePathPembelajaranPdf = "/export-pdf-jadwal-pelajaran";
-  private api: API = new API();
 
   async exportPembelajaranPdfRequest(
     data: DownloadJadwalPembelajaranModel,

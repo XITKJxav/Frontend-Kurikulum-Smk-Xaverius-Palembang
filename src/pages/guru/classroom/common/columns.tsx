@@ -8,7 +8,7 @@ import useUpdateClassRoomForm from "../Update/hook/useUpdateClassRoomForm";
 import CardUpdateClassRoom from "../partials/CardUpdateClassRoom";
 
 const ClassRoomColumn = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); // State for dialog visibility
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedIdRuangan, setSelectedIdRuangan] = useState<number>();
   const { classRoomUpdatereqForm } = useUpdateClassRoomForm();
 

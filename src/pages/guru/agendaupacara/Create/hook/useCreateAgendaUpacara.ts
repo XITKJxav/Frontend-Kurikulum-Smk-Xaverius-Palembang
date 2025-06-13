@@ -3,7 +3,6 @@ import { useFormContext } from "react-hook-form";
 import { CreateAgendaUpacaraModel } from "@api/agendaupacara/model";
 import AgendaUpacaraService from "@api/agendaupacara";
 import { useAgendaUpacarapageContext } from "../../context";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 
@@ -49,7 +48,7 @@ const useCreateAgendaUpacara = (): HookReturn => {
             }));
           },
         },
-        userData[0]?.access_token || ""
+        userData[0]?.access_token
       );
     })();
   };

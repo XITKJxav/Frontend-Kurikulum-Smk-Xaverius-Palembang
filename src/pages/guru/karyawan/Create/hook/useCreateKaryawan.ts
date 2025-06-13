@@ -3,7 +3,6 @@ import KaryawanService from "@api/karyawan";
 import { usekaryawanpageContext } from "../../context";
 import { CreateKaryawanRequestModel } from "@api/karyawan/model";
 import { useFormContext } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 
@@ -16,7 +15,6 @@ const useCreateKaryawan = (): HookReturn => {
   const karyawanService = new KaryawanService();
   const { setState } = usekaryawanpageContext();
   const { getItem } = LocalStorage();
-  const navigate = useNavigate();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
 

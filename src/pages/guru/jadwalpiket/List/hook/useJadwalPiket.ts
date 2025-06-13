@@ -4,7 +4,6 @@ import { useJadwalPiketpageContext } from "../../context";
 import HealthOptionService from "@api/HealthOption";
 import { LocalStorage } from "@utils/localStorage";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchDayRequest: () => void;
@@ -15,7 +14,6 @@ interface HookReturn {
 const useJadwalPiket = (): HookReturn => {
   const schenduleService = new SchenduleService();
   const { setState } = useJadwalPiketpageContext();
-  const navigate = useNavigate();
   const healthOption = new HealthOptionService();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =

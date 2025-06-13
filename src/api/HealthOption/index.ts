@@ -1,5 +1,4 @@
 import { APIResponse, FetchCallback } from "@types";
-import API from "..";
 import {
   JurusanOptionModel,
   MataPelajaranModel,

@@ -1,7 +1,6 @@
 import { snackbar } from "@utils/snackbar";
 import { usekaryawanpageContext } from "../../context";
 import KaryawanService from "@api/karyawan";
-import { useNavigate } from "react-router-dom";
 import HealthOptionService from "@api/HealthOption";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
@@ -12,7 +11,6 @@ interface HookReturn {
 }
 
 const useKaryawan = (): HookReturn => {
-  const navigate = useNavigate();
   const karyawanService = new KaryawanService();
   const roleService = new HealthOptionService();
   const { setState } = usekaryawanpageContext();

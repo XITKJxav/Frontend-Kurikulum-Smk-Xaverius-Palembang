@@ -3,7 +3,6 @@ import { snackbar } from "@utils/snackbar";
 import { useHomepageContext } from "../context";
 import { siswaSignInResponseRequestModel } from "@api/authentication/model";
 import ClassCoordinatorService from "@api/classcoordinator";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchUserSiswa: () => void;
@@ -14,7 +13,6 @@ const useUserSiswa = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: siswaSignInResponseRequestModel[] = getItem("userData") ?? [];
   const { setState } = useHomepageContext();
-  const navigate = useNavigate();
 
   const fetchUserSiswa = () => {
     setState((prev) => ({
@@ -39,8 +37,6 @@ const useUserSiswa = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "siswa",
       userData[0]?.access_token || ""
     );
   };
