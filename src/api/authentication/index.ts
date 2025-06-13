@@ -9,6 +9,7 @@ import {
   siswaSignInResponseRequestModel,
 } from "./model";
 import { useNavigate } from "react-router-dom";
+import { apiInstance } from "@utils/authInterceptor";
 
 export default class AuthtenticationService {
   basePathSignInKaryawan: string = "/karyawan/signin";
@@ -25,7 +26,7 @@ export default class AuthtenticationService {
     const targetPath = this.basePathSignInKaryawan;
 
     const res: APIResponse<KaryawanSignInResponseRequestModel[]> =
-      await this.api.POST(targetPath, data);
+      await apiInstance.POST(targetPath, data);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -65,7 +66,7 @@ export default class AuthtenticationService {
     const targetPath = this.basePathSignInSiswa;
 
     const res: APIResponse<siswaSignInResponseRequestModel[]> =
-      await this.api.POST(targetPath, data);
+      await apiInstance.POST(targetPath, data);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -77,7 +78,7 @@ export default class AuthtenticationService {
   async signOutSiswaRequest(accessToken: string, callback: FetchCallback<{}>) {
     const targetPath = `${this.basePathSignOutSiswa}`;
     const { deleteItem } = LocalStorage();
-    const res: APIResponse<{}> = await this.api.POST(
+    const res: APIResponse<{}> = await apiInstance.POST(
       targetPath,
       {},
       accessToken
@@ -106,8 +107,9 @@ export default class AuthtenticationService {
     const targetPath = `${this.basePathRefreshToken}`;
 
     const res: APIResponse<{ access_token: string; refresh_token: string }> =
-      await this.api.POST(targetPath, {}, dataUser[0].refresh_token);
+      await apiInstance.POST(targetPath, {}, dataUser[0].refresh_token);
     console.log(res);
+
     if (res?.status_code == 403) {
       deleteItem("userData");
       navigate(0);

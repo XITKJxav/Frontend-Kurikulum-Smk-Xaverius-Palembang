@@ -40,8 +40,6 @@ const useHomePage = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token || ""
     );
   };
@@ -60,8 +58,6 @@ const useHomePage = (): HookReturn => {
           snackbar.error(err);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token || ""
     );
   };

@@ -2,10 +2,10 @@ import SchenduleService from "@api/jadwal";
 import { GenerateJadwalModel } from "@api/jadwal/model";
 import { snackbar } from "@utils/snackbar";
 import { useFormContext } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useJadwalpageContext } from "../../context";
 import { LocalStorage } from "@utils/localStorage";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
+import useSchendule from "../../List/hook/useSchendule";
 
 interface HookReturn {
   updateGenerateJadwalRequest: () => void;
@@ -14,7 +14,7 @@ interface HookReturn {
 const useGenerateJadwal = (): HookReturn => {
   const schenduleService = new SchenduleService();
   const { handleSubmit, trigger } = useFormContext();
-  const navigate = useNavigate();
+  const { fetchJadwal } = useSchendule();
   const { setState } = useJadwalpageContext();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
@@ -27,7 +27,7 @@ const useGenerateJadwal = (): HookReturn => {
         id_ruangan_kelas: values?.id_ruangan_kelas,
         id_jam_awal: values?.id_jam_awal,
         id_jam_akhir: values?.id_jam_akhir,
-        id_mata_pelajaran: values?.id_pengajar,
+        id_mata_pelajaran: values?.id_mata_pelajaran,
         id_pengajar: values?.id_pengajar,
         kd_guru_piket: values?.kd_guru_piket,
       };
@@ -45,6 +45,8 @@ const useGenerateJadwal = (): HookReturn => {
               ...prev,
               schendulePageLoading: false,
             }));
+            snackbar.success("berhasil mengubah data jadwal");
+            fetchJadwal();
           },
           onError: (err) => {
             setState((prev) => ({
@@ -54,8 +56,6 @@ const useGenerateJadwal = (): HookReturn => {
             snackbar.error(err);
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

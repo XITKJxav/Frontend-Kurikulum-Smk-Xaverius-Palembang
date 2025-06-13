@@ -6,44 +6,22 @@ import {
   JurusanUpdateModel,
 } from "./model";
 import API from "..";
-import { useNavigate } from "react-router-dom";
-import { LocalStorage } from "@utils/localStorage";
+import { apiInstance } from "@utils/authInterceptor";
 
 export default class JurusanService {
   basePath: string = "/jurusan";
   private api: API = new API();
-  private async handleUnauthorized(
-    guard: string,
-    navigate: ReturnType<typeof useNavigate>
-  ) {
-    const { deleteItem } = LocalStorage();
-
-    if (guard == "karyawan") {
-      navigate("/sign-in");
-      deleteItem("karyawanData");
-    } else if (guard == "siswa") {
-      navigate("/");
-      deleteItem("userData");
-    }
-  }
 
   async fetchJurusanRequest(
     params: string,
     callback: FetchCallback<JurusanResponse[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePath}?${params}`;
-    const res: APIResponse<JurusanResponse[]> = await this.api.GET(
+    const res: APIResponse<JurusanResponse[]> = await apiInstance.GET(
       targetPath,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -55,21 +33,15 @@ export default class JurusanService {
   async createJurusanRequest(
     data: JurusanCreateModel,
     callback: FetchCallback<JurusanCreateModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
+
     accessToken: string
   ) {
     const targetPath = this.basePath;
-    const res: APIResponse<JurusanModel> = await this.api.POST(
+    const res: APIResponse<JurusanModel> = await apiInstance.POST(
       targetPath,
       data,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -81,20 +53,13 @@ export default class JurusanService {
   async fetchProgramJurusanById(
     id: string,
     callback: FetchCallback<JurusanModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePath}/${id}`;
-    const res: APIResponse<JurusanModel[]> = await this.api.GET(
+    const res: APIResponse<JurusanModel[]> = await apiInstance.GET(
       targetPath,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -107,21 +72,14 @@ export default class JurusanService {
     id: string,
     data: JurusanUpdateModel,
     callback: FetchCallback<JurusanUpdateModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePath}/${id}`;
-    const res: APIResponse<JurusanUpdateModel> = await this.api.PUT(
+    const res: APIResponse<JurusanUpdateModel> = await apiInstance.PUT(
       targetPath,
       data,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

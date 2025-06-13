@@ -4,7 +4,6 @@ import { useJadwalpageContext } from "../../context";
 import HealthOptionService from "@api/HealthOption";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchTimeRegulerRequest: (params: string) => void;
@@ -23,7 +22,6 @@ const useSchendule = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
   const fetchTimeRegulerRequest = (params: string) => {
     setState((prev) => ({
       ...prev,
@@ -47,8 +45,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -76,8 +72,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -106,8 +100,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token
     );
   };
@@ -134,8 +126,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token
     );
   };
@@ -162,8 +152,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token
     );
   };
@@ -193,9 +181,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -223,8 +208,6 @@ const useSchendule = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };

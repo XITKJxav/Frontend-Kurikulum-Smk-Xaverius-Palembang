@@ -7,8 +7,7 @@ import {
   UpdateClassCoordinatorModel,
 } from "./model";
 import { ClassRoomModel } from "@api/classroom/model";
-import { useNavigate } from "react-router-dom";
-import { LocalStorage } from "@utils/localStorage";
+import { apiInstance } from "@utils/authInterceptor";
 
 export default class ClassCoordinatorService {
   basePathSignIn: string = "/signin/ketua-kelas";
@@ -18,38 +17,14 @@ export default class ClassCoordinatorService {
 
   private api: API = new API();
 
-  private async handleUnauthorized(
-    guard: string,
-    navigate: ReturnType<typeof useNavigate>
-  ) {
-    const { deleteItem } = LocalStorage();
-
-    if (guard == "karyawan") {
-      navigate("/sign-in");
-      deleteItem("karyawanData");
-      return;
-    } else if (guard == "siswa") {
-      navigate("/");
-      deleteItem("userData");
-      return;
-    }
-  }
-
   async fetchClassCoordinatorRequest(
     params: string,
     callback: FetchCallback<ClassCoordinatorResponseModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePath}?${params}`;
     const res: APIResponse<ClassCoordinatorResponseModel[]> =
-      await this.api.GET(targetPath, accessToken);
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
+      await apiInstance.GET(targetPath, accessToken);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -61,8 +36,6 @@ export default class ClassCoordinatorService {
   async fetchClassCoordinatorByidRequest(
     id: string,
     callback: FetchCallback<ClassCoordinatorModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePath}/${id}`;
@@ -70,11 +43,6 @@ export default class ClassCoordinatorService {
       targetPath,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -85,21 +53,14 @@ export default class ClassCoordinatorService {
 
   async fetchClassRoomRequestOptions(
     callback: FetchCallback<ClassRoomModel[][]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePathClassRoom}?offLimit=false`;
 
-    const res: APIResponse<ClassRoomModel[][]> = await this.api.GET(
+    const res: APIResponse<ClassRoomModel[][]> = await apiInstance.GET(
       targetPath,
       accessToken ?? ""
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -111,21 +72,11 @@ export default class ClassCoordinatorService {
   async createClassCoordinatorRequest(
     data: CreateClassCoordinatorModel,
     callback: FetchCallback<CreateClassCoordinatorModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = this.basePath;
-    const res: APIResponse<CreateClassCoordinatorModel> = await this.api.POST(
-      targetPath,
-      data,
-      accessToken
-    );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
+    const res: APIResponse<CreateClassCoordinatorModel> =
+      await apiInstance.POST(targetPath, data, accessToken);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -138,21 +89,14 @@ export default class ClassCoordinatorService {
     kdPengurusKelas: string,
     data: UpdateClassCoordinatorModel,
     callback: FetchCallback<UpdateClassCoordinatorModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePath}/${kdPengurusKelas}`;
-    const res: APIResponse<UpdateClassCoordinatorModel> = await this.api.PUT(
+    const res: APIResponse<UpdateClassCoordinatorModel> = await apiInstance.PUT(
       targetPath,
       data,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

@@ -47,8 +47,6 @@ const useEkstrakurikuler = (): HookReturn => {
           }));
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token
     );
   };
@@ -76,8 +74,6 @@ const useEkstrakurikuler = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -108,8 +104,6 @@ const useEkstrakurikuler = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -139,8 +133,6 @@ const useEkstrakurikuler = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token || ""
     );
     return;

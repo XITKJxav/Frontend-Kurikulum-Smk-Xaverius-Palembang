@@ -14,6 +14,26 @@ const CardLogin = () => {
   const { state } = useLoginClassCoordinatorContext();
   const { signInLoading } = state;
 
+  const styleInput = {
+    input: { color: "white" },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "gray",
+    },
+    "& .MuiInputBase-input::placeholder": {
+      color: "white",
+      opacity: 0.7,
+    },
+    "& .MuiInputLabel-root": {
+      color: "white",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: "white",
+    },
+  };
+
   return (
     <CardAutosize
       className="mx-auto rounded-lg shadow-lg backdrop-blur-lg bg-stone-500/30"
@@ -39,25 +59,7 @@ const CardLogin = () => {
                 type="text"
                 autoComplete="off"
                 color="text-white"
-                sx={{
-                  input: { color: "white" },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "white",
-                  },
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "gray",
-                  },
-                  "& .MuiInputBase-input::placeholder": {
-                    color: "white",
-                    opacity: 0.7,
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "white",
-                  },
-                  "& .MuiInputLabel-root.Mui-focused": {
-                    color: "white",
-                  },
-                }}
+                sx={styleInput}
               />
             )}
           />
@@ -74,25 +76,7 @@ const CardLogin = () => {
                 type="password"
                 autoComplete="off"
                 color="text-white"
-                sx={{
-                  input: { color: "white" },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "white",
-                  },
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "gray",
-                  },
-                  "& .MuiInputBase-input::placeholder": {
-                    color: "white",
-                    opacity: 0.7,
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "white",
-                  },
-                  "& .MuiInputLabel-root.Mui-focused": {
-                    color: "white",
-                  },
-                }}
+                sx={styleInput}
               />
             )}
           />

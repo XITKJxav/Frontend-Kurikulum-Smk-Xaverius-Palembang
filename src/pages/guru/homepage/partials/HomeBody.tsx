@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import AgendaUpacaraList from "./AgendaUpacaraList";
 import { useHomepageContext } from "../context";
 import useHomePage from "../hook/useHomePage";
+import useAuthInterceptor from "@hooks/useAuthInterceptor";
 
 const HomeBody = () => {
+  useAuthInterceptor("karyawan");
   const { state } = useHomepageContext();
   const { fetchDataStatistik } = useHomePage();
   const { statisticReq } = state;

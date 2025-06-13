@@ -3,10 +3,11 @@ import { FormProvider } from "react-hook-form";
 import TabelEkstrakurikuler from "./TabelEkstrakurikuler";
 import useCreateEkstrakurikulerForm from "../Create/hook/useCreateEkstrakurikulerForm";
 import CreateEkstrakurikuler from "./CreateEkstrakurikuler";
+import useAuthInterceptor from "@hooks/useAuthInterceptor";
 
 const EkstrakurikulerBody = () => {
   const { ekstrakurikulerareqForm } = useCreateEkstrakurikulerForm();
-
+  useAuthInterceptor("karyawan");
   const listMenu = [
     {
       label: "Ekstrakurikuler",

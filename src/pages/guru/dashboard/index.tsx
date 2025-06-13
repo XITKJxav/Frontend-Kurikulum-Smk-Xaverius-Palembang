@@ -49,7 +49,7 @@ const DashboardGuru = () => {
 
   return (
     <>
-      {userData.length ? (
+      {!userData.length ? (
         <div className="flex flex-col h-screen overflow-x-hidden border-red-100 ">
           <Navbar
             toggleSidebar={toggleSidebar}
@@ -73,7 +73,7 @@ const DashboardGuru = () => {
           </div>
         </div>
       ) : (
-        navigate("/sign-in")
+        <>hellow</>
       )}
     </>
   );

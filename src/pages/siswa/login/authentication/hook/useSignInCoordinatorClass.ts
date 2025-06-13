@@ -34,7 +34,7 @@ const useSignInClassCoordinator = (): HookReturn => {
         onSuccess: (data) => {
           snackbar.info("Welcome Back Class Coordinator");
           setItem("userData", data);
-          navigate(0);
+          navigate("/student-dashboard");
           setState((prev) => ({
             ...prev,
             signInLoading: false,

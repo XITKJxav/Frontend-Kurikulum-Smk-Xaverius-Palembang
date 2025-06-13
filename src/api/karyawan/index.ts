@@ -6,42 +6,22 @@ import {
   KaryawanResponseRequestModel,
   UpdateKaryawanRequestModel,
 } from "./model";
-import { useNavigate } from "react-router-dom";
-import { LocalStorage } from "@utils/localStorage";
+import { apiInstance } from "@utils/authInterceptor";
 
 export default class KaryawanService {
   basePath: string = "/karyawan";
   private api: API = new API();
-  private async handleUnauthorized(
-    guard: string,
-    navigate: ReturnType<typeof useNavigate>
-  ) {
-    const { deleteItem } = LocalStorage();
 
-    if (guard == "karyawan") {
-      navigate("/sign-in");
-      deleteItem("karyawanData");
-    } else if (guard == "siswa") {
-      navigate("/");
-      deleteItem("userData");
-    }
-  }
   async fetchKaryawanRequest(
     params: string,
     callback: FetchCallback<KaryawanResponseRequestModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
+
     accessToken: string
   ) {
     const targetPath = `${this.basePath}?${params}`;
-    const res: APIResponse<KaryawanResponseRequestModel[]> = await this.api.GET(
-      targetPath,
-      accessToken
-    );
-    if (res?.status_code == 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
+    const res: APIResponse<KaryawanResponseRequestModel[]> =
+      await apiInstance.GET(targetPath, accessToken);
+
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
     } else {
@@ -52,20 +32,13 @@ export default class KaryawanService {
   async fetchKaryawanByIdRequest(
     kd_karyawan: string,
     callback: FetchCallback<KaryawanModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePath}/${kd_karyawan}`;
-    const res: APIResponse<KaryawanModel[]> = await this.api.GET(
+    const res: APIResponse<KaryawanModel[]> = await apiInstance.GET(
       targetPath,
       accessToken
     );
-
-    if (res?.status_code == 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -77,21 +50,14 @@ export default class KaryawanService {
   async createKaryawanRequest(
     data: CreateKaryawanRequestModel,
     callback: FetchCallback<CreateKaryawanRequestModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = this.basePath;
-    const res: APIResponse<CreateKaryawanRequestModel> = await this.api.POST(
+    const res: APIResponse<CreateKaryawanRequestModel> = await apiInstance.POST(
       targetPath,
       data,
       accessToken
     );
-
-    if (res?.status_code == 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -104,21 +70,14 @@ export default class KaryawanService {
     kd_karyawan: string,
     data: UpdateKaryawanRequestModel,
     callback: FetchCallback<UpdateKaryawanRequestModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePath}/${kd_karyawan}`;
-    const res: APIResponse<UpdateKaryawanRequestModel> = await this.api.PUT(
+    const res: APIResponse<UpdateKaryawanRequestModel> = await apiInstance.PUT(
       targetPath,
       data,
       accessToken
     );
-
-    if (res?.status_code == 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

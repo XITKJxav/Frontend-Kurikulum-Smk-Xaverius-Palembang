@@ -45,8 +45,6 @@ const useAgendaUpacara = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token || ""
     );
   };
@@ -73,8 +71,6 @@ const useAgendaUpacara = (): HookReturn => {
           snackbar.error(err);
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token || ""
     );
   };

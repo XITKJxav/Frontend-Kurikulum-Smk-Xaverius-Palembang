@@ -56,8 +56,6 @@ const useCreateKaryawan = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

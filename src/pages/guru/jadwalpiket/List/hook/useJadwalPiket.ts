@@ -43,8 +43,6 @@ const useJadwalPiket = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -72,8 +70,6 @@ const useJadwalPiket = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -101,8 +97,6 @@ const useJadwalPiket = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -130,8 +124,6 @@ const useJadwalPiket = (): HookReturn => {
           }));
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token
     );
   };

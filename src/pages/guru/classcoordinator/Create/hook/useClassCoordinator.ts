@@ -57,8 +57,6 @@ const useClassCoordinator = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token || ""
       );
     })();

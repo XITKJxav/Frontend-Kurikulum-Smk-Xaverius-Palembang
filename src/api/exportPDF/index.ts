@@ -1,41 +1,19 @@
-import { useNavigate } from "react-router-dom";
 import API from "..";
-import { LocalStorage } from "@utils/localStorage";
 import { FetchCallback } from "@types";
 import { DownloadJadwalPembelajaranModel } from "./model";
 
 export default class ExportPDFService {
   basePathPembelajaranPdf = "/export-pdf-jadwal-pelajaran";
   private api: API = new API();
-  private async handleUnauthorized(
-    guard: string,
-    navigate: ReturnType<typeof useNavigate>
-  ) {
-    const { deleteItem } = LocalStorage();
-
-    if (guard == "karyawan") {
-      navigate("/sign-in");
-      deleteItem("appPage");
-      deleteItem("karyawanData");
-      return;
-    } else if (guard == "siswa") {
-      navigate("/");
-      deleteItem("appPage");
-      deleteItem("userData");
-      return;
-    }
-  }
 
   async exportPembelajaranPdfRequest(
     data: DownloadJadwalPembelajaranModel,
     callback: FetchCallback<null>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ): Promise<void> {
     const target = `${this.basePathPembelajaranPdf}`;
 
-    const res = await this.api.POSTDOWNLOADBLOB(target, data, accessToken);
+    const res = await apiInstance.POSTDOWNLOADBLOB(target, data, accessToken);
     console.log(res);
 
     if (res instanceof Blob) {
@@ -50,11 +28,6 @@ export default class ExportPDFService {
       window.URL.revokeObjectURL(url);
 
       callback.onSuccess(null);
-      return;
-    }
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
       return;
     }
 

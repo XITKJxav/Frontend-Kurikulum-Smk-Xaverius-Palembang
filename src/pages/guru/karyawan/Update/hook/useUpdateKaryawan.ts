@@ -6,7 +6,6 @@ import { UpdateKaryawanRequestModel } from "@api/karyawan/model";
 import useKaryawan from "../../List/hook/useKaryawan";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
-import { useNavigate } from "react-router-dom";
 
 interface HookReturn {
   fetchKaryawanById: (kdKaryawan: string) => void;
@@ -22,7 +21,6 @@ const useUpdateKaryawan = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
-  const navigate = useNavigate();
 
   const fetchKaryawanById = async (kdKaryawan: string) => {
     await karyawanService.fetchKaryawanByIdRequest(
@@ -38,8 +36,6 @@ const useUpdateKaryawan = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -83,8 +79,7 @@ const useUpdateKaryawan = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
+
         userData[0]?.access_token
       );
     })();

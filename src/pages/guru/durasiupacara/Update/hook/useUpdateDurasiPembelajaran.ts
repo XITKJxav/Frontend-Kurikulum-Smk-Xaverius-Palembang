@@ -45,8 +45,6 @@ const useUpdateDurasiPembelajaran = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -79,8 +77,6 @@ const useUpdateDurasiPembelajaran = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   });

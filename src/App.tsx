@@ -4,6 +4,7 @@ import LayoutGuru from "@pages/guru/LayoutGuru";
 import DashboardGuru from "@pages/guru/dashboard";
 import Homepage from "@pages/siswa/Homepage";
 import KaryawanSigninPage from "@pages/guru/login";
+import SignInStudentPage from "@pages/siswa/login";
 import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
             <Route index element={<DashboardGuru />} />
           </Route>
           <Route path="/sign-in" element={<KaryawanSigninPage />} />
-          <Route index element={<Homepage />} />
+          <Route path="/student-dashboard" element={<Homepage />} />
+          <Route index element={<SignInStudentPage />} />
         </Routes>
       </SnackbarProvider>
     </BrowserRouter>

@@ -43,8 +43,6 @@ const useJadwalPembelajaran = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -72,8 +70,6 @@ const useJadwalPembelajaran = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -101,8 +97,6 @@ const useJadwalPembelajaran = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -129,8 +123,6 @@ const useJadwalPembelajaran = (): HookReturn => {
           }));
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token
     );
   };

@@ -41,8 +41,6 @@ const useGetClassCoordinator = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token || ""
     );
   };
@@ -71,8 +69,6 @@ const useGetClassCoordinator = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token || ""
     );
   };

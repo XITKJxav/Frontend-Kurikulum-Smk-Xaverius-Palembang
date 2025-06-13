@@ -15,7 +15,6 @@ const useCreateAgendaUpacara = (): HookReturn => {
   const { trigger, handleSubmit } = useFormContext();
   const agendaUpacaraService = new AgendaUpacaraService();
   const { setState } = useAgendaUpacarapageContext();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
@@ -50,8 +49,6 @@ const useCreateAgendaUpacara = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token || ""
       );
     })();

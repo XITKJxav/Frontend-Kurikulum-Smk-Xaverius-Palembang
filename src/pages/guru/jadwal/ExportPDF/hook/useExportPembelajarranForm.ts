@@ -14,7 +14,6 @@ const useExportPembelajaranPDF = (): HookReturn => {
   const { setState } = useJadwalpageContext();
   const { handleSubmit, trigger } = useFormContext();
   const pdfService = new ExportPDFService();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
@@ -48,8 +47,6 @@ const useExportPembelajaranPDF = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

@@ -1,11 +1,17 @@
 import { LoginClassCoordinatorProvider } from "./context";
 import LoginBody from "./partials/LoginBody";
+import bg1 from "@assets/bg-2.jpg";
 
-const LoginAdministratorClassPage = () => {
+const SignInStudentPage = () => {
   return (
-    <LoginClassCoordinatorProvider>
-      <LoginBody />
-    </LoginClassCoordinatorProvider>
+    <div
+      className="w-full h-[100vh] overflow-x-hidden bg-cover bg-no-repeat"
+      style={{ backgroundImage: `url(${bg1})` }}
+    >
+      <LoginClassCoordinatorProvider>
+        <LoginBody />
+      </LoginClassCoordinatorProvider>
+    </div>
   );
 };
-export default LoginAdministratorClassPage;
+export default SignInStudentPage;

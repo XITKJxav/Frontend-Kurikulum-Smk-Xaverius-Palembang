@@ -35,8 +35,6 @@ const useUpdateEkstrakurikuler = (): HookReturn => {
           snackbar.error(err);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -77,8 +75,6 @@ const useUpdateEkstrakurikuler = (): HookReturn => {
             snackbar.error(err);
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

@@ -39,8 +39,6 @@ const useGetClassRoom = (): HookReturn => {
           }));
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token || ""
     );
   };
@@ -70,8 +68,6 @@ const useGetClassRoom = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token || ""
     );
   };
@@ -99,8 +95,6 @@ const useGetClassRoom = (): HookReturn => {
           }));
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token || ""
     );
   };

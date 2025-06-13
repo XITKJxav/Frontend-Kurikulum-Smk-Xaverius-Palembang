@@ -39,8 +39,6 @@ const useUpdateClassCoordinator = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -89,8 +87,6 @@ const useUpdateClassCoordinator = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

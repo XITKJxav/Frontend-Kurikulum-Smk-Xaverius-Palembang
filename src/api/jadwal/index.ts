@@ -10,8 +10,7 @@ import {
   RegulerTimeModel,
   UpdateTahunAjaranModel,
 } from "./model";
-import { LocalStorage } from "@utils/localStorage";
-import { useNavigate } from "react-router-dom";
+import { apiInstance } from "@utils/authInterceptor";
 
 export default class SchenduleService {
   basePathTimeReguler = "/waktu-regular";
@@ -22,28 +21,9 @@ export default class SchenduleService {
   basePathBlukSchendule = "/bulk-update-schendule";
   private api: API = new API();
 
-  private async handleUnauthorized(
-    guard: string,
-    navigate: ReturnType<typeof useNavigate>
-  ) {
-    const { deleteItem } = LocalStorage();
-
-    if (guard == "karyawan") {
-      navigate("/sign-in");
-      deleteItem("karyawanData");
-      return;
-    } else if (guard == "siswa") {
-      navigate("/");
-      deleteItem("userData");
-      return;
-    }
-  }
-
   async generateJadwalUpdateRequest(
     data: GenerateJadwalModel,
     callback: FetchCallback<GenerateJadwalModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = this.basePathBlukSchendule;
@@ -52,11 +32,6 @@ export default class SchenduleService {
       data,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -68,8 +43,6 @@ export default class SchenduleService {
   async fetchRegulerTimeRequest(
     params: string,
     callback: FetchCallback<RegulerTimeModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePathTimeReguler}?${params}`;
@@ -78,11 +51,6 @@ export default class SchenduleService {
       targetPath,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -94,20 +62,13 @@ export default class SchenduleService {
   async fetchRegulerTimeUpacaraRequest(
     params: string | number,
     callback: FetchCallback<JamUpacaraModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePathTimeUpacara}?id_hari=${params}`;
-    const res: APIResponse<JamUpacaraModel> = await this.api.GET(
+    const res: APIResponse<JamUpacaraModel> = await apiInstance.GET(
       targetPath,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -118,19 +79,13 @@ export default class SchenduleService {
 
   async fetchDayRequest(
     callback: FetchCallback<DayModel[][]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = this.basePathDayReguler;
-    const res: APIResponse<DayModel[][]> = await this.api.GET(
+    const res: APIResponse<DayModel[][]> = await apiInstance.GET(
       targetPath,
       accessToken
     );
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -142,20 +97,13 @@ export default class SchenduleService {
   async fetchJadwalRequest(
     params: string,
     callback: FetchCallback<JadwalModel[][]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePathJadwal}?${params}`;
-    const res: APIResponse<JadwalModel[][]> = await this.api.GET(
+    const res: APIResponse<JadwalModel[][]> = await apiInstance.GET(
       targetPath,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -167,21 +115,14 @@ export default class SchenduleService {
   async createJadwalRequest(
     data: CreateJadwalModel,
     callback: FetchCallback<CreateJadwalModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = this.basePathJadwal;
-    const res: APIResponse<CreateJadwalModel> = await this.api.POST(
+    const res: APIResponse<CreateJadwalModel> = await apiInstance.POST(
       targetPath,
       data,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -193,21 +134,14 @@ export default class SchenduleService {
   async updateJadwalRequest(
     formData: JadwalUpdateModel,
     callback: FetchCallback<JadwalUpdateModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = this.basePathJadwal;
-    const res: APIResponse<JadwalUpdateModel> = await this.api.PUT(
+    const res: APIResponse<JadwalUpdateModel> = await apiInstance.PUT(
       targetPath,
       formData,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -218,20 +152,13 @@ export default class SchenduleService {
 
   async fetchTahunAjaranRequest(
     callback: FetchCallback<UpdateTahunAjaranModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = this.basePathTahunAjaran;
-    const res: APIResponse<UpdateTahunAjaranModel[]> = await this.api.GET(
+    const res: APIResponse<UpdateTahunAjaranModel[]> = await apiInstance.GET(
       targetPath,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
@@ -243,21 +170,14 @@ export default class SchenduleService {
   async UpdateTahunAjaran(
     data: UpdateTahunAjaranModel,
     callback: FetchCallback<UpdateTahunAjaranModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = this.basePathTahunAjaran;
-    const res: APIResponse<UpdateTahunAjaranModel> = await this.api.PUT(
+    const res: APIResponse<UpdateTahunAjaranModel> = await apiInstance.PUT(
       targetPath,
       data,
       accessToken
     );
-
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

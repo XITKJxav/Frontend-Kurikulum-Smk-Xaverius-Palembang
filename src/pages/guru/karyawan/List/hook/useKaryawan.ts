@@ -44,8 +44,6 @@ const useKaryawan = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -63,8 +61,6 @@ const useKaryawan = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      "karyawan",
-      navigate,
       userData[0]?.access_token
     );
   };

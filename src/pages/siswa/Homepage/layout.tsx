@@ -80,9 +80,7 @@ const HomepageLayout = () => {
           )}
         </AutoMargin>
         <div className="flex items-center justify-center p-1 md:p-4">
-          {!user[0] ? (
-            <LoginAdministratorClassPage />
-          ) : (
+          {user.length > 0 && (
             <CardAutosize
               className="mx-auto rounded-lg shadow-lg backdrop-blur-lg bg-stone-500/30"
               trigger={!isAppHome}

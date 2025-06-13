@@ -15,7 +15,6 @@ const useSchenduleUpdate = (): HookReturn => {
   const schenduleService = new SchenduleService();
   const { setState } = useJadwalpageContext();
   const { handleSubmit, trigger } = useFormContext();
-  const navigate = useNavigate();
   const { fetchJadwal } = useSchendule();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
@@ -59,8 +58,6 @@ const useSchenduleUpdate = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

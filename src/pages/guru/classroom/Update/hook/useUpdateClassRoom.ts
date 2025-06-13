@@ -38,8 +38,6 @@ const useUpdateClassRoom = (): HookReturn => {
           snackbar.error(errMessage);
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -84,8 +82,6 @@ const useUpdateClassRoom = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();

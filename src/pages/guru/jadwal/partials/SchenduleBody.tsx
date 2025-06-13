@@ -14,8 +14,10 @@ import useDownloadJadwalPembelajaranForm from "../ExportPDF/hook/useExportPembel
 import ButtonExportPDF from "./ButtonExportPDF";
 import useGenerateJadwalUpdateReqForm from "../GenerateJadwal/hook/useGenerateJadwalForm";
 import GenerateJadwal from "./GenerateJadwal";
+import useAuthInterceptor from "@hooks/useAuthInterceptor";
 
 const SchenduleBody = () => {
+  useAuthInterceptor("karyawan");
   const { state } = useJadwalpageContext();
   const { createJadwalreqForm } = useSchenduleForm();
   const {

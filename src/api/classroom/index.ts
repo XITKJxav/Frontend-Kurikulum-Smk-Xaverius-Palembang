@@ -5,50 +5,24 @@ import {
   ClassRoomReponseModel,
   ClassRoomUpdateModel,
 } from "./model";
-import API from "..";
 import { JurusanModel } from "@api/jurusan/model";
-import { useNavigate } from "react-router-dom";
-import { LocalStorage } from "@utils/localStorage";
+import { apiInstance } from "@utils/authInterceptor";
 
 export default class ClassRoomService {
   basePathRuangKelas: string = "/ruang-kelas";
   basePathJurusan: string = "/jurusan";
-  private api: API = new API();
-
-  private async handleUnauthorized(
-    guard: string,
-    navigate: ReturnType<typeof useNavigate>
-  ) {
-    const { deleteItem } = LocalStorage();
-
-    if (guard == "karyawan") {
-      navigate("/sign-in");
-      deleteItem("karyawanData");
-      return;
-    } else if (guard == "siswa") {
-      navigate("/");
-      deleteItem("userData");
-      return;
-    }
-  }
 
   async fetchClassRoomRequest(
     params: string,
     callback: FetchCallback<ClassRoomReponseModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePathRuangKelas}?${params}`;
-    const res: APIResponse<ClassRoomReponseModel[]> = await this.api.GET(
+    const res: APIResponse<ClassRoomReponseModel[]> = await apiInstance.GET(
       targetPath,
-      accessToken ?? ""
+      accessToken
     );
 
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
     } else {
@@ -59,19 +33,14 @@ export default class ClassRoomService {
   async fetchClassRoomByIdRequest(
     id: number,
     callback: FetchCallback<ClassRoomModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePathRuangKelas}/${id}`;
-    const res: APIResponse<ClassRoomModel[]> = await this.api.GET(
+    const res: APIResponse<ClassRoomModel[]> = await apiInstance.GET(
       targetPath,
-      accessToken ?? ""
+      accessToken
     );
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
+
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
     } else {
@@ -81,19 +50,15 @@ export default class ClassRoomService {
 
   async fetchJurusanRequest(
     callback: FetchCallback<JurusanModel[][]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
+
     accessToken: string
   ) {
     const targetPath = `${this.basePathJurusan}?offLimit=true`;
-    const res: APIResponse<JurusanModel[][]> = await this.api.GET(
+    const res: APIResponse<JurusanModel[][]> = await apiInstance.GET(
       targetPath,
-      accessToken ?? ""
+      accessToken
     );
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
+
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
     } else {
@@ -104,20 +69,16 @@ export default class ClassRoomService {
   async createClassRoomRequest(
     data: ClassRoomCreateModel,
     callback: FetchCallback<ClassRoomModel[]>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
+
     accessToken: string
   ) {
     const targetPath = this.basePathRuangKelas;
-    const res: APIResponse<ClassRoomModel[]> = await this.api.POST(
+    const res: APIResponse<ClassRoomModel[]> = await apiInstance.POST(
       targetPath,
       data,
-      accessToken ?? ""
+      accessToken
     );
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
+
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
     } else {
@@ -129,20 +90,15 @@ export default class ClassRoomService {
     idClassRoom: number,
     data: ClassRoomUpdateModel,
     callback: FetchCallback<ClassRoomUpdateModel>,
-    navigate: ReturnType<typeof useNavigate>,
-    guard: string,
     accessToken: string
   ) {
     const targetPath = `${this.basePathRuangKelas}/${idClassRoom}`;
-    const res: APIResponse<ClassRoomUpdateModel> = await this.api.PUT(
+    const res: APIResponse<ClassRoomUpdateModel> = await apiInstance.PUT(
       targetPath,
       data,
-      accessToken ?? ""
+      accessToken
     );
-    if (res?.status_code === 401) {
-      this.handleUnauthorized(guard, navigate);
-      return;
-    }
+
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");
     } else {

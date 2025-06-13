@@ -3,7 +3,6 @@ import { UpdateTahunAjaranModel } from "@api/jadwal/model";
 import { snackbar } from "@utils/snackbar";
 import { useFormContext } from "react-hook-form";
 import useSchendule from "../../List/hook/useSchendule";
-import { useNavigate } from "react-router-dom";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
 import { useJadwalpageContext } from "../../context";
@@ -19,7 +18,6 @@ const useUpdateTahunAjaran = (): HookReturn => {
   const { setState } = useJadwalpageContext();
   const { fetchJadwal } = useSchendule();
   const { getItem } = LocalStorage();
-  const navigate = useNavigate();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
 
@@ -52,8 +50,6 @@ const useUpdateTahunAjaran = (): HookReturn => {
           }));
         },
       },
-      navigate,
-      "karyawan",
       userData[0]?.access_token
     );
   };
@@ -91,8 +87,6 @@ const useUpdateTahunAjaran = (): HookReturn => {
             }));
           },
         },
-        navigate,
-        "karyawan",
         userData[0]?.access_token
       );
     })();
