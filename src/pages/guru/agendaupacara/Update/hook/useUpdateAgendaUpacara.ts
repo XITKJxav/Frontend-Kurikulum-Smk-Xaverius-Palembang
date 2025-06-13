@@ -3,7 +3,6 @@ import { useFormContext } from "react-hook-form";
 import { useAgendaUpacarapageContext } from "../../context";
 import useAgendaUpacara from "../../List/hook/useAgendaUpacara";
 import AgendaUpacaraService from "@api/agendaupacara";
-import { useNavigate } from "react-router-dom";
 import { UpdateAgendaUpacaraModel } from "@api/agendaupacara/model";
 import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import { LocalStorage } from "@utils/localStorage";
@@ -20,7 +19,6 @@ const useUpdateAgendaUpacara = (): HookReturn => {
 
   const { handleSubmit } = useFormContext();
   const { fetchAgendaUpacara } = useAgendaUpacara();
-  const navigate = useNavigate();
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
