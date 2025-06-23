@@ -19,6 +19,7 @@ export default class SchenduleService {
   basePathJadwal = "/jadwal";
   basePathTahunAjaran = "/tahun-ajaran";
   basePathBlukSchendule = "/bulk-update-schendule";
+
   private api: API = new API();
 
   async generateJadwalUpdateRequest(

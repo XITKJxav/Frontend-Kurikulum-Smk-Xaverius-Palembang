@@ -1,3 +1,7 @@
+export type StudyTimeOptionResponseModel = {
+  id: number;
+};
+
 export type ClassRoomOptionModel = {
   id: number;
   nama_ruangan: string;

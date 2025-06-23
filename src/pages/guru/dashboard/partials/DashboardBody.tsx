@@ -2,8 +2,10 @@ import { listMenuGuru } from "@config/menu";
 import { useDashboardpageContext } from "../context";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AppearFadeIn from "@components/Animation/AppearFadeIn";
+import useAuthInterceptor from "@hooks/useAuthInterceptor";
 
 const DashboardBody = () => {
+  useAuthInterceptor("karyawan");
   const { state } = useDashboardpageContext();
 
   const allMenus = listMenuGuru.flatMap((item) =>

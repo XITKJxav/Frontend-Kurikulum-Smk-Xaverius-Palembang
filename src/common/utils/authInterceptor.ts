@@ -5,12 +5,12 @@ import API from "@api/index";
 export const apiInstance = new API();
 
 const setupInterceptor = (guard: string, navigate: NavigateFunction) => {
+  const { deleteItem, setItem } = LocalStorage();
+
   apiInstance.api.interceptors.response.use(
     (res) => res,
     (err) => {
       if (err.response?.status === 401) {
-        const { deleteItem } = LocalStorage();
-
         if (guard === "karyawan") {
           deleteItem("karyawanData");
           navigate("/sign-in");
@@ -18,12 +18,14 @@ const setupInterceptor = (guard: string, navigate: NavigateFunction) => {
           deleteItem("userData");
           navigate("/");
         }
-      }
-      if (err.response?.status === 403) {
+      } else if (err.response?.status === 403) {
         if (guard === "karyawan") {
-          navigate("/akademik");
-        } else {
+          navigate(0);
+          setItem("appPage", "home");
+          return;
+        } else if (guard == "siswa") {
           navigate("/dashboard-siswa");
+          return;
         }
       }
 

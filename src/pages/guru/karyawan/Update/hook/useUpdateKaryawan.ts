@@ -65,7 +65,7 @@ const useUpdateKaryawan = (): HookReturn => {
             snackbar.success("Successfully Updated Karyawan");
             setState((prev) => ({
               ...prev,
-              karyawanLoading: false,
+              KaryawanLoading: false,
             }));
 
             fetchKaryawan(`?page=${filters?.page}&desc=${filters?.orderBy}`);
@@ -75,7 +75,7 @@ const useUpdateKaryawan = (): HookReturn => {
             snackbar.error(errMessage);
             setState((prev) => ({
               ...prev,
-              karyawanLoading: false,
+              KaryawanLoading: false,
             }));
           },
         },

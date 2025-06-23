@@ -4,6 +4,7 @@ import {
   MataPelajaranModel,
   RoleOptionModel,
   StatusAgendaUpacaraOptionsModel,
+  StudyTimeOptionResponseModel,
 } from "./model";
 import { ClassRoomModel } from "@api/classcoordinator/model";
 import { KaryawanModel } from "@api/karyawan/model";
@@ -16,17 +17,31 @@ export default class HealthOptionService {
   basePathRole: string = "/role";
   basePathStatusAgendaUpacara: string = "/status-agenda-upacara";
   basePathMataPelajaran: string = "/mata-pelajaran";
+  basePathOptionTimePembelajaran: string = "/time";
+  async fetchStudyTimeRequestOptions(
+    callback: FetchCallback<StudyTimeOptionResponseModel[]>,
+    accessToken: string
+  ) {
+    const targetPath = `${this.basePathClassRoom}`;
+    const res: APIResponse<StudyTimeOptionResponseModel[]> =
+      await apiInstance.GET(targetPath, accessToken);
+
+    if (!res?.status) {
+      callback.onError(res?.message || "Unknown error");
+    } else {
+      callback.onSuccess(res.data);
+    }
+  }
 
   async fetchClassRoomRequestOptions(
     callback: FetchCallback<ClassRoomModel[][]>,
-
     accessToken: string
   ) {
-    const targetPath = `${this.basePathClassRoom}?offLimit=true`;
+    const targetPath = `${this.basePathClassRoom}?offLimit=true&status=true`;
 
     const res: APIResponse<ClassRoomModel[][]> = await apiInstance.GET(
       targetPath,
-      accessToken ?? ""
+      accessToken
     );
 
     if (!res?.status) {
@@ -40,7 +55,7 @@ export default class HealthOptionService {
     callback: FetchCallback<JurusanOptionModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathJurusan}?offLimit=true&status_jurusan=true`;
+    const targetPath = `${this.basePathJurusan}?offLimit=true&status=true`;
     const res: APIResponse<JurusanOptionModel[][]> = await apiInstance.GET(
       targetPath,
       accessToken ?? ""
@@ -75,7 +90,7 @@ export default class HealthOptionService {
     callback: FetchCallback<RoleOptionModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathRole}?offLimit=true`;
+    const targetPath = `${this.basePathRole}?offLimit=true&status=true`;
 
     const res: APIResponse<RoleOptionModel[][]> = await apiInstance.GET(
       targetPath,
@@ -93,7 +108,7 @@ export default class HealthOptionService {
     callback: FetchCallback<StatusAgendaUpacaraOptionsModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathStatusAgendaUpacara}?offLimit=true`;
+    const targetPath = `${this.basePathStatusAgendaUpacara}?offLimit=true&status=true`;
 
     const res: APIResponse<StatusAgendaUpacaraOptionsModel[][]> =
       await apiInstance.GET(targetPath, accessToken);
@@ -109,7 +124,7 @@ export default class HealthOptionService {
     callback: FetchCallback<MataPelajaranModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathMataPelajaran}?offLimit=true`;
+    const targetPath = `${this.basePathMataPelajaran}?offLimit=true&status=true`;
 
     const res: APIResponse<MataPelajaranModel[][]> = await apiInstance.GET(
       targetPath,
