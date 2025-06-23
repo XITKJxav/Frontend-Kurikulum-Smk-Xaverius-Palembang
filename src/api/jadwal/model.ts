@@ -71,7 +71,7 @@ export type UpdateTahunAjaranModel = {
   tahun_ajaran_akhir: string;
 };
 
-export type GenerateJadwalModel = {
+export type QuickEntrySchenduleModel = {
   id_hari: number;
   id_ruangan_kelas: number;
   id_jam_awal: number;

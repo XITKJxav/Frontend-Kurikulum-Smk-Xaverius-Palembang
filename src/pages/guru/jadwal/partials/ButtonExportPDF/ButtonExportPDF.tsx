@@ -1,16 +1,19 @@
 import { useFormContext } from "react-hook-form";
-import useExportPembelajaranPDF from "../ExportPDF/hook/useExportPembelajarranForm";
+import useExportPembelajaranPDF from "../../ExportPDF/hook/useExportPembelajarranPDF";
 import { useEffect } from "react";
 import { PictureAsPdfSharp } from "@mui/icons-material";
+
 interface Props {
-  id_kelas: number;
+  onClass: number;
 }
-const ButtonExportPDF = ({ id_kelas }: Props) => {
+
+const ButtonExportPDF = ({ onClass }: Props) => {
   const { exportPembelajaranPDF } = useExportPembelajaranPDF();
   const { setValue } = useFormContext();
+
   useEffect(() => {
-    setValue("id_ruangan_kelas", id_kelas);
-  }, [id_kelas, setValue]);
+    setValue("id_ruangan_kelas", onClass);
+  }, [onClass, setValue]);
 
   return (
     <div className="mt-3 mb-3 ms-auto w-[10rem]">

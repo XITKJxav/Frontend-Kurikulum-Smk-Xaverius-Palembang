@@ -17,16 +17,16 @@ const JadwalPembelajaranBody = () => {
   const handleChangeClass = useCallback((event: SelectChangeEvent<string>) => {
     setKelas(event.target.value);
   }, []);
-  const { getItem } = LocalStorage();
   const {
     fetchDayRequest,
     fetchJadwalRequest,
     fetchTimeRequest,
     fetchClassRoom,
   } = useJadwalPembelajaran();
-
+  const { getItem } = LocalStorage();
   const karyawanData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
+
   const fetchData = useCallback(() => {
     fetchDayRequest(),
       fetchJadwalRequest(
@@ -38,6 +38,7 @@ const JadwalPembelajaranBody = () => {
       ),
       fetchClassRoom();
   }, []);
+
   const menuProps = {
     PaperProps: {
       sx: {
@@ -49,6 +50,7 @@ const JadwalPembelajaranBody = () => {
       },
     },
   };
+
   const handleChangeDay = useCallback((event: SelectChangeEvent<string>) => {
     const day = event.target.value;
     setDay(day);
@@ -56,7 +58,6 @@ const JadwalPembelajaranBody = () => {
 
   useEffect(() => {
     fetchData();
-
     fetchTimeRequest(FiltersHari({ onDay: Number(day) }));
   }, [day, kelas]);
 
@@ -66,9 +67,9 @@ const JadwalPembelajaranBody = () => {
         <LoadingDialog open={true} onClose={() => {}} />
       )}
       <div>
-        <h1 className="text-4xl font-bold mb-5">Jadwal Pembelajaran</h1>
+        <h1 className="mb-5 text-4xl font-bold">Jadwal Pembelajaran</h1>
       </div>
-      <div className="w-full mb-4 justify-center flex gap-3">
+      <div className="flex justify-center w-full gap-3 mb-4">
         <div className="flex items-center gap-2">
           <label>Kelas</label>
           {classRoomRequest.length > 0 && (

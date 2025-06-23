@@ -10,16 +10,16 @@ import TableSchendule from "./TableSchendule";
 import { LoadingDialog } from "@components/Dialog";
 import TahunAjaranForm from "./TahunAjaranForm";
 import useTahunAjaranUpdateReqForm from "../UpdateTahunAjaran/hook/useUpdateTahunAjaranForm";
-import useDownloadJadwalPembelajaranForm from "../ExportPDF/hook/useExportPembelajarranPDF";
-import ButtonExportPDF from "./ButtonExportPDF";
-import useGenerateJadwalUpdateReqForm from "../GenerateJadwal/hook/useGenerateJadwalForm";
-import GenerateJadwal from "./GenerateJadwal";
 import useAuthInterceptor from "@hooks/useAuthInterceptor";
+import QuickEntrySchenduleForm from "./QuickEntrySchendule/QuickEntrySchenduleForm";
+import ButtonExportPDFForm from "./ButtonExportPDF/ButtonExportPDFForm";
 
 const SchenduleBody = () => {
   useAuthInterceptor("karyawan");
   const { state } = useJadwalpageContext();
   const { createJadwalreqForm } = useSchenduleForm();
+  const [day, setDay] = useState<string>("1");
+  const [kelas, setKelas] = useState<string>("1");
   const {
     schendulePageLoading,
     schenduleDayReq,
@@ -30,22 +30,20 @@ const SchenduleBody = () => {
   const {
     fetchJadwal,
     fetchDayRequest,
+    fetchMataPelajaran,
     fetchClassRoom,
     fetchTimeRegulerRequest,
   } = useSchendule();
 
-  const [day, setDay] = useState<string>("1");
-  const [kelas, setKelas] = useState<string>("1");
   const { updateTahunAjaranreqForm } = useTahunAjaranUpdateReqForm();
+
   const handleChangeDay = useCallback((event: SelectChangeEvent<string>) => {
     setDay(event.target.value);
   }, []);
+
   const handleChangeClass = useCallback((event: SelectChangeEvent<string>) => {
     setKelas(event.target.value);
   }, []);
-  const { downloadJadwalPembelajaranreqForm } =
-    useDownloadJadwalPembelajaranForm();
-  const { generateJadwalreqForm } = useGenerateJadwalUpdateReqForm();
 
   const menuProps = {
     PaperProps: {
@@ -64,6 +62,7 @@ const SchenduleBody = () => {
     fetchTimeRegulerRequest(FiltersHari({ onDay: Number(day) }));
     fetchDayRequest();
     fetchClassRoom();
+    fetchMataPelajaran();
   }, []);
 
   useEffect(() => {
@@ -83,13 +82,8 @@ const SchenduleBody = () => {
           <TahunAjaranForm />
         </FormProvider>
       )}
-      {schendulereq.length > 0 && (
-        <div className="w-full">
-          <FormProvider {...downloadJadwalPembelajaranreqForm}>
-            <ButtonExportPDF id_kelas={Number(kelas)} />
-          </FormProvider>
-        </div>
-      )}
+
+      {schendulereq.length > 0 && <ButtonExportPDFForm onClass={kelas} />}
 
       <div className="flex w-full gap-3 mb-4">
         <div className="flex items-center gap-2">
@@ -140,9 +134,7 @@ const SchenduleBody = () => {
       </div>
 
       {schenduleDayReq.length > 0 && (
-        <FormProvider {...generateJadwalreqForm}>
-          <GenerateJadwal onDay={Number(day)} onClass={Number(kelas)} />
-        </FormProvider>
+        <QuickEntrySchenduleForm onDay={day} onClass={kelas} />
       )}
 
       {jadwalSudahAda ? (

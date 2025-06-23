@@ -22,6 +22,7 @@ const useSchendule = (): HookReturn => {
   const { getItem } = LocalStorage();
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
+
   const fetchTimeRegulerRequest = (params: string) => {
     setState((prev) => ({
       ...prev,
@@ -117,6 +118,7 @@ const useSchendule = (): HookReturn => {
             schendulePageLoading: false,
             mataPelajaranreq: data[0],
           }));
+          console.log(data);
         },
         onError: (err) => {
           snackbar.error(err);

@@ -18,6 +18,7 @@ export default class HealthOptionService {
   basePathStatusAgendaUpacara: string = "/status-agenda-upacara";
   basePathMataPelajaran: string = "/mata-pelajaran";
   basePathOptionTimePembelajaran: string = "/time";
+
   async fetchStudyTimeRequestOptions(
     callback: FetchCallback<StudyTimeOptionResponseModel[]>,
     accessToken: string
@@ -37,7 +38,7 @@ export default class HealthOptionService {
     callback: FetchCallback<ClassRoomModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathClassRoom}?offLimit=true&status=true`;
+    const targetPath = `${this.basePathClassRoom}?offLimit=true&status=1`;
 
     const res: APIResponse<ClassRoomModel[][]> = await apiInstance.GET(
       targetPath,
@@ -55,7 +56,7 @@ export default class HealthOptionService {
     callback: FetchCallback<JurusanOptionModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathJurusan}?offLimit=true&status=true`;
+    const targetPath = `${this.basePathJurusan}?offLimit=true&status=1`;
     const res: APIResponse<JurusanOptionModel[][]> = await apiInstance.GET(
       targetPath,
       accessToken ?? ""
@@ -90,7 +91,7 @@ export default class HealthOptionService {
     callback: FetchCallback<RoleOptionModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathRole}?offLimit=true&status=true`;
+    const targetPath = `${this.basePathRole}?offLimit=true&status=1`;
 
     const res: APIResponse<RoleOptionModel[][]> = await apiInstance.GET(
       targetPath,
@@ -108,7 +109,7 @@ export default class HealthOptionService {
     callback: FetchCallback<StatusAgendaUpacaraOptionsModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathStatusAgendaUpacara}?offLimit=true&status=true`;
+    const targetPath = `${this.basePathStatusAgendaUpacara}?offLimit=true&status=1`;
 
     const res: APIResponse<StatusAgendaUpacaraOptionsModel[][]> =
       await apiInstance.GET(targetPath, accessToken);
@@ -124,12 +125,13 @@ export default class HealthOptionService {
     callback: FetchCallback<MataPelajaranModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `${this.basePathMataPelajaran}?offLimit=true&status=true`;
+    const targetPath = `${this.basePathMataPelajaran}?offLimit=true&status=1`;
 
     const res: APIResponse<MataPelajaranModel[][]> = await apiInstance.GET(
       targetPath,
       accessToken
     );
+    console.log(res);
 
     if (!res?.status) {
       callback.onError(res?.message || "Unknown error");

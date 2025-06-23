@@ -3,10 +3,10 @@ import API from "..";
 import {
   CreateJadwalModel,
   DayModel,
-  GenerateJadwalModel,
   JadwalModel,
   JadwalUpdateModel,
   JamUpacaraModel,
+  QuickEntrySchenduleModel,
   RegulerTimeModel,
   UpdateTahunAjaranModel,
 } from "./model";
@@ -23,12 +23,12 @@ export default class SchenduleService {
   private api: API = new API();
 
   async generateJadwalUpdateRequest(
-    data: GenerateJadwalModel,
-    callback: FetchCallback<GenerateJadwalModel>,
+    data: QuickEntrySchenduleModel,
+    callback: FetchCallback<QuickEntrySchenduleModel>,
     accessToken: string
   ) {
     const targetPath = this.basePathBlukSchendule;
-    const res: APIResponse<GenerateJadwalModel> = await this.api.PUT(
+    const res: APIResponse<QuickEntrySchenduleModel> = await this.api.PUT(
       targetPath,
       data,
       accessToken

@@ -1,8 +1,8 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { GenerateJadwalModel } from "@api/jadwal/model";
+import { QuickEntrySchenduleModel } from "@api/jadwal/model";
 
-export const generateJadwalreqDefaultValues: GenerateJadwalModel = {
+export const quickEntrySchendulereqDefaultValues: QuickEntrySchenduleModel = {
   id_hari: 0,
   id_ruangan_kelas: 0,
   id_jam_awal: 0,
@@ -12,7 +12,7 @@ export const generateJadwalreqDefaultValues: GenerateJadwalModel = {
   kd_guru_piket: "",
 };
 
-export const generateJadwalValidations = yupResolver(
+export const quickEntrySchenduleValidations = yupResolver(
   yup.object().shape({
     id_hari: yup.number().required("Hari is Required"),
     id_ruangan_kelas: yup.number().required("Ruangan Kelas is Required"),
@@ -36,9 +36,9 @@ export const generateJadwalValidations = yupResolver(
   })
 );
 
-export const generateJadwalFormatter = (
-  values: GenerateJadwalModel
-): GenerateJadwalModel => {
+export const quickEntrySchenduleFormatter = (
+  values: QuickEntrySchenduleModel
+): QuickEntrySchenduleModel => {
   return {
     id_hari: values?.id_hari,
     id_ruangan_kelas: values?.id_ruangan_kelas,

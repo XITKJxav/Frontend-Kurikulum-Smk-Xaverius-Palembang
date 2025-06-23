@@ -6,7 +6,7 @@ import {
 import {
   CreateJadwalModel,
   DayModel,
-  GenerateJadwalModel,
+  QuickEntrySchenduleModel,
   JadwalModel,
   JadwalUpdateModel,
   RegulerTimeModel,
@@ -30,7 +30,7 @@ type StateType = {
   jadwalCreateReqForm: CreateJadwalModel;
   tahunAjaranUpdateReqForm: UpdateTahunAjaranModel;
   tahunAjaranReq: UpdateTahunAjaranModel[];
-  generateJadwalForm: GenerateJadwalModel;
+  generateJadwalForm: QuickEntrySchenduleModel;
   exportPDFJadwalPembelajaranReq: DownloadJadwalPembelajaranModel;
 };
 

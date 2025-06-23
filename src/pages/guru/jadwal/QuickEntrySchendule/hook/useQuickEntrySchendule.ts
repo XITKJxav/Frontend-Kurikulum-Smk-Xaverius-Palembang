@@ -1,5 +1,5 @@
 import SchenduleService from "@api/jadwal";
-import { GenerateJadwalModel } from "@api/jadwal/model";
+import { QuickEntrySchenduleModel } from "@api/jadwal/model";
 import { snackbar } from "@utils/snackbar";
 import { useFormContext } from "react-hook-form";
 import { useJadwalpageContext } from "../../context";
@@ -8,10 +8,10 @@ import { KaryawanSignInResponseRequestModel } from "@api/authentication/model";
 import useSchendule from "../../List/hook/useSchendule";
 
 interface HookReturn {
-  updateGenerateJadwalRequest: () => void;
+  quickEntrySchenduleRequest: () => void;
 }
 
-const useGenerateJadwal = (): HookReturn => {
+const useQuickEntrySchendule = (): HookReturn => {
   const schenduleService = new SchenduleService();
   const { handleSubmit, trigger } = useFormContext();
   const { fetchJadwal } = useSchendule();
@@ -20,9 +20,9 @@ const useGenerateJadwal = (): HookReturn => {
   const userData: KaryawanSignInResponseRequestModel[] =
     getItem("karyawanData") || [];
 
-  const updateGenerateJadwalRequest = () => {
+  const quickEntrySchenduleRequest = () => {
     return handleSubmit(async (values) => {
-      const data: GenerateJadwalModel = {
+      const data: QuickEntrySchenduleModel = {
         id_hari: values?.id_hari,
         id_ruangan_kelas: values?.id_ruangan_kelas,
         id_jam_awal: values?.id_jam_awal,
@@ -62,8 +62,8 @@ const useGenerateJadwal = (): HookReturn => {
   };
 
   return {
-    updateGenerateJadwalRequest,
+    quickEntrySchenduleRequest,
   };
 };
 
-export default useGenerateJadwal;
+export default useQuickEntrySchendule;
