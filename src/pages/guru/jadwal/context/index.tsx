@@ -48,7 +48,7 @@ export const initialState: StateType = {
   tahunAjaranUpdateReqForm: {} as UpdateTahunAjaranModel,
   jadwalUpdateReqForm: {} as JadwalUpdateModel,
   jadwalCreateReqForm: {} as CreateJadwalModel,
-  generateJadwalForm: {} as GenerateJadwalModel,
+  generateJadwalForm: {} as QuickEntrySchenduleModel,
   exportPDFJadwalPembelajaranReq: {} as DownloadJadwalPembelajaranModel,
 };
 

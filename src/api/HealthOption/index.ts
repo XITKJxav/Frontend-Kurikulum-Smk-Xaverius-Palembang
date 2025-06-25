@@ -73,7 +73,7 @@ export default class HealthOptionService {
     callback: FetchCallback<KaryawanModel[][]>,
     accessToken: string
   ) {
-    const targetPath = `/karyawan?offLimit=true&&role=a7djw82kd1-GURU`;
+    const targetPath = `/karyawan?offLimit=true&status=1`;
 
     const res: APIResponse<KaryawanModel[][]> = await apiInstance.GET(
       targetPath,

@@ -2,7 +2,7 @@ import { FormProvider } from "react-hook-form";
 import { useJadwalpageContext } from "../context";
 import useSchenduleForm from "../CreateSchendule/hook/useSchenduleForm";
 import { useCallback, useEffect, useState } from "react";
-import { Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 import { FiltersHari } from "../List/utils/filtersJadwal";
 import useSchendule from "../List/hook/useSchendule";
 import CreateJadwalForm from "./CreateJadwalForm";
@@ -13,6 +13,7 @@ import useTahunAjaranUpdateReqForm from "../UpdateTahunAjaran/hook/useUpdateTahu
 import useAuthInterceptor from "@hooks/useAuthInterceptor";
 import QuickEntrySchenduleForm from "./QuickEntrySchendule/QuickEntrySchenduleForm";
 import ButtonExportPDFForm from "./ButtonExportPDF/ButtonExportPDFForm";
+import SchenduleFiltersBody from "./ScheduleFilters/SchenduleFiltersBody";
 
 const SchenduleBody = () => {
   useAuthInterceptor("karyawan");
@@ -20,12 +21,7 @@ const SchenduleBody = () => {
   const { createJadwalreqForm } = useSchenduleForm();
   const [day, setDay] = useState<string>("1");
   const [kelas, setKelas] = useState<string>("1");
-  const {
-    schendulePageLoading,
-    schenduleDayReq,
-    classRoomRequest,
-    schendulereq,
-  } = state;
+  const { schendulePageLoading, schendulereq } = state;
 
   const {
     fetchJadwal,
@@ -45,18 +41,6 @@ const SchenduleBody = () => {
     setKelas(event.target.value);
   }, []);
 
-  const menuProps = {
-    PaperProps: {
-      sx: {
-        backgroundColor: "white",
-        borderRadius: "8px",
-        border: "1px solid #667eea",
-        color: "black",
-        mt: 1,
-      },
-    },
-  };
-
   const fetchData = useCallback(() => {
     fetchJadwal();
     fetchTimeRegulerRequest(FiltersHari({ onDay: Number(day) }));
@@ -75,8 +59,8 @@ const SchenduleBody = () => {
 
   return (
     <>
-      {schendulePageLoading && <LoadingDialog open={true} onClose={() => {}} />}
       <h1>Rancang Jadwal</h1>
+      {schendulePageLoading && <LoadingDialog open={true} onClose={() => {}} />}
       {schendulereq.length > 0 && (
         <FormProvider {...updateTahunAjaranreqForm}>
           <TahunAjaranForm />
@@ -84,56 +68,14 @@ const SchenduleBody = () => {
       )}
 
       {schendulereq.length > 0 && <ButtonExportPDFForm onClass={kelas} />}
+      <SchenduleFiltersBody
+        onDay={day}
+        onChangeClass={handleChangeClass}
+        onChangeDay={handleChangeDay}
+        onClass={kelas}
+      />
 
-      <div className="flex w-full gap-3 mb-4">
-        <div className="flex items-center gap-2">
-          <label>Kelas</label>
-          {classRoomRequest.length > 0 && (
-            <Select
-              displayEmpty
-              fullWidth
-              value={kelas}
-              onChange={handleChangeClass}
-              variant="outlined"
-              MenuProps={menuProps}
-            >
-              <MenuItem value="" disabled>
-                Pilih Kelas
-              </MenuItem>
-              {classRoomRequest.map((data) => (
-                <MenuItem key={data?.id} value={String(data?.id)}>
-                  {data?.nama_ruangan}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-        </div>
-
-        <div className="flex items-center w-full gap-2">
-          <label>Hari</label>
-          {schenduleDayReq.length > 0 && (
-            <Select
-              displayEmpty
-              fullWidth
-              value={day}
-              onChange={handleChangeDay}
-              variant="outlined"
-              MenuProps={menuProps}
-            >
-              <MenuItem value="" disabled>
-                Pilih Hari
-              </MenuItem>
-              {schenduleDayReq.map((data) => (
-                <MenuItem key={data.id} value={String(data.id)}>
-                  {data.nama}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-        </div>
-      </div>
-
-      {schenduleDayReq.length > 0 && (
+      {schendulereq.length > 0 && (
         <QuickEntrySchenduleForm onDay={day} onClass={kelas} />
       )}
 

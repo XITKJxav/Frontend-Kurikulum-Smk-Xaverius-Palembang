@@ -4,7 +4,7 @@ import QuickEntrySchenduleDialog from "./QuickEntrySchenduleDialog";
 import { useJadwalpageContext } from "../../context";
 import { useState } from "react";
 import useQuickEntrySchenduleForm from "../../QuickEntrySchendule/hook/useQuickEntrySchenduleForm";
-import { AutoMode, Checklist } from "@mui/icons-material";
+import { AutoMode } from "@mui/icons-material";
 
 interface Props {
   onDay: string | number;
